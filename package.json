@@ -1,0 +1,57 @@
+{
+  "name": "@lateralus-ai/shipping-ui",
+  "version": "0.1.0",
+  "description": "Shared UI theme and components for Lateralus shipping applications",
+  "private": true,
+  "scripts": {
+    "dev": "storybook dev -p 6006",
+    "build": "storybook build",
+    "build-lib": "tsc && vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lateralus-ai/shipping-ui.git"
+  },
+  "keywords": [
+    "tailwind",
+    "material-tailwind",
+    "theme",
+    "shipping",
+    "storybook"
+  ],
+  "author": "Lateralus AI",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/lateralus-ai/shipping-ui/issues"
+  },
+  "homepage": "https://github.com/lateralus-ai/shipping-ui#readme",
+  "devDependencies": {
+    "@chromatic-com/storybook": "^1.6.1",
+    "@material-tailwind/react": "^2.1.10",
+    "@storybook/addon-essentials": "^8.2.9",
+    "@storybook/addon-interactions": "^8.2.9",
+    "@storybook/addon-links": "^8.2.9",
+    "@storybook/blocks": "^8.2.9",
+    "@storybook/react": "^8.2.9",
+    "@storybook/react-vite": "^8.2.9",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^8.2.9",
+    "tailwindcss": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-radix": "^3.0.3",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url(https://tools-static.wmflabs.org/fontcdn/css?family=Work+Sans:400,500,600);
+
+/* Signature font styling */
+.docx-preview .inline-field-container[data-field-path*="Signature"] span {
+  font-family: "Brush Script MT", "Lucida Handwriting", cursive !important;
+}
+
+textarea[data-field-path*="Signature"] {
+  font-family: "Brush Script MT", "Lucida Handwriting", cursive !important;
+}
+
+/* CSS Variables */
+:root {
+  --white: #fff;
+  --black: #000;
+  --gray-20: #ececf1;
+  --gray-50: #f7f7f8;
+  --gray-100: #ececec;
+  --gray-200: #e3e3e3;
+  --gray-300: #cdcdcd;
+  --gray-400: #999696;
+  --gray-500: #595959;
+  --gray-600: #424242;
+  --gray-700: #2f2f2f;
+  --gray-800: #212121;
+  --gray-850: #171717;
+  --gray-900: #0d0d0d;
+  --green-50: #ecfdf5;
+  --green-100: #d1fae5;
+  --green-200: #a7f3d0;
+  --green-300: #6ee7b7;
+  --green-400: #34d399;
+  --green-500: #10b981;
+  --green-600: #059669;
+  --green-700: #047857;
+  --green-800: #065f46;
+  --green-900: #064e3b;
+  --green-950: #022c22;
+  --gizmo-gray-500: #999;
+  --gizmo-gray-600: #666;
+  --gizmo-gray-950: #0f0f0f;
+  --sky-blue-500: #3c9bcb;
+  --light-gray: #e5e5e5;
+  --light-green: #1c9e66;
+  --light-secondary: #666666;
+  --text-secondary: #6e6e6e;
+  --disabled-color: #a3a3a3;
+  --background-secondary: #fafafa;
+  --background-skeleton: #f0f0f0;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+}
+
+html {
+  --presentation: var(--white);
+  --text-primary: var(--gray-800);
+  --text-secondary: var(--gray-600);
+  --text-secondary-alt: var(--gray-500);
+  --text-tertiary: var(--gray-500);
+  --ring-primary: var(--gray-500);
+  --header-primary: var(--white);
+  --header-hover: var(--gray-50);
+  --header-button-hover: var(--gray-50);
+  --surface-active: var(--gray-100);
+  --surface-active-alt: var(--gray-200);
+  --surface-hover: var(--gray-200);
+  --surface-primary: var(--white);
+  --surface-primary-alt: var(--gray-50);
+  --surface-primary-contrast: var(--gray-100);
+  --surface-secondary: #e9ebea;
+  --surface-secondary-alt: var(--gray-300);
+  --surface-tertiary: var(--gray-100);
+  --surface-tertiary-alt: var(--white);
+  --surface-dialog: var(--white);
+  --surface-submit: var(--green-500);
+  --border-light: var(--gray-200);
+  --border-medium-alt: var(--gray-300);
+  --border-medium: var(--gray-300);
+  --border-heavy: var(--gray-400);
+  --border-xheavy: var(--gray-500);
+
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 89.8%;
+  --input: 0 0% 89.8%;
+  --switch-unchecked: 0 0% 85%;
+  --ring: 0 0% 3.9%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --presentation: var(--gray-850);
+  --text-primary: var(--gray-20);
+  --text-secondary: var(--gray-200);
+  --text-secondary-alt: var(--gray-300);
+  --text-tertiary: var(--gray-500);
+  --ring-primary: var(--gray-400);
+  --header-primary: var(--gray-850);
+  --header-hover: var(--gray-700);
+  --header-button-hover: var(--gray-700);
+  --surface-active: var(--gray-800);
+  --surface-active-alt: var(--gray-700);
+  --surface-hover: var(--gray-800);
+  --surface-primary: var(--gray-850);
+  --surface-primary-alt: var(--gray-900);
+  --surface-primary-contrast: var(--gray-700);
+  --surface-secondary: var(--gray-700);
+  --surface-secondary-alt: var(--gray-600);
+  --surface-tertiary: var(--gray-900);
+  --surface-tertiary-alt: var(--gray-850);
+  --surface-dialog: var(--gray-850);
+  --surface-submit: var(--green-600);
+  --border-light: var(--gray-700);
+  --border-medium: var(--gray-600);
+  --border-medium-alt: var(--gray-500);
+  --border-heavy: var(--gray-500);
+  --border-xheavy: var(--gray-400);
+
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --switch-unchecked: 0 0% 26%;
+  --ring: 0 0% 83.1%;
+}
