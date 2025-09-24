@@ -3,6 +3,27 @@
   "version": "0.1.0",
   "description": "Shared UI theme and components for Lateralus shipping applications",
   "private": true,
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.esm.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./tailwind": "./tailwind.config.js",
+    "./theme": "./src/material-theme.ts",
+    "./styles": "./src/styles/globals.css",
+    "./styles/style": "./src/styles/style.css",
+    "./styles/mobile": "./src/styles/mobile.css",
+    "./styles/custom": "./src/styles/custom.css"
+  },
+  "files": [
+    "dist",
+    "src",
+    "tailwind.config.js"
+  ],
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "storybook build",
