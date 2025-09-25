@@ -1,0 +1,7 @@
+@import url(https://tools-static.wmflabs.org/fontcdn/css?family=Work+Sans:400,500,600);
+
+@import url(https://tools-static.wmflabs.org/fontcdn/css?family=Alex+Brush);
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

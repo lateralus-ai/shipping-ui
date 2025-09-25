@@ -12,12 +12,9 @@
       "import": "./dist/index.esm.js",
       "types": "./dist/index.d.ts"
     },
-    "./tailwind": "./tailwind.config.js",
-    "./theme": "./src/material-theme.ts",
-    "./styles": "./src/styles/globals.css",
-    "./styles/style": "./src/styles/style.css",
-    "./styles/mobile": "./src/styles/mobile.css",
-    "./styles/custom": "./src/styles/custom.css"
+    "./tailwind-theme": "./src/tailwind-theme.js",
+    "./material-theme": "./src/material-theme.ts",
+    "./styles.css": "./src/styles.css"
   },
   "files": [
     "dist",
