@@ -13,7 +13,7 @@
       "types": "./dist/index.d.ts"
     },
     "./tailwind-theme": "./src/tailwind-theme.js",
-    "./material-theme": "./src/material-theme.ts",
+    "./material-theme": "./src/material-theme.js",
     "./styles.css": "./src/styles.css"
   },
   "files": [
