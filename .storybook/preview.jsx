@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@material-tailwind/react";
-import "../src/style.css";
+import "./storybook.css";
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {
