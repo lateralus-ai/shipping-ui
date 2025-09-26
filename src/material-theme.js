@@ -2,7 +2,7 @@ export const materialTheme = {
   button: {
     defaultProps: {
       className:
-        "items-center normal-case shadow-none hover:shadow-none text-caption-1 font-medium h-10 rounded-4 flex gap-2 px-3 truncate",
+        "items-center normal-case shadow-none hover:shadow-none text-caption-1 font-medium h-10 !rounded-lg flex gap-2 px-3 truncate tracking-[0.16px]",
       ripple: false,
       color: "green",
     },
@@ -15,6 +15,13 @@ export const materialTheme = {
       },
       variants: {
         filled: {
+          blue: {
+            color: "!text-white",
+            background: "bg-blue-400",
+            hover: "hover:bg-blue-500",
+            disabled:
+              "disabled:bg-blue-200 disabled:!text-blue-600 !opacity-100",
+          },
           green: {
             color: "!text-white",
             background: "bg-green-600",
@@ -46,8 +53,82 @@ export const materialTheme = {
         outlined: {
           gray: {
             background: "bg-white",
-            color: "!text-gray-700 border-gray-100",
+            color: "text-gray-700 border-gray-100",
+            hover: "!text-gray-900 hover:bg-gray-100",
+            disabled: "disabled:text-gray-500",
+          },
+        },
+        text: {
+          green: {
+            color: "!text-green-600",
             hover: "hover:bg-gray-100",
+            disabled: "disabled:!text-gray-500",
+          },
+          gray: {
+            color: "!text-gray-700",
+            hover: "hover:bg-gray-100",
+            disabled: "disabled:!text-gray-500",
+          },
+        },
+      },
+    },
+  },
+  iconButton: {
+    defaultProps: {
+      className:
+        "items-center normal-case shadow-none hover:shadow-none text-caption-1 font-medium h-10 !rounded-lg flex gap-2 px-3 truncate",
+      ripple: false,
+      color: "green",
+    },
+    styles: {
+      sizes: {
+        md: {
+          fontSize: "text-md",
+          className: "py-2",
+        },
+      },
+      variants: {
+        filled: {
+          blue: {
+            color: "!text-white",
+            background: "bg-blue-400",
+            hover: "hover:bg-blue-500",
+            disabled:
+              "disabled:bg-blue-200 disabled:!text-blue-600 !opacity-100",
+          },
+          green: {
+            color: "!text-white",
+            background: "bg-green-600",
+            hover: "hover:bg-green-700",
+            disabled:
+              "disabled:bg-green-200 disabled:!text-green-600 !opacity-100",
+          },
+          red: {
+            color: "!text-white",
+            background: "bg-red-600",
+            hover: "hover:bg-red-700",
+            disabled: "disabled:bg-red-200 disabled:!text-red-600 !opacity-100",
+          },
+          gray: {
+            color: "text-black",
+            background: "bg-gray-50",
+            hover: "hover:bg-gray-100",
+            disabled:
+              "disabled:bg-gray-50 disabled:!text-gray-200 !opacity-100",
+          },
+          orange: {
+            color: "!text-orange-600",
+            background: "bg-orange-50",
+            hover: "hover:bg-orange-100",
+            disabled:
+              "disabled:bg-orange-50 disabled:!text-orange-200 !opacity-100",
+          },
+        },
+        outlined: {
+          gray: {
+            background: "bg-white",
+            color: "text-gray-700 border-gray-100",
+            hover: "!text-gray-900 hover:bg-gray-100",
             disabled: "disabled:text-gray-500",
           },
         },

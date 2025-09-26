@@ -1,4 +1,5 @@
 import { ThemeProvider } from "@material-tailwind/react";
+import { materialTheme } from "../src/material-theme";
 import "./storybook.css";
 
 /** @type { import('@storybook/react').Preview } */
@@ -13,7 +14,7 @@ const preview = {
   },
   decorators: [
     (Story) => (
-      <ThemeProvider>
+      <ThemeProvider value={materialTheme}>
         <Story />
       </ThemeProvider>
     ),
