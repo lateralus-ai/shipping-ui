@@ -31,7 +31,8 @@
     "build": "storybook build",
     "build-lib": "vite build",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "release": "npx release-it"
   },
   "repository": {
     "type": "git",
