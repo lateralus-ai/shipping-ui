@@ -11,13 +11,9 @@
       "import": "./dist/index.esm.js",
       "types": "./dist/index.d.ts"
     },
-    "./components": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.esm.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./tailwind-theme": "./src/tailwind-theme.js",
-    "./material-theme": "./src/material-theme.js",
+    "./components": "./src/components",
+    "./tailwind-theme": "./src/tailwind-theme.ts",
+    "./material-theme": "./src/material-theme.ts",
     "./styles.css": "./src/styles.css"
   },
   "files": [
