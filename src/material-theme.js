@@ -2,7 +2,7 @@ export const materialTheme = {
   button: {
     defaultProps: {
       className:
-        "items-center normal-case shadow-none hover:shadow-none text-caption-1 font-medium h-10 !rounded-lg flex gap-2 px-3 truncate tracking-[0.16px]",
+        "items-center normal-case shadow-none hover:shadow-none text-caption-1 font-medium h-10 !rounded-lg flex gap-2 px-3 truncate tracking-[0.16px] justify-center",
       ripple: false,
       color: "green",
     },
@@ -76,7 +76,7 @@ export const materialTheme = {
   iconButton: {
     defaultProps: {
       className:
-        "items-center normal-case shadow-none hover:shadow-none text-caption-1 font-medium h-10 !rounded-lg flex gap-2 px-3 truncate",
+        "items-center justify-center normal-case shadow-none hover:shadow-none text-caption-1 font-medium h-10 !rounded-lg flex gap-2 px-3 truncate",
       ripple: false,
       color: "green",
     },
