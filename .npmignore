@@ -1,0 +1,7 @@
+.claude
+.storybook
+.npmrc
+node_modules
+src/stories/*
+src/components/*
+storybook-static
