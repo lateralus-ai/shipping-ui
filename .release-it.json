@@ -14,7 +14,7 @@
     "skipChecks": true
   },
   "hooks": {
-    "before:init": ["npm run build-lib"],
+    "before:init": ["npm run build"],
     "after:release": "echo Successfully released ${name} v${version} to GitHub Package Registry."
   }
 }
