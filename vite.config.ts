@@ -17,7 +17,7 @@ export default defineConfig({
       entry: resolve(__dirname, "lib/index.ts"),
       name: "ShippingUI",
       formats: ["es", "cjs"],
-      fileName: (format) => `index.${format === "es" ? "esm" : ""}js`,
+      fileName: (format) => `index.${format === "es" ? "esm.js" : "cjs"}`,
     },
     rollupOptions: {
       external: [
