@@ -9,10 +9,7 @@
     "access": "public"
   },
   "exports": {
-    "./components": "./src/components/index.ts",
-    "./tailwind-theme": "./src/tailwind-theme.ts",
-    "./material-theme": "./src/material-theme.ts",
-    "./styles.css": "./src/styles.css"
+    ".": "./dist"
   },
   "files": [
     "dist",

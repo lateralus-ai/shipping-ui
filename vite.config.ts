@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, "lib/main.ts"),
+      entry: resolve(__dirname, "lib/index.ts"),
       name: "ShippingUI",
       formats: ["es", "cjs"],
       fileName: (format) => `index.${format === "es" ? "esm" : ""}js`,
