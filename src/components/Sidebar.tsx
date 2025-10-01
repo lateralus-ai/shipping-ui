@@ -10,19 +10,45 @@ const collapsedContext = createContext<
   | {
       isCollapsed: boolean;
       toggleCollapsed: () => void;
+      isHovered: boolean;
+      setIsHovered: (value: boolean) => void;
     }
   | undefined
 >(undefined);
 
-export const Provider = ({ children }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+interface ProviderProps {
+  children: ReactNode;
+  isCollapsed?: boolean;
+  onSwitchLayout?: (isCollapsed: boolean) => void;
+}
+
+export const Provider = ({
+  children,
+  isCollapsed: controlledIsCollapsed,
+  onSwitchLayout,
+}: ProviderProps) => {
+  const [internalIsCollapsed, setInternalIsCollapsed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const isCollapsed =
+    controlledIsCollapsed !== undefined
+      ? controlledIsCollapsed
+      : internalIsCollapsed;
 
   const toggleCollapsed = (value?: boolean) => {
-    setIsCollapsed((c) => value ?? !c);
+    const newValue = value ?? !isCollapsed;
+
+    if (controlledIsCollapsed === undefined) {
+      setInternalIsCollapsed(newValue);
+    }
+
+    onSwitchLayout?.(newValue);
   };
 
   return (
-    <collapsedContext.Provider value={{ isCollapsed, toggleCollapsed }}>
+    <collapsedContext.Provider
+      value={{ isCollapsed, toggleCollapsed, isHovered, setIsHovered }}
+    >
       {children}
     </collapsedContext.Provider>
   );
@@ -37,15 +63,19 @@ export const Container = ({
   children,
   ...props
 }: ContainerProps) => {
-  const { isCollapsed } = useContext(collapsedContext);
+  const { isCollapsed, isHovered, setIsHovered } =
+    useContext(collapsedContext)!;
 
   return (
     <div
       className={cn(
         className,
         isCollapsed && "shadow-lg",
-        "bg-gray-50 p-2 flex flex-col justify-between items-center rounded-lg w-[280px]",
+        isCollapsed && !isHovered ? "w-auto" : "w-[280px]",
+        "bg-gray-50 p-2 flex flex-col justify-between items-center rounded-lg",
       )}
+      onMouseEnter={() => isCollapsed && setIsHovered(true)}
+      onMouseLeave={() => isCollapsed && setIsHovered(false)}
       {...props}
     >
       {children}
@@ -53,23 +83,68 @@ export const Container = ({
   );
 };
 
+interface SidebarProps extends ContainerProps {
+  isCollapsed?: boolean;
+  onSwitchLayout?: (isCollapsed: boolean) => void;
+}
+
+export const Sidebar = ({
+  className,
+  children,
+  isCollapsed,
+  onSwitchLayout,
+  ...props
+}: SidebarProps) => {
+  return (
+    <Provider isCollapsed={isCollapsed} onSwitchLayout={onSwitchLayout}>
+      <Container className={className} {...props}>
+        {children}
+      </Container>
+    </Provider>
+  );
+};
+
+export const Layout = ({
+  className,
+  children,
+  isCollapsed,
+  onSwitchLayout,
+  ...props
+}: SidebarProps) => {
+  return (
+    <Provider isCollapsed={isCollapsed} onSwitchLayout={onSwitchLayout}>
+      <Container className={className} {...props}>
+        {children}
+      </Container>
+    </Provider>
+  );
+};
+
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
+  icon?: ReactNode;
 }
 
 export const Button = ({ icon, children, ...props }: ButtonProps) => {
+  const { isCollapsed, isHovered } = useContext(collapsedContext)!;
+
   return (
     <button
       className="flex items-center gap-2 w-full hover:bg-gray-100 text-caption-1-em text-gray-600 hover:text-gray-900 h-[38px] rounded-lg px-2"
       {...props}
     >
-      {icon} {children}
+      {icon} {(!isCollapsed || isHovered) && children}
     </button>
   );
 };
 
 export const ToggleCollapseButton = () => {
-  const { isCollapsed, toggleCollapsed } = useContext(collapsedContext)!;
+  const { isCollapsed, isHovered, toggleCollapsed } =
+    useContext(collapsedContext)!;
+
+  if (isCollapsed && !isHovered) {
+    return null;
+  }
 
   return (
     <IconButton variant="text" color="gray" onClick={() => toggleCollapsed()}>
@@ -82,6 +157,13 @@ export const ToggleCollapseButton = () => {
   );
 };
 
+interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+  icon?: ReactNode;
+  isActive?: boolean;
+  trailing?: ReactNode;
+}
+
 export const Item = ({
   children,
   className,
@@ -89,8 +171,8 @@ export const Item = ({
   isActive,
   trailing,
   ...props
-}) => {
-  const { isCollapsed } = useContext(collapsedContext);
+}: ItemProps) => {
+  const { isCollapsed, isHovered } = useContext(collapsedContext)!;
 
   return (
     <div
@@ -103,13 +185,20 @@ export const Item = ({
     >
       <div className="flex items-center gap-2">
         {icon}
-        {children}
+        {(!isCollapsed || isHovered) && children}
       </div>
 
-      {trailing}
+      {(!isCollapsed || isHovered) && trailing}
     </div>
   );
 };
+
+interface SecondaryItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: ReactNode;
+  icon?: ReactNode;
+  isActive?: boolean;
+  trailing?: ReactNode;
+}
 
 export const SecondaryItem = ({
   children,
@@ -118,7 +207,9 @@ export const SecondaryItem = ({
   trailing,
   icon,
   ...props
-}) => {
+}: SecondaryItemProps) => {
+  const { isCollapsed, isHovered } = useContext(collapsedContext)!;
+
   return (
     <div
       className={cn(
@@ -129,10 +220,10 @@ export const SecondaryItem = ({
       {...props}
     >
       <div className="flex items-center gap-2 overflow-auto">
-        {icon} {children}
+        {icon} {(!isCollapsed || isHovered) && children}
       </div>
 
-      {trailing}
+      {(!isCollapsed || isHovered) && trailing}
     </div>
   );
 };
