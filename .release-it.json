@@ -1,0 +1,20 @@
+{
+  "git": {
+    "commitMessage": "Release v${version}",
+    "tagName": "v${version}",
+    "requireBranch": "main",
+    "requireCleanWorkingDir": true
+  },
+  "github": {
+    "release": true
+  },
+  "npm": {
+    "publish": true,
+    "publishPath": ".",
+    "skipChecks": true
+  },
+  "hooks": {
+    "before:init": ["npm run build-lib"],
+    "after:release": "echo Successfully released ${name} v${version} to GitHub Package Registry."
+  }
+}
