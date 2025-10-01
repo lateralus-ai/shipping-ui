@@ -5,6 +5,9 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     "./components": "./src/components/index.ts",
     "./tailwind-theme": "./src/tailwind-theme.ts",
