@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import * as Sidebar from "../components/Sidebar";
+import { Sidebar } from "../components";
 import {
   IconButton,
   Menu,
