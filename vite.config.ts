@@ -8,13 +8,13 @@ export default defineConfig({
     react(),
     dts({
       insertTypesEntry: true,
-      include: ["lib/**/*"],
+      include: ["src/**/*"],
       exclude: ["**/*.stories.tsx"],
     }),
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, "lib/index.ts"),
+      entry: resolve(__dirname, "src/index.ts"),
       name: "ShippingUI",
       formats: ["es", "cjs"],
       fileName: (format) => `index.${format === "es" ? "esm.js" : "cjs"}`,
