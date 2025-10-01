@@ -27,11 +27,23 @@ export const InputPrompts = () => {
     </div>
   );
 
+  const textArea = (
+    <InputPrompt.Textarea placeholder="Write your message here" />
+  );
+
   return (
     <div className="w-[650px] grid gap-8 p-4">
-      <InputPrompt.Container right={rightButtons} />
-      <InputPrompt.Container right={rightButtons} bottom={bottomButtons} />
-      <InputPrompt.Container right={rightButtons} top={topContent} />
+      <InputPrompt.Container right={rightButtons} textArea={textArea} />
+      <InputPrompt.Container
+        right={rightButtons}
+        bottom={bottomButtons}
+        textArea={textArea}
+      />
+      <InputPrompt.Container
+        right={rightButtons}
+        top={topContent}
+        textArea={textArea}
+      />
 
       <div className="border rounded-lg">
         <div className="border-b p-4">Lorem Ipsum dorcet sit amet</div>
@@ -42,6 +54,7 @@ export const InputPrompts = () => {
         </div>
         <InputPrompt.Container
           right={rightButtons}
+          textArea={textArea}
           className="border-none shadow-none"
         />
       </div>
