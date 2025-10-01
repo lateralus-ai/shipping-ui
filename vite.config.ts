@@ -25,6 +25,7 @@ export default defineConfig({
         "react-dom",
         "@iconify/react",
         "@material-tailwind/react",
+        "react-textarea-autosize",
       ],
       output: {
         globals: {
