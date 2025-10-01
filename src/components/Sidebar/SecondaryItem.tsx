@@ -29,7 +29,8 @@ export const SecondaryItem = ({
       {...props}
     >
       <div className="flex items-center gap-2 overflow-auto">
-        {icon} {(!isCollapsed || isHovered) && children}
+        {(!isCollapsed || isHovered) && icon}{" "}
+        {(!isCollapsed || isHovered) && children}
       </div>
 
       {(!isCollapsed || isHovered) && trailing}
