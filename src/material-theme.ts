@@ -258,7 +258,7 @@ export const materialTheme = {
           display: "flex",
           alignItems: "items-center",
           cursor: "cursor-pointer",
-          p: "p-3",
+          p: "!p-0",
           borderRadius: "rounded-full",
         },
         input: {
@@ -281,7 +281,6 @@ export const materialTheme = {
             borderRadius: "before:rounded-full",
             position: "before:absolute",
             opacity: "before:opacity-0 hover:before:opacity-10",
-            transition: "before:transition-opacity",
           },
         },
         label: {
@@ -290,6 +289,7 @@ export const materialTheme = {
           userSelect: "select-none",
           cursor: "cursor-pointer",
           mt: "mt-px",
+          px: "px-2",
         },
         icon: {
           display: "flex",
@@ -444,4 +444,4 @@ export const materialTheme = {
       },
     },
   },
-};
+}
