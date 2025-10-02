@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { PDFViewer } from "../components/PDFViewer";
+import { PdfViewer } from "../components/PdfViewer";
 
 const StoryPage = () => {
   return (
     <div className="w-[600px] h-[800px] p-8">
-      <PDFViewer />
+      <PdfViewer totalPages={100} getImageSrc={(page) => `https://placehold.co/600x400?text=page-${page}` } />
     </div>
   );
 };
@@ -15,7 +15,7 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof PDFViewer>;
+} satisfies Meta<typeof PdfViewer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
