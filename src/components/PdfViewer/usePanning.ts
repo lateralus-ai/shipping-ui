@@ -14,7 +14,7 @@ export const usePanning = () => {
     setIsDragging(true);
     setDragStart({
       x: e.clientX - pan.x,
-      y: e.clientY - pan.y
+      y: e.clientY - pan.y,
     });
   };
 
@@ -23,7 +23,7 @@ export const usePanning = () => {
 
     setPan({
       x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y
+      y: e.clientY - dragStart.y,
     });
   };
 
@@ -35,7 +35,7 @@ export const usePanning = () => {
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
-    reset: () => setPan({ x: 0, y: 0 })
+    reset: () => setPan({ x: 0, y: 0 }),
   };
 
   return [{ pan, isDragging }, actions] as const;

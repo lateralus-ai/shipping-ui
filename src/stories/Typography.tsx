@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const Typography = () => {
   return (
@@ -13,8 +13,12 @@ export const Typography = () => {
           </div>
 
           <div className="border-b pb-2">
-            <p className="text-caption-2 text-gray-500 mb-1">Subheader Emphasized</p>
-            <p className="text-subheader-em">This is emphasized subheader text (18px/28px, 500 weight)</p>
+            <p className="text-caption-2 text-gray-500 mb-1">
+              Subheader Emphasized
+            </p>
+            <p className="text-subheader-em">
+              This is emphasized subheader text (18px/28px, 500 weight)
+            </p>
           </div>
 
           <div className="border-b pb-2">
@@ -24,7 +28,9 @@ export const Typography = () => {
 
           <div className="border-b pb-2">
             <p className="text-caption-2 text-gray-500 mb-1">Body Emphasized</p>
-            <p className="text-body-em">This is emphasized body text (16px/28px, 500 weight)</p>
+            <p className="text-body-em">
+              This is emphasized body text (16px/28px, 500 weight)
+            </p>
           </div>
 
           <div className="border-b pb-2">
@@ -33,8 +39,12 @@ export const Typography = () => {
           </div>
 
           <div className="border-b pb-2">
-            <p className="text-caption-2 text-gray-500 mb-1">Caption 1 Emphasized</p>
-            <p className="text-caption-1-em">This is emphasized caption-1 text (16px/22px, 500 weight)</p>
+            <p className="text-caption-2 text-gray-500 mb-1">
+              Caption 1 Emphasized
+            </p>
+            <p className="text-caption-1-em">
+              This is emphasized caption-1 text (16px/22px, 500 weight)
+            </p>
           </div>
 
           <div className="border-b pb-2">
@@ -43,8 +53,12 @@ export const Typography = () => {
           </div>
 
           <div className="border-b pb-2">
-            <p className="text-caption-2 text-gray-500 mb-1">Caption 2 Emphasized</p>
-            <p className="text-caption-2-em">This is emphasized caption-2 text (14px/20px, 500 weight)</p>
+            <p className="text-caption-2 text-gray-500 mb-1">
+              Caption 2 Emphasized
+            </p>
+            <p className="text-caption-2-em">
+              This is emphasized caption-2 text (14px/20px, 500 weight)
+            </p>
           </div>
 
           <div className="border-b pb-2">
@@ -53,8 +67,12 @@ export const Typography = () => {
           </div>
 
           <div className="border-b pb-2">
-            <p className="text-caption-2 text-gray-500 mb-1">Footnote Emphasized</p>
-            <p className="text-footnote-em">This is emphasized footnote text (13px/17px, 500 weight)</p>
+            <p className="text-caption-2 text-gray-500 mb-1">
+              Footnote Emphasized
+            </p>
+            <p className="text-footnote-em">
+              This is emphasized footnote text (13px/17px, 500 weight)
+            </p>
           </div>
         </div>
       </section>
@@ -64,17 +82,25 @@ export const Typography = () => {
 
         <div className="space-y-4">
           <div className="border-b pb-2">
-            <p className="text-caption-2 text-gray-500 mb-1">Sans (Work Sans)</p>
-            <p className="font-sans text-body">The quick brown fox jumps over the lazy dog</p>
+            <p className="text-caption-2 text-gray-500 mb-1">
+              Sans (Work Sans)
+            </p>
+            <p className="font-sans text-body">
+              The quick brown fox jumps over the lazy dog
+            </p>
           </div>
 
           <div className="border-b pb-2">
-            <p className="text-caption-2 text-gray-500 mb-1">Mono (Roboto Mono)</p>
+            <p className="text-caption-2 text-gray-500 mb-1">
+              Mono (Roboto Mono)
+            </p>
             <p className="font-mono text-body">const code = "Hello, World!";</p>
           </div>
 
           <div className="border-b pb-2">
-            <p className="text-caption-2 text-gray-500 mb-1">Signature (Cursive)</p>
+            <p className="text-caption-2 text-gray-500 mb-1">
+              Signature (Cursive)
+            </p>
             <p className="font-signature text-body">John Doe</p>
           </div>
         </div>

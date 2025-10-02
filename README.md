@@ -50,7 +50,7 @@ npm install @lateralus-ai/shipping-ui
 In your `tailwind.config.js`:
 
 ```javascript
-const shippingUIConfig = require('@lateralus-ai/shipping-ui/tailwind');
+const shippingUIConfig = require("@lateralus-ai/shipping-ui/tailwind");
 
 module.exports = shippingUIConfig;
 ```
@@ -58,7 +58,7 @@ module.exports = shippingUIConfig;
 Or extend it:
 
 ```javascript
-const shippingUIConfig = require('@lateralus-ai/shipping-ui/tailwind');
+const shippingUIConfig = require("@lateralus-ai/shipping-ui/tailwind");
 
 module.exports = {
   ...shippingUIConfig,
@@ -75,7 +75,7 @@ module.exports = {
 In your main CSS file:
 
 ```css
-@import '@lateralus-ai/shipping-ui/css';
+@import "@lateralus-ai/shipping-ui/css";
 ```
 
 ## Theme Structure

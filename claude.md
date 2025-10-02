@@ -1,4 +1,4 @@
-```markdown
+````markdown
 # Claude Coding Style Guide
 
 ## Core Principles
@@ -11,8 +11,8 @@ Write simple, declarative TypeScript code. Prioritize readability over clevernes
 
 ```typescript
 // Good
-const adults = users.filter(user => user.age >= 18);
-const names = users.map(user => user.name);
+const adults = users.filter((user) => user.age >= 18);
+const names = users.map((user) => user.name);
 const total = prices.reduce((sum, price) => sum + price, 0);
 
 // Avoid
@@ -23,6 +23,7 @@ for (const user of users) {
   }
 }
 ```
+````
 
 ### Avoid Nesting
 
@@ -31,14 +32,14 @@ for (const user of users) {
 const isValid = user.age >= 18;
 if (!isValid) return null;
 
-const hasPermission = user.role === 'admin';
+const hasPermission = user.role === "admin";
 if (!hasPermission) return null;
 
 return user.profile;
 
 // Avoid
 if (user.age >= 18) {
-  if (user.role === 'admin') {
+  if (user.role === "admin") {
     return user.profile;
   }
 }
@@ -69,11 +70,10 @@ const processUser = (user: User) => {
 ```typescript
 // Good
 const activeUserIds = users
-  .filter(user => user.isActive)
-  .map(user => user.id);
+  .filter((user) => user.isActive)
+  .map((user) => user.id);
 
-const totalRevenue = orders
-  .reduce((sum, order) => sum + order.total, 0);
+const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
 
 // Avoid
 const activeUserIds = [];
@@ -114,10 +114,10 @@ const getDiscount = (user: User) => {
 
 ```typescript
 const processOrders = (orders: Order[]) => {
-  const validOrders = orders.filter(order => order.total > 0);
-  const withTax = validOrders.map(order => ({
+  const validOrders = orders.filter((order) => order.total > 0);
+  const withTax = validOrders.map((order) => ({
     ...order,
-    total: order.total * 1.1
+    total: order.total * 1.1,
   }));
   return withTax;
 };
@@ -139,7 +139,10 @@ const canCheckout = (cart: Cart, user: User) => {
 
 ```typescript
 const summarizeCart = (items: CartItem[]) => {
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
+  );
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return { subtotal, itemCount };
@@ -153,4 +156,7 @@ const summarizeCart = (items: CartItem[]) => {
 - No for/while loops, use map/filter/reduce
 - Keep functions short and focused
 - Use TypeScript for type safety
+
+```
+
 ```
