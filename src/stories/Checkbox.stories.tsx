@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import { CheckboxItem } from "./Checkbox"
+import type { Meta, StoryObj } from "@storybook/react";
+import { CheckboxItem } from "./Checkbox";
 
 const meta = {
   title: "Design System/CheckboxItem",
@@ -7,9 +7,9 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof CheckboxItem>
+} satisfies Meta<typeof CheckboxItem>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {}
+export const Default: Story = {};

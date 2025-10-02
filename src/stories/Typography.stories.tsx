@@ -1,11 +1,11 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { Typography } from './Typography';
+import type { Meta, StoryObj } from "@storybook/react";
+import { Typography } from "./Typography";
 
 const meta = {
-  title: 'Design System/Typography',
+  title: "Design System/Typography",
   component: Typography,
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
   },
 } satisfies Meta<typeof Typography>;
 

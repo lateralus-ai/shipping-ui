@@ -1,9 +1,9 @@
-import { Checkbox } from "@material-tailwind/react"
-import { Icon } from "@iconify/react"
-import { useState } from "react"
+import { Checkbox } from "@material-tailwind/react";
+import { Icon } from "@iconify/react";
+import { useState } from "react";
 
 export const CheckboxItem = () => {
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div className="p-8 grid gap-4">
@@ -13,7 +13,7 @@ export const CheckboxItem = () => {
           checked={isChecked}
           icon={<Icon icon="lucide:check" className="w-3.5 h-3.5" />}
           onChange={() => {
-            setIsChecked(!isChecked)
+            setIsChecked(!isChecked);
           }}
           containerProps={{
             className: "pl-1 pr-2 pb-0 pt-1",
@@ -28,7 +28,7 @@ export const CheckboxItem = () => {
           checked={isChecked}
           icon={<Icon icon="lucide:check" className="w-3.5 h-3.5" />}
           onChange={() => {
-            setIsChecked(!isChecked)
+            setIsChecked(!isChecked);
           }}
           containerProps={{
             className: "pl-1 pr-2 pb-0 pt-1",
@@ -44,7 +44,7 @@ export const CheckboxItem = () => {
           disabled={true}
           icon={<Icon icon="lucide:check" className="w-3.5 h-3.5" />}
           onChange={() => {
-            setIsChecked(!isChecked)
+            setIsChecked(!isChecked);
           }}
           containerProps={{
             className: "pl-1 pr-2 pb-0 pt-1",
@@ -52,5 +52,5 @@ export const CheckboxItem = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
