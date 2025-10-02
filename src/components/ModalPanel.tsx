@@ -6,10 +6,10 @@ interface HeaderProps {
   right?: React.ReactNode;
 }
 
-const Header = ({ onClose, right }: HeaderProps) => {
+const Header = ({ onClose, right, children }: HeaderProps) => {
   return (
     <div className="bg-gray-50 flex gap-2 items-center px-2 py-3 rounded-t-xl">
-      <div className="grow text-subheader-em">PDF Viewer</div>
+      <div className="grow text-subheader-em">{children}</div>
       <div className="flex items-center gap-4">
         {right}
         <IconButton
