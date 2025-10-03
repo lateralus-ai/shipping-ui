@@ -12,7 +12,7 @@ interface ImageViewerProps {
   onClose: () => void;
   totalPages: number;
   getImageSrc: (page: number) => string;
-  title: string;
+  title?: string;
 }
 
 export const ImageViewer = ({
@@ -38,10 +38,10 @@ export const ImageViewer = ({
         {title}
       </ModalPanel.Header>
 
-      <div className="grid">
+      <div className="flex-1 grid">
         <div className="grid relative">
           <div
-            className="overflow-hidden col-start-1 row-start-1 bg-gray-200 h-[600px] relative"
+            className="overflow-hidden col-start-1 row-start-1 bg-gray-200 h-full relative"
             onMouseMove={panActions.handleMouseMove}
             onMouseUp={panActions.handleMouseUp}
             onMouseLeave={panActions.handleMouseUp}

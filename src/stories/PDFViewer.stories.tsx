@@ -13,11 +13,11 @@ const StoryPage = () => {
           }
         />
       </div>
-      <div className="w-[600px] h-[800px] p-8" title="Document Viewer">
-        <PdfViewer
-          totalPages={100}
-          src="https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"
-        />
+      <div
+        className="w-[600px] h-[800px] p-8 flex flex-col"
+        title="Document Viewer"
+      >
+        <PdfViewer src="https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf" />
       </div>
     </div>
   );
