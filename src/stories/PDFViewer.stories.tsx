@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { ImageViewer, PdfViewer } from "../components/PdfViewer";
+import { ImageViewer, PdfViewer } from "../components";
 
 const StoryPage = () => {
   return (

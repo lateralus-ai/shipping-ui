@@ -1,12 +1,17 @@
 import { IconButton } from "@material-tailwind/react";
 import XIcon from "./icons/XIcon";
+import { PropsWithChildren } from "react";
 
 interface HeaderProps {
   onClose: () => void;
   right?: React.ReactNode;
 }
 
-const Header = ({ onClose, right, children }: HeaderProps) => {
+const Header = ({
+  onClose,
+  right,
+  children,
+}: PropsWithChildren<HeaderProps>) => {
   return (
     <div className="bg-gray-50 flex gap-2 items-center px-2 py-3 rounded-t-xl">
       <div className="grow text-subheader-em">{children}</div>
