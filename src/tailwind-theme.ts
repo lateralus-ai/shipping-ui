@@ -93,6 +93,18 @@ export const theme = {
     "accordion-up": "accordion-up 0.2s ease-out",
   },
   colors: {
+    brand: {
+      50: "#e0fff2",
+      100: "#adf0d3",
+      200: "#8aeac1",
+      300: "#67e4ae",
+      400: "#45de9c",
+      500: "#26d489",
+      600: "#1da56a",
+      700: "#15754c",
+      800: "#0c452d",
+      900: "#04160e",
+    },
     gray: {
       50: "#fafafa",
       100: "#f0f0f0",
