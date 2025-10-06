@@ -449,7 +449,7 @@ export const materialTheme = {
   tabsHeader: {
     defaultProps: {
       className:
-        "grow gap-8 rounded-none bg-transparent !p-0 border-b border-b-gray-100 flex items-end px-0 w-full",
+        "grow gap-6 rounded-none bg-transparent !p-0 border-b border-b-gray-100 flex items-end px-0 w-full",
     },
   },
   tab: {
