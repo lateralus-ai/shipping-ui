@@ -454,7 +454,8 @@ export const materialTheme = {
   },
   tab: {
     defaultProps: {
-      className: "min-w-fit max-w-fit justify-start font-medium text-gray-600",
+      className:
+        "min-w-fit max-w-fit justify-start font-medium text-gray-600 pl-0 pr-2 h-12",
     },
     styles: {
       base: {
