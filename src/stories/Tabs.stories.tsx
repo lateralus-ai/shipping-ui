@@ -9,7 +9,7 @@ import {
 import { SettingsIcon } from "../components/icons/SettingsIcon";
 
 const TabsComponent = () => (
-  <Tabs className="w-[800px]">
+  <Tabs value="chats" className="w-[800px]">
     <TabsHeader>
       <Tab value="chats">Chats</Tab>
       <Tab value="issues">Issues</Tab>
@@ -20,8 +20,18 @@ const TabsComponent = () => (
     </TabsHeader>
 
     <TabsBody>
-      <TabPanel value="chats">ChatsPanel</TabPanel>
-      <TabPanel value="issues">IssuesPanel</TabPanel>
+      <TabPanel value="chats">
+        Chats panel orem ipsum dolor sit, amet consectetur adipisicing elit.
+        Saepe deserunt officiis tempora accusamus sunt illo quae placeat velit
+        eius maiores, iste ipsa alias quos similique dolores odio? Magnam, quia
+        deleniti?
+      </TabPanel>
+      <TabPanel value="issues">
+        Issues panel orem ipsum dolor sit, amet consectetur adipisicing elit.
+        Saepe deserunt officiis tempora accusamus sunt illo quae placeat velit
+        eius maiores, iste ipsa alias quos similique dolores odio? Magnam, quia
+        deleniti?
+      </TabPanel>
     </TabsBody>
   </Tabs>
 );
