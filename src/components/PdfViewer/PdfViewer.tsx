@@ -18,7 +18,6 @@ export const PdfViewer = ({
   className,
 }: PdfViewerProps) => {
   const containerRef = useRef(null);
-  const dimensions = useRefDimensions(containerRef);
 
   const rightButtons = (
     <IconButton variant="text" color="gray">

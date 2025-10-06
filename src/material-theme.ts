@@ -1,3 +1,5 @@
+import { tabPanel } from "@material-tailwind/react";
+
 export const materialTheme = {
   button: {
     defaultProps: {
@@ -441,6 +443,34 @@ export const materialTheme = {
           circle: "peer-checked:border-green-600",
           before: "peer-checked:before:bg-green-600",
         },
+      },
+    },
+  },
+  tabsHeader: {
+    defaultProps: {
+      className:
+        "grow gap-6 rounded-none bg-transparent !p-0 border-b border-b-gray-100 flex items-end px-0 w-full mb-6",
+    },
+  },
+  tab: {
+    defaultProps: {
+      className:
+        "min-w-fit max-w-fit justify-start font-medium text-gray-600 pl-0 pr-2 h-12",
+    },
+    styles: {
+      base: {
+        indicator: {
+          bg: "bg-transparent border-b-2 border-gray-900 !transform-none",
+          borderRadius: "radius-none",
+          boxShadow: "shadow-none",
+        },
+      },
+    },
+  },
+  tabPanel: {
+    styles: {
+      base: {
+        p: "px-0",
       },
     },
   },

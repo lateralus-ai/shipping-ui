@@ -7,6 +7,7 @@ import { useZoom } from "./useZoom";
 import { useRotation } from "./useRotation";
 import { usePanning } from "./usePanning";
 import { usePageManagement } from "./usePageManagement";
+import { cn } from "../../utils/cn";
 
 interface ImageViewerProps {
   onClose: () => void;
@@ -16,9 +17,11 @@ interface ImageViewerProps {
 }
 
 export const ImageViewer = ({
+  className,
   onClose,
   totalPages,
   getImageSrc,
+  documentUrl,
   title = "PDF Viewer",
 }: ImageViewerProps) => {
   const [zoom, zoomActions] = useZoom();
@@ -28,12 +31,14 @@ export const ImageViewer = ({
 
   const rightButtons = (
     <IconButton variant="text" color="gray">
-      <ExpandIcon className="size-4" />
+      <a href={documentUrl} target="_blank" rel="noopener noreferrer">
+        <ExpandIcon className="size-4" />
+      </a>
     </IconButton>
   );
 
   return (
-    <div className="shadow rounded-t-lg">
+    <div className={cn("shadow rounded-t-lg flex flex-col h-full", className)}>
       <ModalPanel.Header onClose={onClose} right={rightButtons}>
         {title}
       </ModalPanel.Header>
