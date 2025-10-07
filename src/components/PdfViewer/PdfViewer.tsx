@@ -31,29 +31,6 @@ export const PdfViewer = ({
   const [{ currentPage, totalPages }, pageActions] = usePageManagement();
   const [{ pan, isDragging }, panActions] = usePanning();
 
-  const documentComponent = useMemo(
-    () => (
-      <Document
-        file={src}
-        onLoadSuccess={({ numPages }) => {
-          pageActions.setTotalPages(numPages);
-        }}
-        options={{
-          cMapUrl: `//unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-          standardFontDataUrl: `//unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
-        }}
-        scale={zoom / 100}
-        rotate={rotation}
-      >
-        <Page
-          pageNumber={currentPage}
-          renderTextLayer={true}
-          renderAnnotationLayer={true}
-        />
-      </Document>
-    ),
-    [src, zoom, rotation, currentPage]
-  );
 
   const rightButtons = (
     <IconButton variant="text" color="gray">
@@ -66,13 +43,13 @@ export const PdfViewer = ({
   return (
     <div className={cn("shadow rounded-t-lg flex flex-col h-full", className)}>
       <ModalPanel.Header onClose={onClose} right={rightButtons}>
-        {title} - {currentPage} - {zoom}
+        {title}
       </ModalPanel.Header>
 
-      <div className="grid grow h-full">
+      <div className="grid grow h-full overflow-hidden">
         <div
           className={cn(
-            "col-start-1 row-start-1 bg-gray-200 h-full overflow-auto select-none",
+            "col-start-1 row-start-1 bg-gray-200 h-full overflow-hidden select-none p-8",
             isDragging ? "cursor-grabbing" : "cursor-grab"
           )}
           onMouseDown={panActions.handleMouseDown}
@@ -90,7 +67,20 @@ export const PdfViewer = ({
               pointerEvents: 'none',
             }}
           >
-{documentComponent}
+            <Document
+              file={src}
+              onLoadSuccess={({ numPages }) => {
+                pageActions.setTotalPages(numPages);
+              }}
+              scale={zoom / 100}
+              rotate={rotation}
+            >
+              <Page
+                pageNumber={currentPage}
+                renderTextLayer={true}
+                renderAnnotationLayer={true}
+              />
+            </Document>
           </div>
         </div>
 
