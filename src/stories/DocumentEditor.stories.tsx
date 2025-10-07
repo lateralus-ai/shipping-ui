@@ -192,7 +192,7 @@ const DocumentEditorWrapper = () => {
 };
 
 const meta = {
-  title: "Components/DocumentEditor",
+  title: "Design System/DocumentEditor",
   component: DocumentEditorWrapper,
   parameters: {
     layout: "fullscreen",
