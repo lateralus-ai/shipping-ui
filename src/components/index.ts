@@ -3,3 +3,4 @@ export * as InputPrompt from "./InputPrompt";
 export * as Sidebar from "./Sidebar";
 export * from "./PdfViewer/";
 export * from "./Tabs";
+export * from "./DocumentEditor";
