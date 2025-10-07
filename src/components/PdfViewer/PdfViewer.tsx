@@ -6,10 +6,11 @@ import { Icon } from "@iconify/react";
 import { cn } from "../../utils/cn";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useMemo } from "react";
 import { useZoom } from "./useZoom";
 import { useRotation } from "./useRotation";
 import { usePageManagement } from "./usePageManagement";
+import { usePanning } from "./usePanning";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -28,6 +29,31 @@ export const PdfViewer = ({
   const [zoom, zoomActions] = useZoom();
   const [rotation, rotationActions] = useRotation();
   const [{ currentPage, totalPages }, pageActions] = usePageManagement();
+  const [{ pan, isDragging }, panActions] = usePanning();
+
+  const documentComponent = useMemo(
+    () => (
+      <Document
+        file={src}
+        onLoadSuccess={({ numPages }) => {
+          pageActions.setTotalPages(numPages);
+        }}
+        options={{
+          cMapUrl: `//unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
+          standardFontDataUrl: `//unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
+        }}
+        scale={zoom / 100}
+        rotate={rotation}
+      >
+        <Page
+          pageNumber={currentPage}
+          renderTextLayer={true}
+          renderAnnotationLayer={true}
+        />
+      </Document>
+    ),
+    [src, zoom, rotation, currentPage]
+  );
 
   const rightButtons = (
     <IconButton variant="text" color="gray">
@@ -44,25 +70,28 @@ export const PdfViewer = ({
       </ModalPanel.Header>
 
       <div className="grid grow h-full">
-        <div className="col-start-1 row-start-1 bg-gray-200 h-full overflow-auto ">
-          <Document
-            file={src}
-            onLoadSuccess={({ numPages }) => {
-              pageActions.setTotalPages(numPages);
+        <div
+          className={cn(
+            "col-start-1 row-start-1 bg-gray-200 h-full overflow-auto select-none",
+            isDragging ? "cursor-grabbing" : "cursor-grab"
+          )}
+          onMouseDown={panActions.handleMouseDown}
+          onMouseMove={panActions.handleMouseMove}
+          onMouseUp={panActions.handleMouseUp}
+          onMouseLeave={panActions.handleMouseUp}
+          style={{
+            userSelect: 'none',
+          }}
+        >
+          <div
+            style={{
+              transform: `translate(${pan.x}px, ${pan.y}px)`,
+              transition: isDragging ? 'none' : 'transform 0.1s',
+              pointerEvents: 'none',
             }}
-            options={{
-              cMapUrl: `//unpkg.com/pdfjs-dist@${pdfjs.version}/cmaps/`,
-              standardFontDataUrl: `//unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
-            }}
-            scale={zoom / 100}
-            rotate={rotation}
           >
-            <Page
-              pageNumber={currentPage}
-              renderTextLayer={true}
-              renderAnnotationLayer={true}
-            />
-          </Document>
+{documentComponent}
+          </div>
         </div>
 
         <div className="col-start-1 row-start-1 self-end p-4 flex gap-2 justify-between w-full z-10">
@@ -75,11 +104,12 @@ export const PdfViewer = ({
             >
               <Icon icon="lucide:minus" />
             </IconButton>
-            <Tooltip content="Click to reset zoom">
+            <Tooltip content="Click to reset zoom and pan">
               <button
                 className="!bg-white text-center cursor-pointer w-[60px]"
                 onClick={() => {
                   zoomActions.reset();
+                  panActions.reset();
                 }}
               >
                 {zoom}%
