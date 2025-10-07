@@ -103,14 +103,11 @@ const SearchFilters = ({
 
 const SearchSkeleton = () => {
   return (
-    <div className="p-4 flex flex-col gap-3">
-      {[...Array(4)].map((_, i) => (
-        <div key={i} className="flex items-center gap-3 animate-pulse">
-          <div className="w-8 h-8 bg-gray-200 rounded-full" />
-          <div className="flex-1">
-            <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
-            <div className="h-3 bg-gray-200 rounded w-1/2" />
-          </div>
+    <div className="p-4 flex flex-col gap-[6px]">
+      {[...Array(8)].map((_, i) => (
+        <div key={i} className="flex items-center gap-3 animate-pulse py-2">
+          <div className="size-3 bg-gray-100 rounded-full" />
+          <div className={cn(i % 2 === 0 ? "w-[250px]" : "w-[320px]","h-3 bg-gray-100 rounded-full")} />
         </div>
       ))}
     </div>
