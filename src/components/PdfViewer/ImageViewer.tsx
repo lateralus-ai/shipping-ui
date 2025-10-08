@@ -27,7 +27,7 @@ export const ImageViewer = ({
   const [zoom, zoomActions] = useZoom();
   const [rotation, rotationActions] = useRotation();
   const [{ pan, isDragging }, panActions] = usePanning();
-  const [currentPage, pageActions] = usePageManagement(totalPages);
+  const [{ currentPage }, pageActions] = usePageManagement(totalPages);
 
   const rightButtons = (
     <IconButton variant="text" color="gray">
