@@ -31,6 +31,19 @@ const Header = ({
   );
 };
 
+interface BodyProps {
+  className?: string;
+}
+
+const Body = ({ children, className = "" }: PropsWithChildren<BodyProps>) => {
+  return (
+    <div className={`w-full overflow-auto ${className}`}>
+      {children}
+    </div>
+  );
+};
+
 export const ModalPanel = {
   Header,
+  Body,
 };
