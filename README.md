@@ -75,7 +75,7 @@ module.exports = {
 In your main CSS file:
 
 ```css
-@import "@lateralus-ai/shipping-ui/css";
+@import "@lateralus-ai/shipping-ui/style.css";
 ```
 
 ## Theme Structure

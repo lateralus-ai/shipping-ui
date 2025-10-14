@@ -13,7 +13,11 @@
       "import": "./dist/index.esm.js",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./style.css": "./dist/style.css",
+    "./css": "./dist/style.css",
+    "./dist/style.css": "./dist/style.css",
+    "./tailwind": "./tailwind.config.js"
   },
   "files": [
     "dist",
@@ -88,5 +92,8 @@
     "react-hotkeys-hook": "^5.1.0",
     "react-pdf": "^10.1.0",
     "react-router": "^7.9.3"
-  }
+  },
+  "sideEffects": [
+    "dist/style.css"
+  ]
 }
