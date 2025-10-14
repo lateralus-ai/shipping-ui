@@ -2,24 +2,24 @@ import { useContext, type ReactNode } from "react"
 import { cn } from "../../utils/cn"
 import { collapsedContext } from "./Provider"
 
-export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SideContainerProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
 }
 
-export const Container = ({
+export const SideContainer = ({
   className,
   children,
   ...props
-}: ContainerProps) => {
-  const { isCollapsed, isHovered, setIsHovered } = useContext(collapsedContext)!
+}: SideContainerProps) => {
+  const { isCollapsed, setIsHovered } = useContext(collapsedContext)!
 
   return (
     <div
       className={cn(
         className,
-        isCollapsed && "shadow-lg rounded-lg",
-        isCollapsed && !isHovered ? "w-auto" : "w-[280px]",
-        "bg-gray-50 p-2 flex flex-col justify-between items-center rounded-tr-lg rounded-br-lg"
+        isCollapsed && "!hidden",
+        "p-2 flex flex-col gap-2 items-center rounded-tl-lg rounded-bl-lg w-16"
       )}
       onMouseEnter={() => isCollapsed && setIsHovered(true)}
       onMouseLeave={() => isCollapsed && setIsHovered(false)}

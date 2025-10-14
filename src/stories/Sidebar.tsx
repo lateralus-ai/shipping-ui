@@ -1,12 +1,13 @@
-import { Icon } from "@iconify/react";
-import { Sidebar } from "../components";
+import { Icon } from "@iconify/react"
+import { Sidebar } from "../components"
 import {
+  Button,
   IconButton,
   Menu,
   MenuHandler,
   MenuItem,
   MenuList,
-} from "@material-tailwind/react";
+} from "@material-tailwind/react"
 
 const menuExample = (
   <div className="opacity-0 group-hover:opacity-100">
@@ -23,18 +24,31 @@ const menuExample = (
       </MenuList>
     </Menu>
   </div>
-);
+)
 
 const arrowExample = (
   <button>
     <Icon icon="mage:caret-right" className="size-4" />
   </button>
-);
+)
 
 export const SidebarScreen = () => (
-  <div className="p-8 gap-4 flex ">
-    <Sidebar.Layout className="h-[800px]">
-      <div className="w-full flex flex-col gap-2">
+  <div className="p-8 flex ">
+    <Sidebar.Layout
+      className="h-[800px]"
+      sideClassName="bg-gray-100"
+      sideContainer={
+        <>
+          <Button>
+            <Icon icon="mage:message" className="size-5 text-orange-400" />
+          </Button>
+          <Button>
+            <Icon icon="mage:book" className="size-5 text-orange-400" />
+          </Button>
+        </>
+      }
+    >
+      <div className="w-full flex flex-col gap-2 justify-center">
         <div className="flex justify-between pr-1">
           <Sidebar.Button
             onClick={() => alert("click")}
@@ -91,4 +105,4 @@ export const SidebarScreen = () => (
       <div className="h-20 bg-gray-100 w-full rounded-xl"></div>
     </Sidebar.Layout>
   </div>
-);
+)
