@@ -90,6 +90,8 @@ export const PdfViewer = ({
             }}
           >
             <Document
+              externalLinkRel="noopener noreferrer"
+              externalLinkTarget="_blank"
               file={src}
               onLoadSuccess={({ numPages }) => {
                 pageActions.setTotalPages(numPages);
