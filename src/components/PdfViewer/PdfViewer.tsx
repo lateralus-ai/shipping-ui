@@ -6,7 +6,7 @@ import { Icon } from "@iconify/react";
 import { cn } from "../../utils/cn";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
-import { useState, ChangeEvent, useMemo } from "react";
+import { useState, ChangeEvent, useMemo, MouseEvent as ReactMouseEvent } from "react";
 import { useZoom } from "./useZoom";
 import { useRotation } from "./useRotation";
 import { usePageManagement } from "./usePageManagement";
@@ -18,6 +18,7 @@ interface PdfViewerProps extends React.HTMLProps<HTMLDivElement> {
   onClose: () => void;
   src: string;
   title?: string;
+  onOpen?: (event: ReactMouseEvent<HTMLButtonElement>) => void;
 }
 
 export const PdfViewer = ({
@@ -25,18 +26,39 @@ export const PdfViewer = ({
   src,
   title = "PDF Viewer",
   className,
+  onOpen,
 }: PdfViewerProps) => {
   const [zoom, zoomActions] = useZoom();
   const [rotation, rotationActions] = useRotation();
   const [{ currentPage, totalPages }, pageActions] = usePageManagement();
   const [{ pan, isDragging }, panActions] = usePanning();
 
+  const handleOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
+    if (onOpen) {
+      console.debug("[PdfViewer] onOpen callback triggered", {
+        hasHandler: true,
+      });
+      onOpen(event);
+    } else {
+      console.debug("[PdfViewer] open button clicked", {
+        hasHandler: false,
+      });
+    }
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    if (!src) {
+      event.preventDefault();
+      return;
+    }
+
+    window.open(src, "_blank", "noopener,noreferrer");
+  };
 
   const rightButtons = (
-    <IconButton variant="text" color="gray">
-      <a href={src} target="_blank" rel="noopener noreferrer">
-        <ExpandIcon className="size-4" />
-      </a>
+    <IconButton variant="text" color="gray" onClick={handleOpen}>
+      <ExpandIcon className="size-4" />
     </IconButton>
   );
 
