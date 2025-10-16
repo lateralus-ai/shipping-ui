@@ -1,24 +1,29 @@
-import { IconButton, ButtonGroup, Tooltip } from "@material-tailwind/react";
-import { Document, Page, pdfjs } from "react-pdf";
-import { ModalPanel } from "../ModalPanel";
-import ExpandIcon from "../icons/ExpandIcon";
-import { Icon } from "@iconify/react";
-import { cn } from "../../utils/cn";
-import "react-pdf/dist/Page/AnnotationLayer.css";
-import "react-pdf/dist/Page/TextLayer.css";
-import { useState, ChangeEvent, useMemo, MouseEvent as ReactMouseEvent } from "react";
-import { useZoom } from "./useZoom";
-import { useRotation } from "./useRotation";
-import { usePageManagement } from "./usePageManagement";
-import { usePanning } from "./usePanning";
+import { IconButton, ButtonGroup, Tooltip } from "@material-tailwind/react"
+import { Document, Page, pdfjs } from "react-pdf"
+import { ModalPanel } from "../ModalPanel"
+import ExpandIcon from "../icons/ExpandIcon"
+import { Icon } from "@iconify/react"
+import { cn } from "../../utils/cn"
+import "react-pdf/dist/Page/AnnotationLayer.css"
+import "react-pdf/dist/Page/TextLayer.css"
+import {
+  useState,
+  ChangeEvent,
+  useMemo,
+  MouseEvent as ReactMouseEvent,
+} from "react"
+import { useZoom } from "./useZoom"
+import { useRotation } from "./useRotation"
+import { usePageManagement } from "./usePageManagement"
+import { usePanning } from "./usePanning"
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 
 interface PdfViewerProps extends React.HTMLProps<HTMLDivElement> {
-  onClose: () => void;
-  src: string;
-  title?: string;
-  onOpen?: (event: ReactMouseEvent<HTMLButtonElement>) => void;
+  onClose: () => void
+  src: string
+  title?: string
+  onOpen?: (event: ReactMouseEvent<HTMLButtonElement>) => void
 }
 
 export const PdfViewer = ({
@@ -28,39 +33,39 @@ export const PdfViewer = ({
   className,
   onOpen,
 }: PdfViewerProps) => {
-  const [zoom, zoomActions] = useZoom();
-  const [rotation, rotationActions] = useRotation();
-  const [{ currentPage, totalPages }, pageActions] = usePageManagement();
-  const [{ pan, isDragging }, panActions] = usePanning();
+  const [zoom, zoomActions] = useZoom()
+  const [rotation, rotationActions] = useRotation()
+  const [{ currentPage, totalPages }, pageActions] = usePageManagement()
+  const [{ pan, isDragging }, panActions] = usePanning()
 
   const handleOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     if (onOpen) {
       console.debug("[PdfViewer] onOpen callback triggered", {
         hasHandler: true,
-      });
-      onOpen(event);
+      })
+      onOpen(event)
     } else {
       console.debug("[PdfViewer] open button clicked", {
         hasHandler: false,
-      });
+      })
     }
     if (event.defaultPrevented) {
-      return;
+      return
     }
 
     if (!src) {
-      event.preventDefault();
-      return;
+      event.preventDefault()
+      return
     }
 
-    window.open(src, "_blank", "noopener,noreferrer");
-  };
+    window.open(src, "_blank", "noopener,noreferrer")
+  }
 
   const rightButtons = (
     <IconButton variant="text" color="gray" onClick={handleOpen}>
       <ExpandIcon className="size-4" />
     </IconButton>
-  );
+  )
 
   return (
     <div className={cn("shadow rounded-t-lg flex flex-col h-full", className)}>
@@ -71,7 +76,7 @@ export const PdfViewer = ({
       <div className="grid grow h-full overflow-hidden">
         <div
           className={cn(
-            "col-start-1 row-start-1 bg-gray-200 h-full overflow-hidden select-none p-8",
+            "col-start-1 row-start-1 bg-gray-200 h-full overflow-hidden select-none p-8 flex justify-center items-center",
             isDragging ? "cursor-grabbing" : "cursor-grab"
           )}
           onMouseDown={panActions.handleMouseDown}
@@ -79,14 +84,15 @@ export const PdfViewer = ({
           onMouseUp={panActions.handleMouseUp}
           onMouseLeave={panActions.handleMouseUp}
           style={{
-            userSelect: 'none',
+            userSelect: "none",
           }}
         >
           <div
             style={{
               transform: `translate(${pan.x}px, ${pan.y}px)`,
-              transition: isDragging ? 'none' : 'transform 0.1s',
-              pointerEvents: 'none',
+              transition: isDragging ? "none" : "transform 0.1s",
+              pointerEvents: "none",
+              maxWidth: "650px",
             }}
           >
             <Document
@@ -94,7 +100,7 @@ export const PdfViewer = ({
               externalLinkTarget="_blank"
               file={src}
               onLoadSuccess={({ numPages }) => {
-                pageActions.setTotalPages(numPages);
+                pageActions.setTotalPages(numPages)
               }}
               scale={zoom / 100}
               rotate={rotation}
@@ -122,8 +128,8 @@ export const PdfViewer = ({
               <button
                 className="!bg-white text-center cursor-pointer w-[60px]"
                 onClick={() => {
-                  zoomActions.reset();
-                  panActions.reset();
+                  zoomActions.reset()
+                  panActions.reset()
                 }}
               >
                 {zoom}%
@@ -171,9 +177,9 @@ export const PdfViewer = ({
               className="bg-white pl-4 flex items-center w-[50px] text-center focus:outline-none w-[60px]"
               value={currentPage}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const page = parseInt(e.target.value);
+                const page = parseInt(e.target.value)
                 if (!isNaN(page)) {
-                  pageActions.goToPage(page);
+                  pageActions.goToPage(page)
                 }
               }}
               type="number"
@@ -196,5 +202,5 @@ export const PdfViewer = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
