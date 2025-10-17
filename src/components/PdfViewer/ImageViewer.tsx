@@ -2,7 +2,7 @@ import { IconButton, ButtonGroup, Tooltip } from "@material-tailwind/react";
 import { ModalPanel } from "../ModalPanel";
 import ExpandIcon from "../icons/ExpandIcon";
 import { Icon } from "@iconify/react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useZoom } from "./useZoom";
 import { useRotation } from "./useRotation";
 import { usePanning } from "./usePanning";
@@ -10,9 +10,11 @@ import { usePageManagement } from "./usePageManagement";
 import { cn } from "../../utils/cn";
 
 interface ImageViewerProps {
+  className?: string;
+  documentUrl?: string;
   onClose: () => void;
   totalPages: number;
-  getImageSrc: (page: number) => string;
+  getImageSrc: (page: number) => string | Promise<string>;
   title?: string;
 }
 
@@ -28,6 +30,29 @@ export const ImageViewer = ({
   const [rotation, rotationActions] = useRotation();
   const [{ pan, isDragging }, panActions] = usePanning();
   const [{ currentPage }, pageActions] = usePageManagement(totalPages);
+  const [imageSrc, setImageSrc] = useState<string>(() => {
+    const initialResult = getImageSrc(currentPage);
+    return typeof initialResult === "string" ? initialResult : "";
+  });
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadImage = async () => {
+      const result = getImageSrc(currentPage);
+      const resolvedSrc = await Promise.resolve(result);
+
+      if (isActive) {
+        setImageSrc(resolvedSrc);
+      }
+    };
+
+    void loadImage();
+
+    return () => {
+      isActive = false;
+    };
+  }, [currentPage, getImageSrc]);
 
   const rightButtons = (
     <IconButton variant="text" color="gray">
@@ -71,10 +96,12 @@ export const ImageViewer = ({
                   transition: isDragging ? "none" : "transform 0.3s ease",
                 }}
               >
-                <img
-                  src={getImageSrc(currentPage)}
-                  style={{ userSelect: "none", pointerEvents: "none" }}
-                />
+                {imageSrc ? (
+                  <img
+                    src={imageSrc}
+                    style={{ userSelect: "none", pointerEvents: "none" }}
+                  />
+                ) : null}
               </div>
             </div>
           </div>
