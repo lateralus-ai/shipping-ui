@@ -1,6 +1,6 @@
 {
   "name": "@lateralus-ai/shipping-ui",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Shared UI theme and components for Lateralus shipping applications",
   "main": "dist/index.cjs",
   "module": "dist/index.esm.js",
