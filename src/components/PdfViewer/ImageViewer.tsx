@@ -13,6 +13,7 @@ interface ImageViewerProps {
   className?: string
   canvasClassName?: string
   documentUrl?: string
+  mainCanvasClassname?: string
   onClose: () => void
   totalPages: number
   getImageSrc: (page: number) => string | Promise<string>
@@ -22,6 +23,7 @@ interface ImageViewerProps {
 export const ImageViewer = ({
   className,
   canvasClassName,
+  mainCanvasClassname,
   onClose,
   totalPages,
   getImageSrc,
@@ -80,6 +82,7 @@ export const ImageViewer = ({
             onWheel={zoomActions.handleWheel}
           >
             <div
+              className={mainCanvasClassname}
               style={{
                 transform: `translate(${pan.x}px, ${pan.y}px)`,
                 cursor: isDragging ? "grabbing" : "grab",
