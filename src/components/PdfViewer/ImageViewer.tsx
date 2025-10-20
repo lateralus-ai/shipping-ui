@@ -1,21 +1,21 @@
-import { IconButton, ButtonGroup, Tooltip } from "@material-tailwind/react";
-import { ModalPanel } from "../ModalPanel";
-import ExpandIcon from "../icons/ExpandIcon";
-import { Icon } from "@iconify/react";
-import { ChangeEvent, useEffect, useState } from "react";
-import { useZoom } from "./useZoom";
-import { useRotation } from "./useRotation";
-import { usePanning } from "./usePanning";
-import { usePageManagement } from "./usePageManagement";
-import { cn } from "../../utils/cn";
+import { IconButton, ButtonGroup, Tooltip } from "@material-tailwind/react"
+import { ModalPanel } from "../ModalPanel"
+import ExpandIcon from "../icons/ExpandIcon"
+import { Icon } from "@iconify/react"
+import { ChangeEvent, useEffect, useState } from "react"
+import { useZoom } from "./useZoom"
+import { useRotation } from "./useRotation"
+import { usePanning } from "./usePanning"
+import { usePageManagement } from "./usePageManagement"
+import { cn } from "../../utils/cn"
 
 interface ImageViewerProps {
-  className?: string;
-  documentUrl?: string;
-  onClose: () => void;
-  totalPages: number;
-  getImageSrc: (page: number) => string | Promise<string>;
-  title?: string;
+  className?: string
+  documentUrl?: string
+  onClose: () => void
+  totalPages: number
+  getImageSrc: (page: number) => string | Promise<string>
+  title?: string
 }
 
 export const ImageViewer = ({
@@ -26,33 +26,33 @@ export const ImageViewer = ({
   documentUrl,
   title = "PDF Viewer",
 }: ImageViewerProps) => {
-  const [zoom, zoomActions] = useZoom();
-  const [rotation, rotationActions] = useRotation();
-  const [{ pan, isDragging }, panActions] = usePanning();
-  const [{ currentPage }, pageActions] = usePageManagement(totalPages);
+  const [zoom, zoomActions] = useZoom()
+  const [rotation, rotationActions] = useRotation()
+  const [{ pan, isDragging }, panActions] = usePanning()
+  const [{ currentPage }, pageActions] = usePageManagement(totalPages)
   const [imageSrc, setImageSrc] = useState<string>(() => {
-    const initialResult = getImageSrc(currentPage);
-    return typeof initialResult === "string" ? initialResult : "";
-  });
+    const initialResult = getImageSrc(currentPage)
+    return typeof initialResult === "string" ? initialResult : ""
+  })
 
   useEffect(() => {
-    let isActive = true;
+    let isActive = true
 
     const loadImage = async () => {
-      const result = getImageSrc(currentPage);
-      const resolvedSrc = await Promise.resolve(result);
+      const result = getImageSrc(currentPage)
+      const resolvedSrc = await Promise.resolve(result)
 
       if (isActive) {
-        setImageSrc(resolvedSrc);
+        setImageSrc(resolvedSrc)
       }
-    };
+    }
 
-    void loadImage();
+    void loadImage()
 
     return () => {
-      isActive = false;
-    };
-  }, [currentPage, getImageSrc]);
+      isActive = false
+    }
+  }, [currentPage, getImageSrc])
 
   const rightButtons = (
     <IconButton variant="text" color="gray">
@@ -60,7 +60,7 @@ export const ImageViewer = ({
         <ExpandIcon className="size-4" />
       </a>
     </IconButton>
-  );
+  )
 
   return (
     <div className={cn("shadow rounded-t-lg flex flex-col h-full", className)}>
@@ -68,8 +68,8 @@ export const ImageViewer = ({
         {title}
       </ModalPanel.Header>
 
-      <div className="flex-1 grid">
-        <div className="grid relative">
+      <div className="flex flex-col h-full justify-between">
+        <div className="grid relative h-full">
           <div
             className="overflow-hidden col-start-1 row-start-1 bg-gray-200 h-full relative"
             onMouseMove={panActions.handleMouseMove}
@@ -120,8 +120,8 @@ export const ImageViewer = ({
                 <button
                   className="!bg-white text-center cursor-pointer w-[60px]"
                   onClick={() => {
-                    zoomActions.reset();
-                    panActions.reset();
+                    zoomActions.reset()
+                    panActions.reset()
                   }}
                 >
                   {zoom}%
@@ -169,9 +169,9 @@ export const ImageViewer = ({
                 className="bg-white pl-4 flex items-center w-[50px] text-center focus:outline-none w-[60px]"
                 value={currentPage}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const page = parseInt(e.target.value);
+                  const page = parseInt(e.target.value)
                   if (!isNaN(page)) {
-                    pageActions.goToPage(page);
+                    pageActions.goToPage(page)
                   }
                 }}
                 type="number"
@@ -195,5 +195,5 @@ export const ImageViewer = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
