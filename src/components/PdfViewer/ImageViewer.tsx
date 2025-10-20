@@ -11,6 +11,7 @@ import { cn } from "../../utils/cn"
 
 interface ImageViewerProps {
   className?: string
+  canvasClassName?: string
   documentUrl?: string
   onClose: () => void
   totalPages: number
@@ -20,6 +21,7 @@ interface ImageViewerProps {
 
 export const ImageViewer = ({
   className,
+  canvasClassName,
   onClose,
   totalPages,
   getImageSrc,
@@ -71,7 +73,7 @@ export const ImageViewer = ({
       <div className="flex flex-col h-full justify-between">
         <div className="grid relative h-full">
           <div
-            className="overflow-hidden col-start-1 row-start-1 bg-gray-200 h-full relative"
+            className={`${canvasClassName} overflow-hidden col-start-1 row-start-1 bg-gray-200 h-full relative`}
             onMouseMove={panActions.handleMouseMove}
             onMouseUp={panActions.handleMouseUp}
             onMouseLeave={panActions.handleMouseUp}
