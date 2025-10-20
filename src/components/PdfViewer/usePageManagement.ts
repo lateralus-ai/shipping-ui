@@ -1,29 +1,32 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback } from "react"
 
-export const usePageManagement = (initialTotalPages: number = 0) => {
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(initialTotalPages);
+export const usePageManagement = (
+  initialTotalPages: number = 0,
+  initialPage: number = 1
+) => {
+  const [currentPage, setCurrentPage] = useState<number>(initialPage)
+  const [totalPages, setTotalPages] = useState<number>(initialTotalPages)
 
   const actions = {
     nextPage: useCallback(() => {
       setCurrentPage((prev) => {
-        return prev < totalPages ? prev + 1 : prev;
-      });
+        return prev < totalPages ? prev + 1 : prev
+      })
     }, [totalPages]),
     prevPage: useCallback(() => {
-      setCurrentPage((prev) => Math.max(prev - 1, 1));
+      setCurrentPage((prev) => Math.max(prev - 1, 1))
     }, []),
     goToPage: useCallback(
       (page: number) => {
-        setCurrentPage(() => Math.max(1, Math.min(page, totalPages)));
+        setCurrentPage(() => Math.max(1, Math.min(page, totalPages)))
       },
-      [totalPages],
+      [totalPages]
     ),
     setTotalPages: useCallback((pages: number) => {
-      setTotalPages(pages);
-      setCurrentPage((prev) => Math.min(prev, pages));
+      setTotalPages(pages)
+      setCurrentPage((prev) => Math.min(prev, pages))
     }, []),
-  };
+  }
 
-  return [{ currentPage, totalPages }, actions] as const;
-};
+  return [{ currentPage, totalPages }, actions] as const
+}

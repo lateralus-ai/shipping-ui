@@ -14,6 +14,7 @@ interface ImageViewerProps {
   canvasClassName?: string
   documentUrl?: string
   mainCanvasClassname?: string
+  initialPage?: number
   onClose: () => void
   totalPages: number
   getImageSrc: (page: number) => string | Promise<string>
@@ -24,6 +25,7 @@ export const ImageViewer = ({
   className,
   canvasClassName,
   mainCanvasClassname,
+  initialPage = 1,
   onClose,
   totalPages,
   getImageSrc,
@@ -33,7 +35,10 @@ export const ImageViewer = ({
   const [zoom, zoomActions] = useZoom()
   const [rotation, rotationActions] = useRotation()
   const [{ pan, isDragging }, panActions] = usePanning()
-  const [{ currentPage }, pageActions] = usePageManagement(totalPages)
+  const [{ currentPage }, pageActions] = usePageManagement(
+    totalPages,
+    initialPage
+  )
   const [imageSrc, setImageSrc] = useState<string>(() => {
     const initialResult = getImageSrc(currentPage)
     return typeof initialResult === "string" ? initialResult : ""

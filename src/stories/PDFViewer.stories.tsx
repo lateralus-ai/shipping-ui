@@ -7,6 +7,7 @@ const StoryPage = () => {
       <div className="w-[600px] h-[800px] p-8">
         <ImageViewer
           totalPages={100}
+          initialPage={10}
           mainCanvasClassname="max-h-[650px]"
           title="Image Viewer"
           getImageSrc={(page) =>
