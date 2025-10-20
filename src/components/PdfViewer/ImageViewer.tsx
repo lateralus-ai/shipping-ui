@@ -73,7 +73,7 @@ export const ImageViewer = ({
       <div className="flex flex-col h-full justify-between">
         <div className="grid relative h-full">
           <div
-            className={`${canvasClassName} overflow-hidden col-start-1 row-start-1 bg-gray-200 h-full relative`}
+            className={`overflow-hidden col-start-1 row-start-1 bg-gray-200 h-full relative`}
             onMouseMove={panActions.handleMouseMove}
             onMouseUp={panActions.handleMouseUp}
             onMouseLeave={panActions.handleMouseUp}
@@ -108,7 +108,9 @@ export const ImageViewer = ({
             </div>
           </div>
 
-          <div className="col-start-1 row-start-1 self-end p-4 flex gap-2 justify-between w-full z-10">
+          <div
+            className={`${canvasClassName} col-start-1 row-start-1 self-end p-4 flex gap-2 justify-between w-full z-10`}
+          >
             <ButtonGroup className="divide-x-0 h-[52px]">
               <IconButton
                 variant="filled"
