@@ -11,6 +11,8 @@ import {
   ChangeEvent,
   useMemo,
   MouseEvent as ReactMouseEvent,
+  useRef,
+  useEffect,
 } from "react"
 import { useZoom } from "./useZoom"
 import { useRotation } from "./useRotation"
@@ -37,6 +39,24 @@ export const PdfViewer = ({
   const [rotation, rotationActions] = useRotation()
   const [{ currentPage, totalPages }, pageActions] = usePageManagement()
   const [{ pan, isDragging }, panActions] = usePanning()
+  const [scale, setScale] = useState(1)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const calculateScale = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth
+
+        // Assuming standard PDF page width is ~612 points (8.5 inches)
+        const baseScale = containerWidth / 612
+        setScale(baseScale * (zoom / 100))
+      }
+    }
+
+    calculateScale()
+    window.addEventListener("resize", calculateScale)
+    return () => window.removeEventListener("resize", calculateScale)
+  }, [zoom])
 
   const handleOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     if (onOpen) {
@@ -68,7 +88,10 @@ export const PdfViewer = ({
   )
 
   return (
-    <div className={cn("shadow rounded-t-lg flex flex-col h-full", className)}>
+    <div
+      className={cn("shadow rounded-t-lg flex flex-col h-full", className)}
+      ref={containerRef}
+    >
       <ModalPanel.Header onClose={onClose} right={rightButtons}>
         {title}
       </ModalPanel.Header>
@@ -102,7 +125,7 @@ export const PdfViewer = ({
               onLoadSuccess={({ numPages }) => {
                 pageActions.setTotalPages(numPages)
               }}
-              scale={zoom / 100}
+              scale={scale}
               rotate={rotation}
             >
               <Page
