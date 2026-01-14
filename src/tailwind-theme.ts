@@ -17,7 +17,7 @@ export const theme = {
       {
         lineHeight: "34px",
         letterSpacing: "-0.02em",
-        fontWeight: "500",
+        fontWeight: "600",
       },
     ],
     subheader: [
