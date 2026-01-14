@@ -5,6 +5,21 @@ export const theme = {
     signature: ["Alex Brush", "Lucida Handwriting", "cursive"],
   },
   fontSize: {
+    title: [
+      "28px",
+      {
+        lineHeight: "34px",
+        letterSpacing: "-0.02em",
+      },
+    ],
+    "title-em": [
+      "28px",
+      {
+        lineHeight: "34px",
+        letterSpacing: "-0.02em",
+        fontWeight: "500",
+      },
+    ],
     subheader: [
       "18px",
       {
@@ -23,14 +38,14 @@ export const theme = {
     body: [
       "16px",
       {
-        lineHeight: "28px",
+        lineHeight: "24px",
         letterSpacing: "-0.01em",
       },
     ],
     "body-em": [
       "16px",
       {
-        lineHeight: "28px",
+        lineHeight: "24px",
         letterSpacing: "-0.01em",
         fontWeight: "500",
       },
