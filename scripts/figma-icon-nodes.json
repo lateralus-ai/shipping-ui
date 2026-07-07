@@ -1,0 +1,272 @@
+{
+  "fileKey": "2Up8R8hZw2eivY9crqf5dz",
+  "icons": {
+    "attachment": {
+      "outline": { "large": "8:196", "small": "9:293" }
+    },
+    "microphone": {
+      "outline": { "large": "8:195", "small": "9:294" }
+    },
+    "add": {
+      "outline": { "large": "9:793", "small": "9:783" },
+      "filled": { "large": "9:819", "small": "9:826" }
+    },
+    "plus": {
+      "outline": { "large": "974:6780", "small": "974:6784" }
+    },
+    "done": {
+      "outline": { "large": "6355:154748", "small": "6355:154752" }
+    },
+    "minus": {
+      "outline": { "large": "1481:33862", "small": "1481:33866" }
+    },
+    "send": {
+      "outline": { "large": "226:4622", "small": "7480:105371" },
+      "filled": { "large": "226:4621", "small": "7480:105373" }
+    },
+    "search": {
+      "outline": { "large": "91:6181", "small": "6117:157164" }
+    },
+    "star": {
+      "outline": { "large": "250:5003", "small": "250:6004" }
+    },
+    "heart": {
+      "outline": { "large": "389:9528", "small": "389:9530" }
+    },
+    "analytics": {
+      "outline": { "large": "98:2266", "small": "7467:86274" }
+    },
+    "trash": {
+      "outline": { "large": "97:4488", "small": "974:6663" }
+    },
+    "chat": {
+      "outline": { "large": "9:910", "small": "97:4298" }
+    },
+    "chatPro": {
+      "outline": { "large": "448:7106", "small": "448:7108" }
+    },
+    "filters": {
+      "outline": { "large": "389:10522", "small": "389:10524" }
+    },
+    "pen": {
+      "outline": { "large": "389:9547", "small": "95:2084" }
+    },
+    "tick": {
+      "outline": { "large": "6000:133113", "small": "97:3107", "xs": "4555:74553" }
+    },
+    "document": {
+      "outline": { "large": "4263:57691", "small": "1481:31046" }
+    },
+    "sparkles": {
+      "outline": { "small": "2832:44427" }
+    },
+    "expand": {
+      "outline": { "small": "1808:34969" }
+    },
+    "speaker": {
+      "outline": { "small": "95:2245" }
+    },
+    "copy": {
+      "outline": { "small": "95:2095" }
+    },
+    "date": {
+      "outline": { "small": "994:20407" }
+    },
+    "refresh": {
+      "outline": { "small": "3259:58731" }
+    },
+    "activity": {
+      "outline": { "large": "9:915", "small": "7467:90168" }
+    },
+    "menu": {
+      "outline": { "large": "5599:83065" }
+    },
+    "invite": {
+      "outline": { "large": "389:9561", "small": "7500:90976" }
+    },
+    "report": {
+      "outline": { "large": "1249:12636" }
+    },
+    "sidebar": {
+      "outline": { "small": "2831:37441" },
+      "variants": {
+        "expanded": { "outline": { "small": "2831:37441" } },
+        "collapsed": { "outline": { "small": "2831:37440" } }
+      }
+    },
+    "download": {
+      "outline": { "large": "1249:12683", "small": "1250:13723" }
+    },
+    "upload": {
+      "outline": { "large": "5638:112606", "small": "5638:112612" }
+    },
+    "preview": {
+      "outline": { "large": "1250:12183", "small": "1250:13492" }
+    },
+    "fixes": {
+      "outline": { "large": "977:11165", "small": "5310:72354" }
+    },
+    "issues": {
+      "outline": { "large": "977:11178" }
+    },
+    "more": {
+      "outline": { "large": "16:880", "small": "16:873" }
+    },
+    "bulb": {
+      "outline": { "large": "713:12714", "small": "713:12718" },
+      "filled": { "large": "713:12761" }
+    },
+    "ship": {
+      "outline": { "large": "16:1376", "small": "76:1462" },
+      "variants": {
+        "smart": { "outline": { "large": "2961:28352", "small": "2961:35012" } }
+      }
+    },
+    "person": {
+      "outline": { "large": "448:7250", "small": "448:7254" }
+    },
+    "archive": {
+      "outline": { "large": "389:11282", "small": "389:11284" }
+    },
+    "logOut": {
+      "outline": { "large": "3003:18984", "small": "5066:92988" }
+    },
+    "settings": {
+      "outline": { "large": "3217:49355", "small": "5102:84412" }
+    },
+    "tasks": {
+      "outline": { "large": "4263:52964", "small": "7505:100751" }
+    },
+    "workflow": {
+      "outline": { "large": "4365:71406", "small": "5599:42026" },
+      "variants": {
+        "preparation": { "outline": { "large": "6285:158518" } },
+        "response": { "outline": { "large": "6285:158517" } },
+        "technical": { "outline": { "large": "6285:159301" } },
+        "inspection": { "outline": { "large": "4365:72408" } }
+      }
+    },
+    "form": {
+      "outline": { "large": "5995:126931" },
+      "variants": {
+        "risk": { "outline": { "large": "5995:126931" } },
+        "accident": { "outline": { "large": "6313:57338" } },
+        "rootCause": { "outline": { "large": "6313:57482" } }
+      }
+    },
+    "approval": {
+      "outline": { "large": "6000:134421" },
+      "variants": {
+        "approved": { "outline": { "large": "6000:134421" } },
+        "partly": { "outline": { "large": "5999:129434" } }
+      }
+    },
+    "forms": {
+      "outline": { "large": "5310:124956", "small": "7505:100365" },
+      "variants": {
+        "pending": { "outline": { "large": "6112:145769" } },
+        "reviewed": { "outline": { "large": "5310:124956", "small": "7505:100365" } },
+        "completed": { "outline": { "large": "6112:145780" } }
+      }
+    },
+    "book": {
+      "outline": { "large": "4263:53258", "small": "7467:88385" }
+    },
+    "mention": {
+      "outline": { "large": "4085:39526", "small": "7480:106646" }
+    },
+    "actions": {
+      "outline": { "large": "5470:114499" }
+    },
+    "critical": {
+      "outline": { "large": "5065:90510", "small": "7533:94887" }
+    },
+    "information": {
+      "outline": { "large": "5708:102177", "small": "5708:110673" }
+    },
+    "caution": {
+      "outline": { "large": "5470:115049" }
+    },
+    "folder": {
+      "outline": { "large": "6338:151016", "small": "6338:151035" }
+    },
+    "folderStarred": {
+      "outline": { "large": "6338:151040", "small": "6338:151042" }
+    },
+    "quality": {
+      "outline": { "large": "5707:98408" }
+    },
+    "location": {
+      "outline": { "large": "5065:90534" }
+    },
+    "users": {
+      "outline": { "large": "3217:49523", "small": "7500:94163" }
+    },
+    "undo": {
+      "outline": { "large": "4580:101974", "small": "7535:33327" }
+    },
+    "spinner": {
+      "outline": { "large": "6348:153800" }
+    },
+    "clock": {
+      "outline": { "large": "6348:153841" }
+    },
+    "gap": {
+      "outline": { "large": "6417:75674" }
+    },
+    "defectReport": {
+      "outline": { "large": "3062:47875", "small": "3062:47882" }
+    },
+    "task": {
+      "outline": { "large": "4263:59353", "small": "4263:59360" }
+    },
+    "file": {
+      "outline": { "large": "5465:109232" },
+      "variants": {
+        "csv": { "outline": { "large": "5465:109234" } },
+        "doc": { "outline": { "large": "5465:109233" } },
+        "pdf": { "outline": { "large": "5465:109232" } },
+        "xls": { "outline": { "large": "5465:109231" } }
+      }
+    },
+    "reportActions": {
+      "outline": { "large": "77:675" },
+      "variants": {
+        "view": { "outline": { "large": "77:675" } },
+        "edit": { "outline": { "large": "77:674" } }
+      }
+    },
+    "checkbox": {
+      "outline": { "large": "969:16913" },
+      "variants": {
+        "unselected": { "outline": { "large": "969:16911" } },
+        "unselectedHover": { "outline": { "large": "969:16910" } },
+        "selected": { "outline": { "large": "969:16913" } },
+        "multi": { "outline": { "large": "4561:75845" } },
+        "selectedHover": { "outline": { "large": "969:16912" } }
+      }
+    },
+    "status": {
+      "outline": { "small": "16:901" },
+      "variants": {
+        "open": { "outline": { "small": "16:901" } },
+        "closed": { "outline": { "small": "16:1089" } }
+      }
+    },
+    "clear": {
+      "outline": { "large": "91:4667", "small": "91:4666", "xs": "4580:78288" },
+      "filled": { "large": "4664:91383", "small": "91:8829", "xs": "4580:78573" }
+    }
+  },
+  "arrow": {
+    "left": { "large": "3220:50655" },
+    "right": { "large": "3220:50667" }
+  },
+  "chevron": {
+    "right": { "small": "9:938" },
+    "left": { "small": "1481:33783" },
+    "down": { "small": "9:939" },
+    "up": { "small": "3259:58841" },
+    "upDown": { "small": "91:6083" }
+  }
+}

@@ -1,32 +1,33 @@
-import { IconButton, ButtonGroup, Tooltip } from "@material-tailwind/react"
-import { Document, Page, pdfjs } from "react-pdf"
-import { ModalPanel } from "../ModalPanel"
-import ExpandIcon from "../icons/ExpandIcon"
-import { Icon } from "@iconify/react"
-import { cn } from "../../utils/cn"
-import "react-pdf/dist/Page/AnnotationLayer.css"
-import "react-pdf/dist/Page/TextLayer.css"
+import { Document, Page, pdfjs } from "react-pdf";
+import { ModalPanel } from "../ModalPanel";
+import { IconButton } from "../../primitives/IconButton";
+import { ChevronIcon, MinusIcon, PlusIcon, ExpandIcon } from "../../icons";
+import { cn } from "../../utils/cn";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
 import {
   useState,
-  ChangeEvent,
-  useMemo,
-  MouseEvent as ReactMouseEvent,
+  type ChangeEvent,
   useRef,
   useEffect,
-} from "react"
-import { useZoom } from "./useZoom"
-import { useRotation } from "./useRotation"
-import { usePageManagement } from "./usePageManagement"
-import { usePanning } from "./usePanning"
+  type MouseEvent as ReactMouseEvent,
+} from "react";
+import { useZoom } from "./useZoom";
+import { useRotation } from "./useRotation";
+import { usePageManagement } from "./usePageManagement";
+import { usePanning } from "./usePanning";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-interface PdfViewerProps extends React.HTMLProps<HTMLDivElement> {
-  onClose: () => void
-  src: string
-  title?: string
-  onOpen?: (event: ReactMouseEvent<HTMLButtonElement>) => void
-}
+type PdfViewerProps = React.HTMLProps<HTMLDivElement> & {
+  onClose: () => void;
+  src: string;
+  title?: string;
+  onOpen?: (event: ReactMouseEvent<HTMLButtonElement>) => void;
+};
+
+const toolbarButtonClass =
+  "flex h-8 w-8 items-center justify-center rounded-control border border-divider-primary bg-white text-display-on-light-secondary hover:bg-background-secondary disabled:opacity-50";
 
 export const PdfViewer = ({
   onClose,
@@ -35,80 +36,58 @@ export const PdfViewer = ({
   className,
   onOpen,
 }: PdfViewerProps) => {
-  const [zoom, zoomActions] = useZoom()
-  const [rotation, rotationActions] = useRotation()
-  const [{ currentPage, totalPages }, pageActions] = usePageManagement()
-  const [{ pan, isDragging }, panActions] = usePanning()
-  const [scale, setScale] = useState(1)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [zoom, zoomActions] = useZoom();
+  const [rotation, rotationActions] = useRotation();
+  const [{ currentPage, totalPages }, pageActions] = usePageManagement();
+  const [{ pan, isDragging }, panActions] = usePanning();
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const calculateScale = () => {
-      if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth
+      if (!containerRef.current) return;
+      const containerWidth = containerRef.current.offsetWidth;
+      const baseScale = containerWidth / 612;
+      setScale(baseScale * (zoom / 100));
+    };
 
-        // Assuming standard PDF page width is ~612 points (8.5 inches)
-        const baseScale = containerWidth / 612
-        setScale(baseScale * (zoom / 100))
-      }
-    }
-
-    calculateScale()
-    window.addEventListener("resize", calculateScale)
-    return () => window.removeEventListener("resize", calculateScale)
-  }, [zoom])
+    calculateScale();
+    window.addEventListener("resize", calculateScale);
+    return () => window.removeEventListener("resize", calculateScale);
+  }, [zoom]);
 
   const handleOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
-    if (onOpen) {
-      console.debug("[PdfViewer] onOpen callback triggered", {
-        hasHandler: true,
-      })
-      onOpen(event)
-    } else {
-      console.debug("[PdfViewer] open button clicked", {
-        hasHandler: false,
-      })
+    onOpen?.(event);
+    if (event.defaultPrevented || !src) {
+      event.preventDefault();
+      return;
     }
-    if (event.defaultPrevented) {
-      return
-    }
-
-    if (!src) {
-      event.preventDefault()
-      return
-    }
-
-    window.open(src, "_blank", "noopener,noreferrer")
-  }
+    window.open(src, "_blank", "noopener,noreferrer");
+  };
 
   const rightButtons = (
-    <IconButton variant="text" color="gray" onClick={handleOpen}>
-      <ExpandIcon className="size-4" />
+    <IconButton hierarchy="quaternary" size="small" aria-label="Open in new tab" onClick={handleOpen}>
+      <ExpandIcon size="small" />
     </IconButton>
-  )
+  );
 
   return (
-    <div
-      className={cn("shadow rounded-t-lg flex flex-col h-full", className)}
-      ref={containerRef}
-    >
+    <div className={cn("flex h-full flex-col rounded-t-lg shadow-raise2", className)} ref={containerRef}>
       <ModalPanel.Header onClose={onClose} right={rightButtons}>
         {title}
       </ModalPanel.Header>
 
-      <div className="grid grow h-full overflow-hidden shadow">
+      <div className="grid h-full grow overflow-hidden shadow">
         <div
           className={cn(
-            "col-start-1 row-start-1 bg-gray-200 h-full overflow-hidden select-none p-8 flex justify-center items-center mt-8",
-            isDragging ? "cursor-grabbing" : "cursor-grab"
+            "col-start-1 row-start-1 mt-8 flex h-full items-center justify-center overflow-hidden bg-background-tertiary p-8 select-none",
+            isDragging ? "cursor-grabbing" : "cursor-grab",
           )}
           onMouseDown={panActions.handleMouseDown}
           onMouseMove={panActions.handleMouseMove}
           onMouseUp={panActions.handleMouseUp}
           onMouseLeave={panActions.handleMouseUp}
-          style={{
-            userSelect: "none",
-          }}
+          style={{ userSelect: "none" }}
         >
           <div
             style={{
@@ -122,111 +101,80 @@ export const PdfViewer = ({
               externalLinkRel="noopener noreferrer"
               externalLinkTarget="_blank"
               file={src}
-              onLoadSuccess={({ numPages }) => {
-                pageActions.setTotalPages(numPages)
-              }}
+              onLoadSuccess={({ numPages }) => pageActions.setTotalPages(numPages)}
               scale={scale}
               rotate={rotation}
             >
-              <Page
-                pageNumber={currentPage}
-                renderTextLayer={true}
-                renderAnnotationLayer={true}
-              />
+              <Page pageNumber={currentPage} renderTextLayer renderAnnotationLayer />
             </Document>
           </div>
         </div>
 
-        <div className="col-start-1 row-start-1 self-start flex justify-between w-full z-10 flex-wrap items-center gap-3 bg-gray-50 p-2 shadow">
-          <ButtonGroup className="divide-x-1 gap-1">
-            <IconButton
-              variant="filled"
-              color="white"
-              className="w-8 h-8 rounded border border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-200 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 focus:outline-none max-w-auto"
+        <div className="z-10 col-start-1 row-start-1 flex w-full flex-wrap items-center justify-between gap-3 self-start bg-background-secondary p-2 shadow">
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              className={toolbarButtonClass}
               onClick={pageActions.prevPage}
               disabled={currentPage === 1}
+              aria-label="Previous page"
             >
-              <Icon icon="lucide:chevron-left" />
-            </IconButton>
+              <ChevronIcon direction="left" size="small" />
+            </button>
             <input
-              className="w-14 h-8 rounded border !border-gray-300 bg-white px-1 py-1 text-center text-sm text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              className="h-8 w-14 rounded-control border border-divider-primary bg-white px-1 py-1 text-center text-caption-2 text-display-on-light-primary"
               value={currentPage}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const page = parseInt(e.target.value)
-                if (!isNaN(page)) {
-                  pageActions.goToPage(page)
-                }
+                const page = parseInt(e.target.value, 10);
+                if (!isNaN(page)) pageActions.goToPage(page);
               }}
               type="number"
               min="1"
               max={totalPages}
             />
-            <div className="flex items-center bg-transparent px-2">
-              of {totalPages}
-            </div>
-            <IconButton
-              variant="filled"
-              color="white"
-              className="w-8 h-8 rounded border !border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-200 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 focus:outline-none max-w-auto"
+            <span className="px-2 text-caption-2 text-display-on-light-secondary">of {totalPages}</span>
+            <button
+              type="button"
+              className={toolbarButtonClass}
               onClick={pageActions.nextPage}
               disabled={currentPage === totalPages}
+              aria-label="Next page"
             >
-              <Icon icon="lucide:chevron-right" />
-            </IconButton>
-          </ButtonGroup>
-          <div className="flex gap-2 items-center">
-            <ButtonGroup className="divide-x-1 gap-1">
-              <IconButton
-                variant="filled"
-                color="white"
-                className="w-8 h-8 rounded border !border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-200 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 focus:outline-none max-w-auto"
-                onClick={zoomActions.zoomOut}
-              >
-                <Icon icon="lucide:minus" />
-              </IconButton>
-              <Tooltip content="Click to reset zoom and pan">
-                <button
-                  className="w-14 h-8 rounded border !border-gray-300 bg-white px-1 py-1 text-center text-sm text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                  onClick={() => {
-                    zoomActions.reset()
-                    panActions.reset()
-                  }}
-                >
-                  {zoom}%
-                </button>
-              </Tooltip>
-              <IconButton
-                variant="filled"
-                color="white"
-                className="w-8 h-8 rounded border !border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-200 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 focus:outline-none max-w-auto"
-                onClick={zoomActions.zoomIn}
-              >
-                <Icon icon="lucide:plus" />
-              </IconButton>
-            </ButtonGroup>
-            <div className="h-6 w-px bg-gray-300 dark:bg-gray-600"></div>
-            <ButtonGroup className="divide-x-1 gap-1">
-              {/* <IconButton
-                variant="filled"
-                color="white"
-                className="w-8 h-8 rounded border !border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-200 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 focus:outline-none max-w-auto"
-                onClick={rotationActions.rotateClockwise}
-              >
-                <Icon icon="lucide:iteration-cw" />
-              </IconButton> */}
+              <ChevronIcon direction="right" size="small" />
+            </button>
+          </div>
 
-              <IconButton
-                variant="filled"
-                color="white"
-                className="w-8 h-8 rounded border !border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-200 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 focus:outline-none max-w-auto"
-                onClick={rotationActions.rotateCounterClockwise}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
+              <button type="button" className={toolbarButtonClass} onClick={zoomActions.zoomOut} aria-label="Zoom out">
+                <MinusIcon size="small" />
+              </button>
+              <button
+                type="button"
+                className="h-8 w-14 rounded-control border border-divider-primary bg-white text-center text-caption-2 text-display-on-light-primary hover:bg-background-secondary"
+                onClick={() => {
+                  zoomActions.reset();
+                  panActions.reset();
+                }}
               >
-                <Icon icon="lucide:iteration-ccw" />
-              </IconButton>
-            </ButtonGroup>
+                {zoom}%
+              </button>
+              <button type="button" className={toolbarButtonClass} onClick={zoomActions.zoomIn} aria-label="Zoom in">
+                <PlusIcon size="small" />
+              </button>
+            </div>
+            <div className="h-6 w-px bg-divider-primary" />
+            <button
+              type="button"
+              className={toolbarButtonClass}
+              onClick={rotationActions.rotateCounterClockwise}
+              aria-label="Rotate counter-clockwise"
+            >
+              <ChevronIcon direction="left" size="small" />
+            </button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -25,3 +25,18 @@ dist-ssr
 
 # Storybook
 storybook-static
+
+# Playwright
+test-results/
+playwright-report/
+tests/visual/figma-baselines/icons-grid-actual.png
+tests/visual/figma-baselines/icons-grid-diff.png
+tests/visual/figma-baselines/icons-grid-mask.png
+tests/visual/figma-baselines/icons-grid-report.json
+tests/visual/figma-baselines/icons-grid-failures.json
+
+# Figma icon extraction cache (paths committed in src/icons/icons-data.ts)
+scripts/.figma-svgs/
+scripts/.figma-icons-full.png
+scripts/.figma-mcp-handoff.json
+scripts/.figma-icons-live-metadata.xml

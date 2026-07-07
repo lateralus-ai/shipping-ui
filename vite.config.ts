@@ -9,7 +9,7 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       include: ["src/**/*"],
-      exclude: ["**/*.stories.tsx"],
+      exclude: ["**/*.stories.tsx", "src/stories/**"],
     }),
   ],
   build: {
@@ -23,9 +23,13 @@ export default defineConfig({
       external: [
         "react",
         "react-dom",
-        "@iconify/react",
-        "@material-tailwind/react",
         "react-textarea-autosize",
+        "react-pdf",
+        "react-router",
+        "docx-preview",
+        "docxtemplater",
+        "pizzip",
+        "react-hotkeys-hook",
       ],
       output: {
         globals: {

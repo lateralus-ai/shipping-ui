@@ -1,43 +1,48 @@
-import React, { useState } from "react";
-import "../styles/tabs.css";
-import {
-  Tabs,
-  TabPanel,
-  TabsBody,
-  TabsHeader,
-  Tab,
-} from "@material-tailwind/react";
-import { Icon } from "@iconify/react";
 import { cn } from "../utils/cn";
-import { SettingsIcon } from "./icons/SettingsIcon";
+import { Tab } from "./Tab";
 
-interface Tab {
-  id: string;
+export type TabsType = "tabs" | "pills";
+
+export type TabsItem = {
   label: string;
-  content: React.ReactNode;
-}
-
-interface TabsProps {
-  tabs: Tab[];
-  defaultTab?: string;
-}
-
-export const TabsContainer: React.FC<TabsProps> = () => {
-  return (
-    <Tabs className="w-[800px]">
-      <TabsHeader>
-        <Tab value="chats">Chats</Tab>
-        <Tab value="issues">Issues</Tab>
-
-        <button className="cursor-pointer mb-2 ml-auto rounded p-1 hover:bg-gray-100">
-          <SettingsIcon className="size-4" />
-        </button>
-      </TabsHeader>
-
-      <TabsBody>
-        <TabPanel value="chats">ChatsPanel</TabPanel>
-        <TabPanel value="issues">IssuesPanel</TabPanel>
-      </TabsBody>
-    </Tabs>
-  );
 };
+
+export type TabsProps = {
+  type?: TabsType;
+  items: TabsItem[];
+  activeIndex: number;
+  onChange: (index: number) => void;
+  className?: string;
+};
+
+export const Tabs = ({
+  type = "tabs",
+  items,
+  activeIndex,
+  onChange,
+  className,
+}: TabsProps) => (
+  <div
+    role="tablist"
+    className={cn(
+      "flex gap-1",
+      type === "pills" && "rounded-control bg-background-secondary p-1",
+      className,
+    )}
+  >
+    {items.map((item, index) => (
+      <Tab
+        key={item.label}
+        label={item.label}
+        state={index === activeIndex ? "active" : "idle"}
+        onClick={() => onChange(index)}
+        className={cn(
+          type === "pills" && "rounded-control px-3 py-1.5",
+          type === "pills" &&
+            index === activeIndex &&
+            "bg-white shadow-raise1 data-[state=active]:after:hidden",
+        )}
+      />
+    ))}
+  </div>
+);

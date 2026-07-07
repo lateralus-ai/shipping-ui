@@ -1,0 +1,18 @@
+{
+    "mcpServers": {
+      "notion": {
+        "url": "https://mcp.notion.com/mcp"
+      },
+      "asana": {
+        "url": "https://mcp.asana.com/v2/mcp",
+        "auth": {
+          "CLIENT_ID": "${env:ASANA_CLIENT_ID}",
+          "CLIENT_SECRET": "${env:ASANA_CLIENT_SECRET}"
+        }
+      },
+      "FigmaRemoteMcp": {
+        "url": "https://mcp.figma.com/mcp"
+      }
+    }
+  }
+  

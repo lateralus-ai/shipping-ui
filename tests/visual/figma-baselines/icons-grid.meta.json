@@ -1,0 +1,14 @@
+{
+  "fileKey": "2Up8R8hZw2eivY9crqf5dz",
+  "nodeId": "12:1251",
+  "crop": {
+    "x": 0,
+    "y": 297,
+    "width": 710,
+    "height": 1536
+  },
+  "metadataHash": "486d83eadca6034a1f7f433b97f17e0b69131484a7e22880e00ea56a25da9aeb",
+  "metadataFile": "tests\\visual\\figma-baselines\\icons-grid.metadata.xml",
+  "updatedAt": "2026-07-07T21:27:43.211Z",
+  "source": "figma-mcp"
+}

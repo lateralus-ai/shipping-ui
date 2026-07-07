@@ -1,2 +1,142 @@
-@import url(https://tools-static.wmflabs.org/fontcdn/css?family=Work+Sans:400,500,600);
-@import url(https://tools-static.wmflabs.org/fontcdn/css?family=Alex+Brush);
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+
+:root {
+  /* Color scales */
+  --grey-50: #fdfdfc;
+  --grey-100: #f4f2ea;
+  --grey-200: #e1ddce;
+  --grey-300: #bfb9a5;
+  --grey-400: #969080;
+  --grey-500: #6e6960;
+  --grey-600: #524e47;
+  --grey-700: #3a3733;
+  --grey-800: #312e2a;
+  --grey-900: #262420;
+  --white: #ffffff;
+
+  --green-50: #f5f8f2;
+  --green-100: #dde6d2;
+  --green-700: #304624;
+
+  --blue-50: #eef1f8;
+  --blue-100: #dae0ef;
+  --blue-400: #5274ae;
+  --blue-600: #154199;
+  --blue-700: #103480;
+
+  --red-100: #f0d3cc;
+  --red-300: #c97a6b;
+  --red-500: #a0392a;
+  --red-600: #802c20;
+  --red-700: #621f16;
+
+  --orange-50: #faf1de;
+  --orange-700: #5a3d0d;
+
+  --purple-100: #e2d9e8;
+  --purple-700: #3d2e4a;
+
+  /* Semantic: Action */
+  --action-primary-idle: var(--grey-900);
+  --action-primary-on-idle: var(--white);
+  --action-primary-hover: var(--blue-600);
+  --action-primary-on-hover: var(--white);
+  --action-primary-disabled: var(--grey-500);
+  --action-primary-on-disabled: var(--grey-200);
+
+  --action-secondary-idle: var(--grey-50);
+  --action-secondary-on-idle: var(--grey-900);
+  --action-secondary-hover: var(--grey-100);
+  --action-secondary-on-hover: var(--grey-900);
+  --action-secondary-disabled: var(--grey-50);
+  --action-secondary-on-disabled: var(--grey-400);
+
+  --action-tertiary-idle: var(--white);
+  --action-tertiary-on-idle: var(--blue-600);
+  --action-tertiary-hover: var(--blue-50);
+  --action-tertiary-on-hover: var(--blue-700);
+  --action-tertiary-disabled: var(--white);
+  --action-tertiary-on-disabled: var(--grey-400);
+
+  --action-quaternary-idle: var(--white);
+  --action-quaternary-on-idle: var(--grey-700);
+  --action-quaternary-hover: var(--grey-100);
+  --action-quaternary-on-hover: var(--grey-900);
+  --action-quaternary-disabled: var(--white);
+  --action-quaternary-on-disabled: var(--grey-400);
+
+  --action-destructive-idle: var(--red-500);
+  --action-destructive-on-idle: var(--white);
+  --action-destructive-hover: var(--red-700);
+  --action-destructive-on-hover: var(--white);
+  --action-destructive-disabled: var(--red-100);
+  --action-destructive-on-disabled: var(--red-300);
+
+  /* Semantic: Background */
+  --background-primary: var(--grey-50);
+  --background-secondary: var(--grey-100);
+  --background-tertiary: var(--grey-200);
+  --background-hover: var(--grey-900);
+  --background-selected: var(--grey-900);
+  --background-overlay: rgba(38, 36, 32, 0.5);
+
+  /* Semantic: Display */
+  --display-on-light-primary: var(--grey-900);
+  --display-on-light-secondary: var(--grey-700);
+  --display-on-light-tertiary: var(--grey-500);
+  --display-on-light-quaternary: var(--grey-400);
+  --display-on-dark-primary: var(--white);
+  --display-on-dark-secondary: var(--grey-200);
+  --display-on-dark-tertiary: var(--grey-400);
+  --display-on-dark-quaternary: var(--grey-500);
+
+  /* Semantic: Accent */
+  --accent-on-light: var(--blue-600);
+  --accent-on-dark: var(--blue-400);
+  --accent-bg-light: var(--blue-100);
+  --accent-bg-lighter: var(--blue-50);
+
+  /* Semantic: Divider */
+  --divider-primary: var(--grey-200);
+  --divider-secondary: var(--grey-300);
+
+  /* Semantic: Meta */
+  --meta-green: var(--green-100);
+  --meta-on-green: var(--green-700);
+  --meta-orange: var(--orange-50);
+  --meta-on-orange: var(--orange-700);
+  --meta-red: var(--red-100);
+  --meta-on-red: var(--red-600);
+  --meta-blue: var(--blue-100);
+  --meta-on-blue: var(--blue-700);
+  --meta-purple: var(--purple-100);
+  --meta-on-purple: var(--purple-700);
+
+  /* Semantic: Control */
+  --semantic-control: 8px;
+
+  /* Elevation */
+  --raise-1: 0 1px 2px rgba(38, 36, 32, 0.06), 0 1px 3px rgba(38, 36, 32, 0.04);
+  --raise-2: 0 2px 8px rgba(38, 36, 32, 0.08), 0 1px 2px rgba(38, 36, 32, 0.04);
+  --raise-3: 0 8px 24px rgba(38, 36, 32, 0.12), 0 2px 8px rgba(38, 36, 32, 0.06);
+
+  /* Legacy aliases for migration */
+  --text-primary: var(--display-on-light-primary);
+  --text-secondary: var(--display-on-light-secondary);
+  --text-tertiary: var(--display-on-light-tertiary);
+  --surface-primary: var(--background-primary);
+  --surface-secondary: var(--background-secondary);
+  --surface-hover: var(--background-secondary);
+  --border-light: var(--divider-primary);
+  --border-medium: var(--divider-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

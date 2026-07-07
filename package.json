@@ -30,6 +30,13 @@
     "build": "npx rimraf ./dist && vite build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "test:visual": "playwright test",
+    "test:visual:ci": "npm run build-storybook && playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "test:visual:icons": "node scripts/figma-icons-baseline.mjs --check && playwright test tests/visual/icons-figma.spec.ts",
+    "figma:baseline:icons": "node scripts/figma-icons-baseline.mjs",
+    "figma:baseline:icons:check": "node scripts/figma-icons-baseline.mjs --check",
+    "postinstall": "playwright install chromium",
     "release": "npx release-it"
   },
   "repository": {
@@ -38,7 +45,8 @@
   },
   "keywords": [
     "tailwind",
-    "material-tailwind",
+    "askchief",
+    "design-system",
     "theme",
     "shipping",
     "storybook"
@@ -51,13 +59,14 @@
   "homepage": "https://github.com/lateralus-ai/shipping-ui#readme",
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",
-    "@material-tailwind/react": "^2.1.10",
+    "@playwright/test": "^1.49.0",
     "@storybook/addon-essentials": "^8.2.9",
     "@storybook/addon-interactions": "^8.2.9",
     "@storybook/addon-links": "^8.2.9",
     "@storybook/blocks": "^8.2.9",
     "@storybook/react": "^8.2.9",
     "@storybook/react-vite": "^8.2.9",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@uidotdev/usehooks": "^2.4.1",
@@ -65,10 +74,14 @@
     "ai": "^5.0.59",
     "autoprefixer": "^10.4.16",
     "clsx": "^1.2.0",
+    "pixelmatch": "^5.3.0",
+    "pngjs": "^7.0.0",
     "postcss": "^8.4.32",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "release-it": "^19.0.5",
+    "serve": "^14.2.4",
+    "sharp": "^0.33.5",
     "storybook": "^8.2.9",
     "tailwind-merge": "^1.9.0",
     "tailwindcss": "^3.4.0",
@@ -84,7 +97,6 @@
     "react-textarea-autosize": "^8.5.9"
   },
   "dependencies": {
-    "@iconify/react": "^6.0.2",
     "@react-hooks-library/core": "^0.6.2",
     "docx-preview": "^0.3.7",
     "docxtemplater": "^3.66.6",

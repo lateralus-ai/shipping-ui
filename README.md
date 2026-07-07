@@ -1,61 +1,45 @@
 # @lateralus-ai/shipping-ui
 
-Shared UI theme and design system for Lateralus shipping applications.
+AskChief design system — shared UI theme and React components for Lateralus shipping applications.
 
 ## Features
 
-- Material Tailwind theme configuration
-- Custom color palette (Gray, Green, Blue, Red, Orange)
-- Typography styles (subheader, body, caption, footnote variations)
-- CSS variables for theming
-- Light/Dark mode support
-- Storybook for component documentation
+- **Design tokens** — Grey/Green/Blue/Red/Orange/Purple scales, semantic action/background/display tokens
+- **Typography** — Vesterbro (headings) + Matter (body) with fallbacks
+- **55+ icons** — size-specific SVGs (`large` 24px, `small` 16px, `xs` 12px)
+- **Primitives** — Button, IconButton, Avatar, Badge, Switch, Tooltip, and more
+- **Patterns** — Sidebar, Chat, Modal, Search compositions
+- **Domain components** — Workflows, Reports, Settings, Library, Filters
+- **Storybook** — Figma-mirror canvas pages for visual review
+- **Playwright** — automated screenshot regression against Storybook
 
 ## Development
 
-### Setup
-
 ```bash
 npm install
-```
-
-### Run Storybook
-
-```bash
-npm run dev
-# or
-npm run storybook
-```
-
-Storybook will be available at http://localhost:6006
-
-### Build Storybook
-
-```bash
-npm run build
-# or
+npm run dev          # Storybook at http://localhost:6006
+npm run build        # Library build to dist/
 npm run build-storybook
+npm run test:visual          # Playwright visual regression (starts Storybook dev)
+npm run test:visual:update   # Update screenshot baselines
 ```
 
-## Using the Theme in Your Project
+## Storybook structure
 
-### 1. Install the package (when published)
+Stories mirror the Figma file 1:1:
+
+- **Style Guide/** — Colors, Color Tokens, Typography, Buttons matrix, Raise Levels
+- **Components/** — Buttons, Icons, Core, Sidebar, Chat, Modals, Workflows, etc.
+
+Each page has a single **Canvas** story — a fullscreen Figma-frame reproduction for screenshot comparison.
+
+## Using in your project
 
 ```bash
 npm install @lateralus-ai/shipping-ui
 ```
 
-### 2. Import the Tailwind configuration
-
-In your `tailwind.config.js`:
-
-```javascript
-const shippingUIConfig = require("@lateralus-ai/shipping-ui/tailwind");
-
-module.exports = shippingUIConfig;
-```
-
-Or extend it:
+### Tailwind configuration
 
 ```javascript
 const shippingUIConfig = require("@lateralus-ai/shipping-ui/tailwind");
@@ -66,43 +50,25 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
     "./node_modules/@lateralus-ai/shipping-ui/**/*.{js,jsx,ts,tsx}",
   ],
-  // Your additional configuration
 };
 ```
 
-### 3. Import the global styles
-
-In your main CSS file:
+### Global styles
 
 ```css
 @import "@lateralus-ai/shipping-ui/style.css";
 ```
 
-## Theme Structure
+### Components
 
-### Typography Classes
+```tsx
+import { Button, Icon, Patterns, Domain } from "@lateralus-ai/shipping-ui";
 
-- `text-subheader` / `text-subheader-em` - 18px/28px
-- `text-body` / `text-body-em` - 16px/28px
-- `text-caption-1` / `text-caption-1-em` - 16px/22px
-- `text-caption-2` / `text-caption-2-em` - 14px/20px
-- `text-footnote` / `text-footnote-em` - 13px/17px
-
-### Color Palette
-
-- Gray: 50-900
-- Green: 50-900 (primary brand color)
-- Blue: 50-900
-- Red: 50-900
-- Orange: 50-900
-- Brand Purple: #ab68ff
-
-### Font Families
-
-- Sans: Work Sans
-- Mono: Roboto Mono
-- Signature: Cursive fonts for signatures
+<Button hierarchy="primary">Save</Button>
+<Icon name="heart" size="small" />
+<Patterns.Sidebar chief="technical" collapsed={false} />
+```
 
 ## License
 
-UNLICENSED - Proprietary software
+UNLICENSED — Proprietary software

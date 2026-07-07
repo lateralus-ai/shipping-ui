@@ -1,25 +1,27 @@
-import { IconButton, ButtonGroup, Tooltip } from "@material-tailwind/react"
-import { ModalPanel } from "../ModalPanel"
-import ExpandIcon from "../icons/ExpandIcon"
-import { Icon } from "@iconify/react"
-import { ChangeEvent, useEffect, useState } from "react"
-import { useZoom } from "./useZoom"
-import { useRotation } from "./useRotation"
-import { usePanning } from "./usePanning"
-import { usePageManagement } from "./usePageManagement"
-import { cn } from "../../utils/cn"
+import { IconButton } from "../../primitives/IconButton";
+import { ChevronIcon, MinusIcon, PlusIcon, ExpandIcon } from "../../icons";
+import { ModalPanel } from "../ModalPanel";
+import { type ChangeEvent, useEffect, useState } from "react";
+import { useZoom } from "./useZoom";
+import { useRotation } from "./useRotation";
+import { usePanning } from "./usePanning";
+import { usePageManagement } from "./usePageManagement";
+import { cn } from "../../utils/cn";
 
-interface ImageViewerProps {
-  className?: string
-  canvasClassName?: string
-  documentUrl?: string
-  mainCanvasClassname?: string
-  initialPage?: number
-  onClose: () => void
-  totalPages: number
-  getImageSrc: (page: number) => string | Promise<string>
-  title?: string
-}
+type ImageViewerProps = {
+  className?: string;
+  canvasClassName?: string;
+  documentUrl?: string;
+  mainCanvasClassname?: string;
+  initialPage?: number;
+  onClose: () => void;
+  totalPages: number;
+  getImageSrc: (page: number) => string | Promise<string>;
+  title?: string;
+};
+
+const toolbarButtonClass =
+  "flex h-8 w-8 items-center justify-center rounded-control border border-divider-primary bg-white text-display-on-light-secondary hover:bg-background-secondary disabled:opacity-50";
 
 export const ImageViewer = ({
   className,
@@ -32,180 +34,117 @@ export const ImageViewer = ({
   documentUrl,
   title = "PDF Viewer",
 }: ImageViewerProps) => {
-  const [zoom, zoomActions] = useZoom()
-  const [rotation, rotationActions] = useRotation()
-  const [{ pan, isDragging }, panActions] = usePanning()
-  const [{ currentPage }, pageActions] = usePageManagement(
-    totalPages,
-    initialPage
-  )
-  const [imageSrc, setImageSrc] = useState<string>(() => {
-    const initialResult = getImageSrc(currentPage)
-    return typeof initialResult === "string" ? initialResult : ""
-  })
+  const [zoom, zoomActions] = useZoom();
+  const [rotation, rotationActions] = useRotation();
+  const [{ pan, isDragging }, panActions] = usePanning();
+  const [{ currentPage }, pageActions] = usePageManagement(totalPages, initialPage);
+  const [imageSrc, setImageSrc] = useState<string>("");
 
   useEffect(() => {
-    let isActive = true
+    const load = async () => {
+      const src = await getImageSrc(currentPage);
+      setImageSrc(src);
+    };
+    load();
+  }, [currentPage, getImageSrc]);
 
-    const loadImage = async () => {
-      const result = getImageSrc(currentPage)
-      const resolvedSrc = await Promise.resolve(result)
-
-      if (isActive) {
-        setImageSrc(resolvedSrc)
-      }
-    }
-
-    void loadImage()
-
-    return () => {
-      isActive = false
-    }
-  }, [currentPage, getImageSrc])
-
-  const rightButtons = (
-    <IconButton variant="text" color="gray">
-      <a href={documentUrl} target="_blank" rel="noopener noreferrer">
-        <ExpandIcon className="size-4" />
-      </a>
-    </IconButton>
-  )
+  const handleOpen = () => {
+    if (!documentUrl) return;
+    window.open(documentUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
-    <div className={cn("shadow rounded-t-lg flex flex-col h-full", className)}>
-      <ModalPanel.Header onClose={onClose} right={rightButtons}>
+    <div className={cn("flex h-full flex-col rounded-t-lg shadow-raise2", className)}>
+      <ModalPanel.Header
+        onClose={onClose}
+        right={
+          documentUrl ? (
+            <IconButton hierarchy="quaternary" size="small" aria-label="Open" onClick={handleOpen}>
+              <ExpandIcon size="small" />
+            </IconButton>
+          ) : undefined
+        }
+      >
         {title}
       </ModalPanel.Header>
 
-      <div className="flex flex-col h-full justify-between">
-        <div className="grid relative h-full">
-          <div
-            className={`overflow-hidden col-start-1 row-start-1 bg-gray-200 h-full relative`}
-            onMouseMove={panActions.handleMouseMove}
-            onMouseUp={panActions.handleMouseUp}
-            onMouseLeave={panActions.handleMouseUp}
-            onWheel={zoomActions.handleWheel}
-          >
-            <div
-              className={mainCanvasClassname}
+      <div className={cn("grid h-full grow overflow-hidden", canvasClassName)}>
+        <div
+          className={cn(
+            "col-start-1 row-start-1 flex items-center justify-center overflow-hidden bg-background-tertiary p-8",
+            isDragging ? "cursor-grabbing" : "cursor-grab",
+            mainCanvasClassname,
+          )}
+          onMouseDown={panActions.handleMouseDown}
+          onMouseMove={panActions.handleMouseMove}
+          onMouseUp={panActions.handleMouseUp}
+          onMouseLeave={panActions.handleMouseUp}
+        >
+          {imageSrc && (
+            <img
+              src={imageSrc}
+              alt={`Page ${currentPage}`}
               style={{
-                transform: `translate(${pan.x}px, ${pan.y}px)`,
-                cursor: isDragging ? "grabbing" : "grab",
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                transform: `translate(${pan.x}px, ${pan.y}px) rotate(${rotation}deg) scale(${zoom / 100})`,
               }}
-              onMouseDown={panActions.handleMouseDown}
+              className="max-w-full"
+              draggable={false}
+            />
+          )}
+        </div>
+
+        <div className="z-10 col-start-1 row-start-1 flex items-center justify-between gap-3 self-start bg-background-secondary p-2 shadow">
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              className={toolbarButtonClass}
+              onClick={pageActions.prevPage}
+              disabled={currentPage === 1}
+              aria-label="Previous page"
             >
-              <div
-                style={{
-                  transform: `scale(${zoom / 100}) rotate(${rotation}deg)`,
-                  transformOrigin: "center",
-                  transition: isDragging ? "none" : "transform 0.3s ease",
-                }}
-              >
-                {imageSrc ? (
-                  <img
-                    src={imageSrc}
-                    style={{ userSelect: "none", pointerEvents: "none" }}
-                  />
-                ) : null}
-              </div>
-            </div>
+              <ChevronIcon direction="left" size="small" />
+            </button>
+            <input
+              className="h-8 w-14 rounded-control border border-divider-primary bg-white text-center text-caption-2"
+              value={currentPage}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                const page = parseInt(e.target.value, 10);
+                if (!isNaN(page)) pageActions.goToPage(page);
+              }}
+              type="number"
+              min={1}
+              max={totalPages}
+            />
+            <span className="px-2 text-caption-2">of {totalPages}</span>
+            <button
+              type="button"
+              className={toolbarButtonClass}
+              onClick={pageActions.nextPage}
+              disabled={currentPage === totalPages}
+              aria-label="Next page"
+            >
+              <ChevronIcon direction="right" size="small" />
+            </button>
           </div>
-
-          <div
-            className={`${canvasClassName} col-start-1 row-start-1 self-end p-4 flex gap-2 justify-between w-full z-10`}
-          >
-            <ButtonGroup className="divide-x-0 h-[52px]">
-              <IconButton
-                variant="filled"
-                color="white"
-                className="py-[26px]"
-                onClick={zoomActions.zoomOut}
-              >
-                <Icon icon="lucide:minus" />
-              </IconButton>
-              <Tooltip content="Click to reset zoom and pan">
-                <button
-                  className="!bg-white text-center cursor-pointer w-[60px]"
-                  onClick={() => {
-                    zoomActions.reset()
-                    panActions.reset()
-                  }}
-                >
-                  {zoom}%
-                </button>
-              </Tooltip>
-              <IconButton
-                variant="filled"
-                color="white"
-                className="py-[26px]"
-                onClick={zoomActions.zoomIn}
-              >
-                <Icon icon="lucide:plus" />
-              </IconButton>
-            </ButtonGroup>
-            <ButtonGroup className="divide-x-0 h-[52px]">
-              <IconButton
-                variant="filled"
-                color="white"
-                className="py-[26px]"
-                onClick={rotationActions.rotateClockwise}
-              >
-                <Icon icon="lucide:iteration-cw" />
-              </IconButton>
-
-              <IconButton
-                variant="filled"
-                color="white"
-                className="py-[26px]"
-                onClick={rotationActions.rotateCounterClockwise}
-              >
-                <Icon icon="lucide:iteration-ccw" />
-              </IconButton>
-            </ButtonGroup>
-            <ButtonGroup className="divide-x-0 ">
-              <IconButton
-                variant="filled"
-                color="white"
-                className="py-[26px]"
-                onClick={pageActions.prevPage}
-                disabled={currentPage === 1}
-              >
-                <Icon icon="lucide:chevron-left" />
-              </IconButton>
-              <input
-                className="bg-white pl-4 flex items-center w-[50px] text-center focus:outline-none w-[60px]"
-                value={currentPage}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  const page = parseInt(e.target.value)
-                  if (!isNaN(page)) {
-                    pageActions.goToPage(page)
-                  }
-                }}
-                type="number"
-                min="1"
-                max={totalPages}
-              />
-              <div className="flex items-center bg-white px-2">
-                of {totalPages}
-              </div>
-              <IconButton
-                variant="filled"
-                color="white"
-                className="py-[26px]"
-                onClick={pageActions.nextPage}
-                disabled={currentPage === totalPages}
-              >
-                <Icon icon="lucide:chevron-right" />
-              </IconButton>
-            </ButtonGroup>
+          <div className="flex items-center gap-1">
+            <button type="button" className={toolbarButtonClass} onClick={zoomActions.zoomOut} aria-label="Zoom out">
+              <MinusIcon size="small" />
+            </button>
+            <span className="w-14 text-center text-caption-2">{zoom}%</span>
+            <button type="button" className={toolbarButtonClass} onClick={zoomActions.zoomIn} aria-label="Zoom in">
+              <PlusIcon size="small" />
+            </button>
+            <button
+              type="button"
+              className={toolbarButtonClass}
+              onClick={rotationActions.rotateCounterClockwise}
+              aria-label="Rotate"
+            >
+              <ChevronIcon direction="left" size="small" />
+            </button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

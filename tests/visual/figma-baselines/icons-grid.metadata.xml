@@ -1,0 +1,328 @@
+<frame id="12:1251" name="Content" x="32" y="188" width="710" height="1833">
+  <frame id="79:745" name="Cursors" x="24" y="24" width="662" height="85">
+    <symbol id="79:746" name="Variant=Pointing Hand" x="24" y="24" width="34" height="34" />
+    <symbol id="79:753" name="Variant=Pointer (default)" x="82" y="24" width="34" height="34" />
+    <symbol id="79:759" name="Variant=Text" x="140" y="24" width="34" height="34" />
+    <symbol id="79:762" name="Variant=Opened Hand" x="198" y="24" width="34" height="34" />
+    <symbol id="79:769" name="Variant=Not allowed" x="256" y="24" width="34" height="37" />
+    <symbol id="79:774" name="Variant=Move" x="314" y="24" width="34" height="34" />
+    <symbol id="79:779" name="Variant=Cursor Arrow" x="372" y="24" width="34" height="34" />
+    <symbol id="79:783" name="Variant=Copy" x="430" y="24" width="34" height="37" />
+    <symbol id="79:789" name="Variant=Closed Hand" x="488" y="24" width="34" height="34" />
+    <symbol id="79:796" name="Variant=Busy" x="546" y="24" width="34" height="37" />
+    <symbol id="79:804" name="Variant=Blocked" x="604" y="24" width="34" height="37" />
+  </frame>
+  <frame id="2832:41780" name="Cursor - Resizes" x="24" y="133" width="662" height="140">
+    <symbol id="2832:41781" name="Variant=Down" x="24" y="24" width="34" height="34" />
+    <symbol id="2832:41785" name="Variant=North" x="82" y="24" width="34" height="34" />
+    <symbol id="2832:41789" name="Variant=East-West" x="140" y="24" width="34" height="34" />
+    <symbol id="2832:41793" name="Variant=Right" x="198" y="24" width="34" height="34" />
+    <symbol id="2832:41797" name="Variant=East" x="256" y="24" width="34" height="34" />
+    <symbol id="2832:41801" name="Variant=South-East" x="314" y="24" width="34" height="34" />
+    <symbol id="2832:41805" name="Variant=Left-Right" x="372" y="24" width="34" height="34" />
+    <symbol id="2832:41809" name="Variant=South-West" x="430" y="24" width="34" height="34" />
+    <symbol id="2832:41813" name="Variant=Left" x="488" y="24" width="34" height="34" />
+    <symbol id="2832:41817" name="Variant=South" x="546" y="24" width="34" height="34" />
+    <symbol id="2832:41821" name="Variant=North-East South-West" x="604" y="24" width="34" height="34" />
+    <symbol id="2832:41825" name="Variant=Up-Down" x="24" y="82" width="34" height="34" />
+    <symbol id="2832:41829" name="Variant=North-East" x="82" y="82" width="34" height="34" />
+    <symbol id="2832:41833" name="Variant=Up" x="140" y="82" width="34" height="34" />
+    <symbol id="2832:41837" name="Variant=North-South" x="198" y="82" width="34" height="34" />
+    <symbol id="2832:41841" name="Variant=West" x="256" y="82" width="34" height="34" />
+    <symbol id="2832:41845" name="Variant=North-West South-East" x="314" y="82" width="34" height="34" />
+    <symbol id="2832:41849" name="Variant=North-West" x="372" y="82" width="34" height="34" />
+  </frame>
+  <frame id="3220:50654" name="Arrow" x="24" y="297" width="120" height="72">
+    <symbol id="3220:50655" name="Size=24, Filled=Off, Direction=Left" x="24" y="24" width="24" height="24" />
+    <symbol id="3220:50667" name="Size=24, Filled=Off, Direction=Right" x="72" y="24" width="24" height="24" />
+  </frame>
+  <frame id="9:711" name="Attachment" x="168" y="297" width="112" height="72">
+    <symbol id="8:196" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="9:293" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="9:940" name="Chevron" x="304" y="297" width="224" height="64">
+    <symbol id="9:938" name="Size=16, Direction=Right" x="24" y="24" width="16" height="16" />
+    <symbol id="1481:33783" name="Size=16, Direction=Left" x="64" y="24" width="16" height="16" />
+    <symbol id="9:939" name="Size=16, Direction=Down" x="104" y="24" width="16" height="16" />
+    <symbol id="3259:58841" name="Size=16, Direction=Up" x="144" y="24" width="16" height="16" />
+    <symbol id="91:6083" name="Size=16, Direction=Up/Down" x="184" y="24" width="16" height="16" />
+  </frame>
+  <frame id="91:4668" name="Clear" x="24" y="393" width="272" height="72">
+    <symbol id="91:4667" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="91:4666" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+    <symbol id="4580:78288" name="Size=12, Filled=Off" x="112" y="30" width="12" height="12" />
+    <symbol id="4664:91383" name="Size=24, Filled=On" x="148" y="24" width="24" height="24" />
+    <symbol id="91:8829" name="Size=16, Filled=On" x="196" y="28" width="16" height="16" />
+    <symbol id="4580:78573" name="Size=12, Filled=On" x="236" y="30" width="12" height="12" />
+  </frame>
+  <frame id="9:712" name="Microphone" x="320" y="393" width="112" height="72">
+    <symbol id="8:195" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="9:294" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="9:784" name="Add" x="456" y="393" width="200" height="72">
+    <symbol id="9:793" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="9:819" name="Size=24, Filled=On" x="72" y="24" width="24" height="24" />
+    <symbol id="9:783" name="Size=16, Filled=Off" x="120" y="28" width="16" height="16" />
+    <symbol id="9:826" name="Size=16, Filled=On" x="160" y="28" width="16" height="16" />
+  </frame>
+  <frame id="974:6779" name="Plus" x="24" y="489" width="112" height="72">
+    <symbol id="974:6780" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="974:6784" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="6355:154747" name="Done" x="160" y="489" width="112" height="72">
+    <symbol id="6355:154748" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="6355:154752" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="1481:33861" name="Minus" x="296" y="489" width="112" height="72">
+    <symbol id="1481:33862" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="1481:33866" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="226:4623" name="Send" x="432" y="489" width="200" height="72">
+    <symbol id="226:4622" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="226:4621" name="Size=24, Filled=On" x="72" y="24" width="24" height="24" />
+    <symbol id="7480:105371" name="Size=16, Filled=Off" x="120" y="28" width="16" height="16" />
+    <symbol id="7480:105373" name="Size=16, Filled=On" x="160" y="28" width="16" height="16" />
+  </frame>
+  <frame id="91:6182" name="Search" x="24" y="585" width="112" height="72">
+    <symbol id="91:6181" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="6117:157164" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="250:5004" name="Star" x="160" y="585" width="112" height="72">
+    <symbol id="250:5003" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="250:6004" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="389:9527" name="Heart" x="296" y="585" width="112" height="72">
+    <symbol id="389:9528" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="389:9530" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="98:2265" name="Analytics" x="432" y="585" width="112" height="72">
+    <symbol id="98:2266" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7467:86274" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="97:4487" name="Trash" x="568" y="585" width="112" height="72">
+    <symbol id="97:4488" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="974:6663" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="9:911" name="Chat" x="24" y="681" width="112" height="72">
+    <symbol id="9:910" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="97:4298" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="448:7105" name="Chat Pro" x="160" y="681" width="112" height="72">
+    <symbol id="448:7106" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="448:7108" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="389:10521" name="Filters" x="296" y="681" width="112" height="72">
+    <symbol id="389:10522" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="389:10524" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="95:2085" name="Pen" x="432" y="681" width="112" height="72">
+    <symbol id="389:9547" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="95:2084" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="97:3106" name="Tick" x="24" y="777" width="148" height="72">
+    <symbol id="6000:133113" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="97:3107" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+    <symbol id="4555:74553" name="Size=12, Filled=Off" x="112" y="30" width="12" height="12" />
+  </frame>
+  <frame id="1481:31045" name="Document" x="196" y="777" width="112" height="72">
+    <symbol id="4263:57691" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="1481:31046" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="2832:44426" name="Sparkles" x="332" y="777" width="64" height="64">
+    <symbol id="2832:44427" name="Size=16, Filled=Off" x="24" y="24" width="16" height="16" />
+  </frame>
+  <frame id="1808:34968" name="Expand" x="420" y="777" width="64" height="64">
+    <symbol id="1808:34969" name="Size=16, Filled=Off" x="24" y="24" width="16" height="16" />
+  </frame>
+  <frame id="95:2246" name="Speaker" x="508" y="777" width="64" height="64">
+    <symbol id="95:2245" name="Size=16, Filled=Off" x="24" y="24" width="16" height="16" />
+  </frame>
+  <frame id="95:2096" name="Copy" x="596" y="777" width="64" height="64">
+    <symbol id="95:2095" name="Size=16, Filled=Off" x="24" y="24" width="16" height="16" />
+  </frame>
+  <frame id="994:20406" name="Date" x="24" y="873" width="64" height="64">
+    <symbol id="994:20407" name="Size=16, Filled=Off" x="24" y="24" width="16" height="16" />
+  </frame>
+  <frame id="3259:58730" name="Refresh" x="112" y="873" width="64" height="64">
+    <symbol id="3259:58731" name="Size=16, Filled=Off" x="24" y="24" width="16" height="16" />
+  </frame>
+  <frame id="9:916" name="Activity" x="200" y="873" width="112" height="72">
+    <symbol id="9:915" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7467:90168" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="5599:77755" name="Menu" x="336" y="873" width="72" height="72">
+    <symbol id="5599:83065" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="389:9560" name="Invite" x="432" y="873" width="112" height="72">
+    <symbol id="389:9561" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7500:90976" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="1249:12635" name="Report" x="568" y="873" width="72" height="72">
+    <symbol id="1249:12636" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="2831:37442" name="Sidebar" x="24" y="969" width="104" height="64">
+    <symbol id="2831:37441" name="Size=16, Collapsed=Off" x="24" y="24" width="16" height="16" />
+    <symbol id="2831:37440" name="Size=16, Collapsed=On" x="64" y="24" width="16" height="16" />
+  </frame>
+  <frame id="1249:12682" name="Download" x="152" y="969" width="112" height="72">
+    <symbol id="1249:12683" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="1250:13723" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="5638:112605" name="Upload" x="288" y="969" width="112" height="72">
+    <symbol id="5638:112606" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="5638:112612" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="1250:12182" name="Preview" x="424" y="969" width="112" height="72">
+    <symbol id="1250:12183" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="1250:13492" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="977:11164" name="Fixes" x="560" y="969" width="112" height="72">
+    <symbol id="977:11165" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="5310:72354" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="977:11177" name="Issues" x="24" y="1065" width="72" height="72">
+    <symbol id="977:11178" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="16:881" name="More" x="120" y="1065" width="112" height="72">
+    <symbol id="16:880" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="16:873" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="713:12713" name="Bulb" x="256" y="1065" width="160" height="72">
+    <symbol id="713:12714" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="713:12761" name="Size=24, Filled=On" x="72" y="24" width="24" height="24" />
+    <symbol id="713:12718" name="Size=16, Filled=Off" x="120" y="28" width="16" height="16" />
+  </frame>
+  <frame id="16:1377" name="Ship" x="440" y="1065" width="200" height="72">
+    <symbol id="16:1376" name="Size=24, Filled=Off, Smart=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="2961:28352" name="Size=24, Filled=Off, Smart=On" x="72" y="24" width="24" height="24" />
+    <symbol id="76:1462" name="Size=16, Filled=Off, Smart=Off" x="120" y="28" width="16" height="16" />
+    <symbol id="2961:35012" name="Size=16, Filled=Off, Smart=On" x="160" y="28" width="16" height="16" />
+  </frame>
+  <frame id="448:7249" name="Person" x="24" y="1161" width="112" height="72">
+    <symbol id="448:7250" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="448:7254" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="389:11281" name="Archive" x="160" y="1161" width="112" height="72">
+    <symbol id="389:11282" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="389:11284" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="3003:18983" name="Log out" x="296" y="1161" width="112" height="72">
+    <symbol id="3003:18984" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="5066:92988" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="3217:49354" name="Settings" x="432" y="1161" width="112" height="72">
+    <symbol id="3217:49355" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="5102:84412" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="4263:52963" name="Tasks" x="568" y="1161" width="112" height="72">
+    <symbol id="4263:52964" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7505:100751" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="6285:158519" name="Workflow" x="24" y="1257" width="216" height="72">
+    <symbol id="6285:158518" name="Size=24, Filled=Off, Workflow=Preparation" x="24" y="24" width="24" height="24" />
+    <symbol id="6285:158517" name="Size=24, Filled=Off, Workflow=Response" x="72" y="24" width="24" height="24" />
+    <symbol id="6285:159301" name="Size=24, Filled=Off, Workflow=Technical" x="120" y="24" width="24" height="24" />
+    <symbol id="4365:72408" name="Size=24, Filled=Off, Workflow=Inspection" x="168" y="24" width="24" height="24" />
+  </frame>
+  <frame id="5995:126930" name="Form" x="264" y="1257" width="168" height="72">
+    <symbol id="5995:126931" name="Size=24, Filled=Off, Form=Risk" x="24" y="24" width="24" height="24" />
+    <symbol id="6313:57338" name="Size=24, Filled=Off, Form=Accident" x="72" y="24" width="24" height="24" />
+    <symbol id="6313:57482" name="Size=24, Filled=Off, Form=Root Cause" x="120" y="24" width="24" height="24" />
+  </frame>
+  <frame id="5470:114498" name="Actions" x="456" y="1257" width="72" height="72">
+    <symbol id="5470:114499" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="5999:129416" name="Approval" x="552" y="1257" width="120" height="72">
+    <symbol id="6000:134421" name="Size=24, Filled=Off, State=Approved" x="24" y="24" width="24" height="24" />
+    <symbol id="5999:129434" name="Size=24, Filled=Off, State=Partly" x="72" y="24" width="24" height="24" />
+  </frame>
+  <frame id="5310:124955" name="Forms" x="24" y="1353" width="208" height="72">
+    <symbol id="6112:145769" name="Size=24, Filled=Off, Type=Pending" x="24" y="24" width="24" height="24" />
+    <symbol id="5310:124956" name="Size=24, Filled=Off, Type=Reviewed" x="72" y="24" width="24" height="24" />
+    <symbol id="7505:100365" name="Size=16, Filled=Off, Type=Reviewed" x="120" y="28" width="16" height="16" />
+    <symbol id="6112:145780" name="Size=24, Filled=Off, Type=Completed" x="160" y="24" width="24" height="24" />
+  </frame>
+  <frame id="4263:53257" name="Book" x="256" y="1353" width="112" height="72">
+    <symbol id="4263:53258" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7467:88385" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="4365:71405" name="Workflow" x="392" y="1353" width="112" height="72">
+    <symbol id="4365:71406" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="5599:42026" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="4085:39525" name="Mention" x="528" y="1353" width="112" height="72">
+    <symbol id="4085:39526" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7480:106646" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="5065:90509" name="Critical" x="24" y="1449" width="112" height="72">
+    <symbol id="5065:90510" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7533:94887" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="5708:102176" name="Information" x="160" y="1449" width="112" height="72">
+    <symbol id="5708:102177" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="5708:110673" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="5470:115048" name="Caution" x="296" y="1449" width="72" height="72">
+    <symbol id="5470:115049" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="6338:151015" name="Folder" x="392" y="1449" width="112" height="72">
+    <symbol id="6338:151016" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="6338:151035" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="6338:151039" name="Folder Starred" x="528" y="1449" width="112" height="72">
+    <symbol id="6338:151040" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="6338:151042" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="5707:98407" name="Quality" x="24" y="1545" width="72" height="72">
+    <symbol id="5707:98408" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="5065:90533" name="Location" x="120" y="1545" width="72" height="72">
+    <symbol id="5065:90534" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="3217:49522" name="Users" x="216" y="1545" width="112" height="72">
+    <symbol id="3217:49523" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7500:94163" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="4580:101973" name="Undo" x="352" y="1545" width="112" height="72">
+    <symbol id="4580:101974" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="7535:33327" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="6348:153799" name="Spinner" x="488" y="1545" width="72" height="72">
+    <symbol id="6348:153800" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="6348:153840" name="Clock" x="584" y="1545" width="72" height="72">
+    <symbol id="6348:153841" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="6417:75673" name="Gap" x="24" y="1641" width="72" height="72">
+    <symbol id="6417:75674" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+  </frame>
+  <frame id="3062:47874" name="Defect Report" x="120" y="1641" width="112" height="72">
+    <symbol id="3062:47875" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="3062:47882" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="4263:59352" name="Task" x="256" y="1641" width="112" height="72">
+    <symbol id="4263:59353" name="Size=24, Filled=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="4263:59360" name="Size=16, Filled=Off" x="72" y="28" width="16" height="16" />
+  </frame>
+  <frame id="5465:109235" name="File" x="392" y="1641" width="216" height="72">
+    <symbol id="5465:109234" name="Type=CSV, Filled=Off, Size=24" x="24" y="24" width="24" height="24" />
+    <symbol id="5465:109233" name="Type=DOC, Filled=Off, Size=24" x="72" y="24" width="24" height="24" />
+    <symbol id="5465:109232" name="Type=PDF, Filled=Off, Size=24" x="120" y="24" width="24" height="24" />
+    <symbol id="5465:109231" name="Type=XLS, Filled=Off, Size=24" x="168" y="24" width="24" height="24" />
+  </frame>
+  <frame id="77:676" name="Report Actions" x="24" y="1737" width="120" height="72">
+    <symbol id="77:675" name="Variant=View, Size=24" x="24" y="24" width="24" height="24" />
+    <symbol id="77:674" name="Variant=Edit, Size=24" x="72" y="24" width="24" height="24" />
+  </frame>
+  <frame id="969:16914" name="Checkbox" x="168" y="1737" width="264" height="72">
+    <symbol id="969:16911" name="State=Unselected, Hover=Off" x="24" y="24" width="24" height="24" />
+    <symbol id="969:16910" name="State=Unselected, Hover=On" x="72" y="24" width="24" height="24" />
+    <symbol id="969:16913" name="State=Selected, Hover=Off" x="120" y="24" width="24" height="24" />
+    <symbol id="4561:75845" name="State=Multi, Hover=Off" x="168" y="24" width="24" height="24" />
+    <symbol id="969:16912" name="State=Selected, Hover=On" x="216" y="24" width="24" height="24" />
+  </frame>
+  <frame id="16:902" name="Status" x="456" y="1737" width="104" height="64">
+    <symbol id="16:901" name="Status=Open, Size=16" x="24" y="24" width="16" height="16" />
+    <symbol id="16:1089" name="Status=Closed, Size=16" x="64" y="24" width="16" height="16" />
+  </frame>
+</frame>
