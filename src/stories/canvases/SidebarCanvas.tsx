@@ -1,120 +1,147 @@
-import { WorkflowIcon } from "../../icons";
+import { ArchiveIcon, PenIcon, SearchIcon, TrashIcon } from "../../icons";
 import {
   Account,
-  Activity,
-  Entry as SidebarEntry,
-  Heading,
+  ActivityNavGroup,
+  CollapsibleNavGroup,
   Indicator,
   NewChat,
-  Section,
-  Ships,
-  Switcher,
+  SidebarEntry,
+  SidebarHeading,
+  SidebarLink,
 } from "../../patterns/Sidebar";
-import {
-  FigmaContent,
-  FigmaGrid,
-  FigmaPage,
-  FigmaSection,
-  FigmaVariant,
-} from "../_layout";
+import { FigmaContent, FigmaPage } from "../_layout";
 import { FIGMA_WIDTHS } from "./figma-widths";
+import {
+  FIGMA_ENTRY_LABEL,
+  FIGMA_HEADING_LABEL,
+  FIGMA_SECTION_LABEL,
+} from "../../patterns/Sidebar/figma-demo-content";
+import {
+  FIGMA_SIDEBAR_CONTENT,
+  FIGMA_SIDEBAR_FRAMES,
+  type SidebarSubcomponentSlot,
+} from "./figma-sidebar-layout";
+
+const demoMenuItems = [
+  { id: "rename", label: "Rename", icon: <PenIcon size="small" />, onSelect: () => undefined },
+  { id: "archive", label: "Archive", icon: <ArchiveIcon size="small" />, onSelect: () => undefined },
+  {
+    id: "delete",
+    label: "Delete",
+    icon: <TrashIcon size="small" />,
+    destructive: true,
+    onSelect: () => undefined,
+  },
+];
+
+const renderSlot = (slot: SidebarSubcomponentSlot) => {
+  if (slot.kind === "newChat") {
+    return <NewChat collapsed={slot.collapsed} state={slot.state} presentation className="h-full w-full" />;
+  }
+
+  if (slot.kind === "indicator") {
+    return <Indicator chief={slot.chief} />;
+  }
+
+  if (slot.kind === "sidebarLink") {
+    return (
+      <SidebarLink
+        href="#section"
+        label={FIGMA_SECTION_LABEL}
+        icon={<SearchIcon size="small" className="text-display-on-light-primary" />}
+        state={slot.state}
+        collapsed={slot.collapsed}
+        presentation
+        tooltip={FIGMA_SECTION_LABEL}
+      />
+    );
+  }
+
+  if (slot.kind === "sidebarHeading") {
+    return (
+      <SidebarHeading
+        title={FIGMA_HEADING_LABEL}
+        state={slot.state}
+        collapsed={slot.collapsed}
+      />
+    );
+  }
+
+  if (slot.kind === "sidebarEntry") {
+    return (
+      <SidebarEntry
+        href="#chat-1"
+        label={FIGMA_ENTRY_LABEL}
+        state={slot.state}
+        forceMenuVisible={slot.showMenu}
+        menuItems={slot.showMenu ? demoMenuItems : undefined}
+      />
+    );
+  }
+
+  if (slot.kind === "ships") {
+    return (
+      <CollapsibleNavGroup
+        href="#ships"
+        expanded={slot.expanded ?? false}
+        onExpandedChange={() => undefined}
+      />
+    );
+  }
+
+  if (slot.kind === "activity") {
+    return <ActivityNavGroup href="#activity" chief={slot.chief} empty={slot.empty} />;
+  }
+
+  if (slot.kind === "account") {
+    return <Account collapsed={slot.collapsed} state={slot.state} presentation />;
+  }
+
+  return null;
+};
 
 export const SidebarCanvas = () => (
   <FigmaPage title="Sidebar" width={FIGMA_WIDTHS.sidebar}>
-    <FigmaContent>
-      <FigmaSection label="New chat">
-        <FigmaGrid gap={24}>
-          <div className="w-[304px]">
-            <NewChat />
-          </div>
-          <div className="w-[304px]">
-            <span className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-control bg-action-primary-hover px-2 text-caption-1 text-action-primary-on-hover">
-              New chat
-            </span>
-          </div>
-          <NewChat collapsed />
-          <span className="inline-flex size-10 items-center justify-center rounded-control bg-action-primary-hover text-action-primary-on-hover">
-            +
-          </span>
-        </FigmaGrid>
-      </FigmaSection>
-
-      <FigmaSection label="Indicator">
-        <FigmaGrid gap={24}>
-          <Indicator chief="technical" />
-          <Indicator chief="compliance" />
-        </FigmaGrid>
-      </FigmaSection>
-
-      <FigmaSection label="Section">
-        <div className="w-[304px] space-y-3">
-          <Section label="Workflows" icon={<WorkflowIcon size="small" />} />
-          <Section label="Workflows" icon={<WorkflowIcon size="small" />} className="bg-background-hover text-display-on-light-primary" />
-          <Section label="Workflows" icon={<WorkflowIcon size="small" />} state="active" />
-          <Section label="Workflows" icon={<WorkflowIcon size="small" />} collapsed />
-          <Section label="Workflows" icon={<WorkflowIcon size="small" />} collapsed className="bg-background-hover" />
-          <Section label="Workflows" icon={<WorkflowIcon size="small" />} collapsed state="active" />
+    <FigmaContent padding={0}>
+      <div
+        data-figma-sidebar-grid
+        className="relative overflow-hidden"
+        style={{
+          width: FIGMA_SIDEBAR_CONTENT.width,
+          height: FIGMA_SIDEBAR_CONTENT.height,
+        }}
+      >
+        <div
+          className="relative"
+          style={{
+            width: FIGMA_SIDEBAR_CONTENT.width,
+            height: FIGMA_SIDEBAR_CONTENT.height,
+          }}
+        >
+          {FIGMA_SIDEBAR_FRAMES.map((frame) => (
+            <div
+              key={frame.name}
+              className="absolute rounded border border-dashed border-[#9747FF]"
+              style={{
+                left: frame.x,
+                top: frame.y,
+                width: frame.width,
+                height: frame.height,
+              }}
+            >
+              {frame.slots.map((slot, index) => (
+                <div
+                  key={`${frame.name}-${index}`}
+                  className="absolute"
+                  style={{ left: slot.x, top: slot.y, width: slot.width, height: slot.height }}
+                >
+                  {renderSlot(slot)}
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
-      </FigmaSection>
-
-      <FigmaSection label="Heading">
-        <div className="w-[304px] space-y-3">
-          <Heading title="Recent" collapsed />
-          <Heading title="Recent" />
-          <Heading title="Recent" collapsed className="bg-background-hover" />
-          <Heading title="Recent" className="bg-background-hover" />
-        </div>
-      </FigmaSection>
-
-      <FigmaSection label="Entry">
-        <div className="w-[304px] space-y-3">
-          <SidebarEntry label="Hull inspection report review" />
-          <SidebarEntry label="Hull inspection report review" className="bg-background-hover" />
-          <SidebarEntry label="Hull inspection report review" state="selected" />
-        </div>
-      </FigmaSection>
-
-      <FigmaSection label="Ships">
-        <div className="w-[264px]">
-          <Ships state="collapsed" />
-          <div className="mt-4">
-            <Ships state="expanded" />
-          </div>
-        </div>
-      </FigmaSection>
-
-      <FigmaSection label="Activity">
-        <FigmaGrid gap={24}>
-          <div className="w-[248px]">
-            <Activity chief="technical" empty />
-          </div>
-          <div className="w-[248px]">
-            <Activity chief="technical" />
-          </div>
-          <div className="w-[248px]">
-            <Activity chief="compliance" />
-          </div>
-        </FigmaGrid>
-      </FigmaSection>
-
-      <FigmaSection label="Account">
-        <FigmaGrid gap={24}>
-          <div className="w-[304px]">
-            <Account />
-          </div>
-          <FigmaVariant label="Collapsed">
-            <Account collapsed />
-          </FigmaVariant>
-        </FigmaGrid>
-      </FigmaSection>
-
-      <FigmaSection label="Switcher">
-        <FigmaGrid gap={24}>
-          <Switcher chief="technical" />
-          <Switcher chief="compliance" />
-          <Switcher chief="technical" expanded={false} />
-        </FigmaGrid>
-      </FigmaSection>
+      </div>
     </FigmaContent>
   </FigmaPage>
 );

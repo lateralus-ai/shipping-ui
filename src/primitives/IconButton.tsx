@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes, type ReactNode } from "react";
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { cn } from "../utils/cn";
 
 type IconButtonHierarchy = "tertiary" | "quaternary";
@@ -23,26 +23,34 @@ const sizeStyles: Record<IconButtonSize, string> = {
   small: "size-8 [&>svg]:size-4",
 };
 
-export const IconButton = ({
-  hierarchy = "tertiary",
-  size = "large",
-  disabled = false,
-  children,
-  className,
-  type = "button",
-  ...props
-}: IconButtonProps) => (
-  <button
-    type={type}
-    disabled={disabled}
-    className={cn(
-      "inline-flex shrink-0 items-center justify-center rounded-control transition-colors disabled:cursor-not-allowed",
-      hierarchyStyles[hierarchy],
-      sizeStyles[size],
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
+  (
+    {
+      hierarchy = "tertiary",
+      size = "large",
+      disabled = false,
+      children,
       className,
-    )}
-    {...props}
-  >
-    {children}
-  </button>
+      type = "button",
+      ...props
+    },
+    ref,
+  ) => (
+    <button
+      ref={ref}
+      type={type}
+      disabled={disabled}
+      className={cn(
+        "inline-flex shrink-0 items-center justify-center rounded-control transition-colors disabled:cursor-not-allowed",
+        hierarchyStyles[hierarchy],
+        sizeStyles[size],
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  ),
 );
+
+IconButton.displayName = "IconButton";

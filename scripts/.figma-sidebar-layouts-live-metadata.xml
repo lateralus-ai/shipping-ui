@@ -1,0 +1,23 @@
+<frame id="14:841" name="Sidebar" x="6500" y="1.1368683772161603e-13" width="1432" height="2684">
+  <instance id="14:838" name="Title" x="32" y="32" width="1368" height="132" />
+  <frame id="14:840" name="Content" x="32" y="188" width="1368" height="2464">
+    <frame id="7467:74902" name="Switcher" x="24" y="24" width="296" height="272">
+      <symbol id="7467:74901" name="Chief=Technical, Expanded=On" x="24" y="24" width="248" height="44" />
+      <symbol id="7467:74903" name="Chief=Compliance, Expanded=On" x="24" y="92" width="248" height="44" />
+      <symbol id="7669:64627" name="Chief=Technical, Expanded=Off" x="24" y="160" width="40" height="32" />
+      <symbol id="7669:64674" name="Chief=Compliance, Expanded=Off" x="24" y="216" width="40" height="32" />
+    </frame>
+    <frame id="14:481" name="Sidebar" x="24" y="320" width="1320" height="2120">
+      <symbol id="14:283" name="Chief=Technical, Activity=Off, Ships=Off, Collapsed=Off" x="24" y="24" width="280" height="1024" />
+      <symbol id="1808:34039" name="Chief=Technical, Activity=Off, Ships=Off, Collapsed=On" x="328" y="24" width="56" height="1024" />
+      <symbol id="14:482" name="Chief=Technical, Activity=On, Ships=Off, Collapsed=Off" x="408" y="24" width="280" height="1024" />
+      <symbol id="290:7511" name="Chief=Technical, Activity=On, Ships=On, Collapsed=Off" x="712" y="24" width="280" height="1024" />
+      <symbol id="383:13479" name="Chief=Technical, Activity=Off, Ships=On, Collapsed=Off" x="1016" y="24" width="280" height="1024" />
+      <symbol id="4263:52212" name="Chief=Compliance, Activity=Off, Ships=Off, Collapsed=Off" x="24" y="1072" width="280" height="1024" />
+      <symbol id="4263:62271" name="Chief=Compliance, Activity=Off, Ships=Off, Collapsed=On" x="328" y="1072" width="56" height="1024" />
+      <symbol id="4263:79734" name="Chief=Compliance, Activity=On, Ships=Off, Collapsed=Off" x="408" y="1072" width="280" height="1024" />
+      <symbol id="4263:80529" name="Chief=Compliance, Activity=On, Ships=On, Collapsed=Off" x="712" y="1072" width="280" height="1024" />
+      <symbol id="4263:80904" name="Chief=Compliance, Activity=Off, Ships=On, Collapsed=Off" x="1016" y="1072" width="280" height="1024" />
+    </frame>
+  </frame>
+</frame>

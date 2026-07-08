@@ -1,0 +1,15 @@
+{
+  "fileKey": "2Up8R8hZw2eivY9crqf5dz",
+  "nodeId": "14:841",
+  "target": "layouts",
+  "crop": {
+    "x": 32,
+    "y": 188,
+    "width": 1368,
+    "height": 2464
+  },
+  "metadataHash": "d4b5fcd20c0127684964beae3a1f2d7e57a4ada3dfa89482d8fccde8eff625fa",
+  "metadataFile": "tests\\visual\\figma-baselines\\sidebar-layouts-grid.metadata.xml",
+  "updatedAt": "2026-07-07T22:29:43.606Z",
+  "source": "figma-mcp"
+}

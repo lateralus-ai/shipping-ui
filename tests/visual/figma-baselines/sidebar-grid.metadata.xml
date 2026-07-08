@@ -1,0 +1,48 @@
+<frame id="12:1258" name="Sidebar" x="5936" y="2.2737367544323206e-13" width="464" height="3044">
+  <instance id="12:1256" name="Title" x="32" y="32" width="400" height="132" />
+  <frame id="12:1255" name="Content" x="32" y="188" width="400" height="2824">
+    <frame id="14:745" name="New chat" x="24" y="24" width="352" height="280">
+      <symbol id="14:744" name="State=Idle, Collapsed=Off" x="24" y="24" width="304" height="40" />
+      <symbol id="14:746" name="State=Hover, Collapsed=Off" x="24" y="88" width="304" height="40" />
+      <symbol id="1808:34090" name="State=Idle, Collapsed=On" x="24" y="152" width="40" height="40" />
+      <symbol id="1808:34094" name="State=Hover, Collapsed=On" x="24" y="216" width="40" height="40" />
+    </frame>
+    <frame id="5464:105111" name="Indicator" x="24" y="328" width="120" height="72">
+      <symbol id="5464:105110" name="Chief=Technical" x="24" y="24" width="24" height="24" />
+      <symbol id="5464:105112" name="Chief=Compliance" x="72" y="24" width="24" height="24" />
+    </frame>
+    <frame id="91:6215" name="Section" x="24" y="424" width="352" height="372">
+      <symbol id="91:6214" name="State=Idle, Collapsed=Off" x="24" y="24" width="304" height="36" />
+      <symbol id="91:6216" name="State=Hover, Collapsed=Off" x="24" y="84" width="304" height="36" />
+      <symbol id="99:2496" name="State=Active, Collapsed=Off" x="24" y="144" width="304" height="36" />
+      <symbol id="1808:34103" name="State=Idle, Collapsed=On" x="24" y="204" width="32" height="32" />
+      <symbol id="1808:34108" name="State=Hover, Collapsed=On" x="24" y="260" width="32" height="32" />
+      <symbol id="1808:34113" name="State=Active, Collapsed=On" x="24" y="316" width="32" height="32" />
+    </frame>
+    <frame id="10:1014" name="Heading" x="24" y="820" width="352" height="232">
+      <symbol id="10:1013" name="State=Idle, Collapsed=On" x="24" y="24" width="304" height="28" />
+      <symbol id="10:1015" name="State=Idle, Collapsed=Off" x="24" y="76" width="304" height="28" />
+      <symbol id="91:9624" name="State=Hover, Collapsed=On" x="24" y="128" width="304" height="28" />
+      <symbol id="91:9627" name="State=Hover, Collapsed=Off" x="24" y="180" width="304" height="28" />
+    </frame>
+    <frame id="14:385" name="Entry" x="24" y="1076" width="352" height="204">
+      <symbol id="14:384" name="State=Idle" x="24" y="24" width="304" height="36" />
+      <symbol id="14:470" name="State=Hover" x="24" y="84" width="304" height="36" />
+      <symbol id="14:472" name="State=Selected" x="24" y="144" width="304" height="36" />
+    </frame>
+    <frame id="375:7423" name="Ships" x="24" y="1304" width="312" height="312">
+      <symbol id="375:7419" name="State=Collapsed" x="24" y="24" width="264" height="40" />
+      <symbol id="375:7420" name="State=Expanded" x="24" y="88" width="264" height="200" />
+    </frame>
+    <frame id="375:7490" name="Activity" x="24" y="1640" width="296" height="924">
+      <symbol id="375:7556" name="Chief=Technical, Empty=On" x="24" y="24" width="248" height="36" />
+      <symbol id="375:7479" name="Chief=Technical, Empty=Off" x="24" y="84" width="248" height="396" />
+      <symbol id="4263:59154" name="Chief=Compliance, Empty=Off" x="24" y="504" width="248" height="396" />
+    </frame>
+    <frame id="14:648" name="Account" x="24" y="2588" width="352" height="212">
+      <symbol id="14:647" name="State=Idle, Collapsed=Off" x="24" y="24" width="304" height="36" />
+      <symbol id="1808:34180" name="State=Idle, Collapsed=On" x="24" y="84" width="40" height="40" />
+      <symbol id="1808:34184" name="State=Hover, Collapsed=On" x="24" y="148" width="40" height="40" />
+    </frame>
+  </frame>
+</frame>

@@ -2,6 +2,17 @@ import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
 import type { IconComparisonRegion } from "./icon-comparison-regions";
 
+export type CompareMode = "ink" | "box";
+
+export type FigmaComparisonRegion = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  label: string;
+  compareMode: CompareMode;
+};
+
 export type CompareImagesResult = {
   diffPixels: number;
   totalPixels: number;
@@ -13,10 +24,34 @@ export type CompareImagesResult = {
 
 export type RegionCompareResult = {
   diffPixels: number;
-  inkPixels: number;
+  comparablePixels: number;
   shift: { dx: number; dy: number };
   label: string;
   diffRatio: number;
+  compareMode: CompareMode;
+};
+
+export type FigmaRegionReport = FigmaComparisonRegion & {
+  diffPixels: number;
+  comparablePixels: number;
+  diffRatio: number;
+  diffPercent: number;
+  passed: boolean;
+  shift: { dx: number; dy: number };
+};
+
+export type CompareFigmaRegionsResult = CompareImagesResult & {
+  maskedDiffPixels: number;
+  maskedComparablePixels: number;
+  maskedDiffRatio: number;
+  regionCount: number;
+  shiftedRegionCount: number;
+  fullDiffRatio: number;
+  maskPng: Buffer;
+  dominantShift: { dx: number; dy: number; regionCount: number };
+  perRegionMaxDiffRatio: number;
+  regions: FigmaRegionReport[];
+  failedRegions: FigmaRegionReport[];
 };
 
 export type IconRegionReport = IconComparisonRegion & {
@@ -66,10 +101,16 @@ const isComparablePixel = (
   ay: number,
   bx: number,
   by: number,
+  compareMode: CompareMode,
   inkThreshold: number,
-) =>
-  isInkPixel(expected, ax, ay, inkThreshold) ||
-  isInkPixel(received, bx, by, inkThreshold);
+) => {
+  if (compareMode === "box") return true;
+
+  return (
+    isInkPixel(expected, ax, ay, inkThreshold) ||
+    isInkPixel(received, bx, by, inkThreshold)
+  );
+};
 
 const colorDelta = (
   img1: PNG,
@@ -92,26 +133,25 @@ const colorDelta = (
   return delta > threshold * 255;
 };
 
-
 const compareRegion = (
   expected: PNG,
   received: PNG,
-  region: IconComparisonRegion,
+  region: FigmaComparisonRegion,
   maxShift: number,
   threshold: number,
   inkThreshold: number,
 ): RegionCompareResult => {
   let bestDiff = Number.POSITIVE_INFINITY;
-  let bestInkPixels = 0;
+  let bestComparablePixels = 0;
   let bestShift = { dx: 0, dy: 0 };
 
   for (let dy = -maxShift; dy <= maxShift; dy += 1) {
     for (let dx = -maxShift; dx <= maxShift; dx += 1) {
       let diffPixels = 0;
-      let inkPixels = 0;
+      let comparablePixels = 0;
 
-      for (let py = 0; py < region.size; py += 1) {
-        for (let px = 0; px < region.size; px += 1) {
+      for (let py = 0; py < region.height; py += 1) {
+        for (let px = 0; px < region.width; px += 1) {
           const bx = region.x + px;
           const by = region.y + py;
           const ax = bx + dx;
@@ -130,11 +170,22 @@ const compareRegion = (
             continue;
           }
 
-          if (!isComparablePixel(expected, received, ax, ay, bx, by, inkThreshold)) {
+          if (
+            !isComparablePixel(
+              expected,
+              received,
+              ax,
+              ay,
+              bx,
+              by,
+              region.compareMode,
+              inkThreshold,
+            )
+          ) {
             continue;
           }
 
-          inkPixels += 1;
+          comparablePixels += 1;
 
           if (colorDelta(expected, received, ax, ay, bx, by, threshold)) {
             diffPixels += 1;
@@ -142,11 +193,11 @@ const compareRegion = (
         }
       }
 
-      if (inkPixels === 0) continue;
+      if (comparablePixels === 0) continue;
 
       if (diffPixels < bestDiff) {
         bestDiff = diffPixels;
-        bestInkPixels = inkPixels;
+        bestComparablePixels = comparablePixels;
         bestShift = { dx, dy };
       }
     }
@@ -154,23 +205,25 @@ const compareRegion = (
 
   return {
     diffPixels: bestDiff === Number.POSITIVE_INFINITY ? 0 : bestDiff,
-    inkPixels: bestInkPixels,
+    comparablePixels: bestComparablePixels,
     shift: bestShift,
     label: region.label,
+    compareMode: region.compareMode,
     diffRatio:
-      bestInkPixels === 0
+      bestComparablePixels === 0
         ? 0
-        : (bestDiff === Number.POSITIVE_INFINITY ? 0 : bestDiff) / bestInkPixels,
+        : (bestDiff === Number.POSITIVE_INFINITY ? 0 : bestDiff) /
+          bestComparablePixels,
   };
 };
 
 const paintRegionMask = (
   mask: PNG,
-  region: IconComparisonRegion,
+  region: FigmaComparisonRegion,
   rgba: [number, number, number, number],
 ) => {
-  for (let py = 0; py < region.size; py += 1) {
-    for (let px = 0; px < region.size; px += 1) {
+  for (let py = 0; py < region.height; py += 1) {
+    for (let px = 0; px < region.width; px += 1) {
       const x = region.x + px;
       const y = region.y + py;
       const idx = (mask.width * y + x) << 2;
@@ -186,13 +239,13 @@ const paintRegionDiff = (
   expected: PNG,
   received: PNG,
   diff: PNG,
-  region: IconComparisonRegion,
+  region: FigmaComparisonRegion,
   shift: { dx: number; dy: number },
   threshold: number,
   inkThreshold: number,
 ) => {
-  for (let py = 0; py < region.size; py += 1) {
-    for (let px = 0; px < region.size; px += 1) {
+  for (let py = 0; py < region.height; py += 1) {
+    for (let px = 0; px < region.width; px += 1) {
       const bx = region.x + px;
       const by = region.y + py;
       const ax = bx + shift.dx;
@@ -212,7 +265,18 @@ const paintRegionDiff = (
         continue;
       }
 
-      if (!isComparablePixel(expected, received, ax, ay, bx, by, inkThreshold)) {
+      if (
+        !isComparablePixel(
+          expected,
+          received,
+          ax,
+          ay,
+          bx,
+          by,
+          region.compareMode,
+          inkThreshold,
+        )
+      ) {
         continue;
       }
 
@@ -261,12 +325,12 @@ export const comparePngBuffers = (
   };
 };
 
-export const compareIconRegions = (
+export const compareFigmaRegions = (
   baseline: Buffer,
   actual: Buffer,
-  regions: IconComparisonRegion[],
+  regions: FigmaComparisonRegion[],
   options: CompareOptions = {},
-): CompareIconsResult => {
+): CompareFigmaRegionsResult => {
   const threshold = options.threshold ?? 0.1;
   const maxShift = options.maxShift ?? 1;
   const inkThreshold = options.inkThreshold ?? INK_CUTOFF;
@@ -287,7 +351,7 @@ export const compareIconRegions = (
   const maskedDiff = new PNG({ width, height });
 
   let maskedDiffPixels = 0;
-  let maskedTotalPixels = 0;
+  let maskedComparablePixels = 0;
   let shiftedRegionCount = 0;
   const shiftCounts = new Map<string, number>();
   const regionResults: RegionCompareResult[] = [];
@@ -304,7 +368,8 @@ export const compareIconRegions = (
       inkThreshold,
     );
 
-    const { diffPixels, inkPixels, shift, label, diffRatio } = result;
+    const { diffPixels, comparablePixels, shift, label, diffRatio, compareMode } =
+      result;
     regionResults.push(result);
 
     const shiftKey = `${shift.dx},${shift.dy}`;
@@ -315,7 +380,7 @@ export const compareIconRegions = (
     }
 
     maskedDiffPixels += diffPixels;
-    maskedTotalPixels += inkPixels;
+    maskedComparablePixels += comparablePixels;
     paintRegionDiff(
       expected,
       received,
@@ -327,13 +392,13 @@ export const compareIconRegions = (
     );
   });
 
-  const regionReports: IconRegionReport[] = regionResults.map((result, index) => {
+  const regionReports: FigmaRegionReport[] = regionResults.map((result, index) => {
     const region = regions[index];
     const diffPercent = Number((result.diffRatio * 100).toFixed(2));
     return {
       ...region,
       diffPixels: result.diffPixels,
-      inkPixels: result.inkPixels,
+      comparablePixels: result.comparablePixels,
       diffRatio: result.diffRatio,
       diffPercent,
       passed: result.diffRatio <= perRegionMaxDiffRatio,
@@ -357,9 +422,11 @@ export const compareIconRegions = (
     diffPng: PNG.sync.write(maskedDiff),
     maskPng: PNG.sync.write(mask),
     maskedDiffPixels,
-    maskedTotalPixels,
+    maskedComparablePixels,
     maskedDiffRatio:
-      maskedTotalPixels === 0 ? 0 : maskedDiffPixels / maskedTotalPixels,
+      maskedComparablePixels === 0
+        ? 0
+        : maskedDiffPixels / maskedComparablePixels,
     regionCount: regions.length,
     shiftedRegionCount,
     fullDiffRatio: full.diffRatio,
@@ -370,8 +437,69 @@ export const compareIconRegions = (
   };
 };
 
+const iconRegionToFigmaRegion = (
+  region: IconComparisonRegion,
+): FigmaComparisonRegion => ({
+  x: region.x,
+  y: region.y,
+  width: region.size,
+  height: region.size,
+  label: region.label,
+  compareMode: "ink",
+});
+
+export const compareIconRegions = (
+  baseline: Buffer,
+  actual: Buffer,
+  regions: IconComparisonRegion[],
+  options: CompareOptions = {},
+): CompareIconsResult => {
+  const figmaRegions = regions.map(iconRegionToFigmaRegion);
+  const result = compareFigmaRegions(baseline, actual, figmaRegions, options);
+
+  const iconReports: IconRegionReport[] = result.regions.map((region, index) => ({
+    ...regions.find((entry) => entry.label === region.label) ?? regions[index],
+    diffPixels: region.diffPixels,
+    inkPixels: region.comparablePixels,
+    diffRatio: region.diffRatio,
+    diffPercent: region.diffPercent,
+    passed: region.passed,
+    shift: region.shift,
+  }));
+
+  const failedRegions = iconReports.filter((region) => !region.passed);
+
+  return {
+    diffPixels: result.diffPixels,
+    totalPixels: result.totalPixels,
+    diffRatio: result.diffRatio,
+    width: result.width,
+    height: result.height,
+    diffPng: result.diffPng,
+    maskedDiffPixels: result.maskedDiffPixels,
+    maskedTotalPixels: result.maskedComparablePixels,
+    maskedDiffRatio: result.maskedDiffRatio,
+    regionCount: result.regionCount,
+    shiftedRegionCount: result.shiftedRegionCount,
+    fullDiffRatio: result.fullDiffRatio,
+    maskPng: result.maskPng,
+    dominantShift: result.dominantShift,
+    perRegionMaxDiffRatio: result.perRegionMaxDiffRatio,
+    regions: iconReports,
+    failedRegions,
+  };
+};
+
 export const formatDiffSummary = (result: CompareImagesResult) =>
   `${(result.diffRatio * 100).toFixed(2)}% (${result.diffPixels.toLocaleString()}/${result.totalPixels.toLocaleString()} pixels)`;
 
-export const formatMaskedDiffSummary = (result: CompareIconsResult) =>
-  `${(result.maskedDiffRatio * 100).toFixed(2)}% (${result.maskedDiffPixels.toLocaleString()}/${result.maskedTotalPixels.toLocaleString()} ink pixels, ${result.regionCount} regions)`;
+export const formatMaskedDiffSummary = (
+  result: CompareFigmaRegionsResult | CompareIconsResult,
+) => {
+  const comparable =
+    "maskedComparablePixels" in result
+      ? result.maskedComparablePixels
+      : result.maskedTotalPixels;
+
+  return `${(result.maskedDiffRatio * 100).toFixed(2)}% (${result.maskedDiffPixels.toLocaleString()}/${comparable.toLocaleString()} masked pixels, ${result.regionCount} regions)`;
+};

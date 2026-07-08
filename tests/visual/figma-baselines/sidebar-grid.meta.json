@@ -1,0 +1,15 @@
+{
+  "fileKey": "2Up8R8hZw2eivY9crqf5dz",
+  "nodeId": "12:1258",
+  "target": "subcomponents",
+  "crop": {
+    "x": 32,
+    "y": 188,
+    "width": 400,
+    "height": 2824
+  },
+  "metadataHash": "2aa9328ffc2978e4f570761c70476a7dea8474f5981053477cba9347b8452230",
+  "metadataFile": "tests\\visual\\figma-baselines\\sidebar-grid.metadata.xml",
+  "updatedAt": "2026-07-07T22:29:42.846Z",
+  "source": "figma-mcp"
+}

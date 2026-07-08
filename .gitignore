@@ -34,6 +34,16 @@ tests/visual/figma-baselines/icons-grid-diff.png
 tests/visual/figma-baselines/icons-grid-mask.png
 tests/visual/figma-baselines/icons-grid-report.json
 tests/visual/figma-baselines/icons-grid-failures.json
+tests/visual/figma-baselines/sidebar-grid-actual.png
+tests/visual/figma-baselines/sidebar-grid-diff.png
+tests/visual/figma-baselines/sidebar-grid-mask.png
+tests/visual/figma-baselines/sidebar-grid-report.json
+tests/visual/figma-baselines/sidebar-grid-failures.json
+tests/visual/figma-baselines/sidebar-layouts-grid-actual.png
+tests/visual/figma-baselines/sidebar-layouts-grid-diff.png
+tests/visual/figma-baselines/sidebar-layouts-grid-mask.png
+tests/visual/figma-baselines/sidebar-layouts-grid-report.json
+tests/visual/figma-baselines/sidebar-layouts-grid-failures.json
 
 # Figma icon extraction cache (paths committed in src/icons/icons-data.ts)
 scripts/.figma-svgs/
