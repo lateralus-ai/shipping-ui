@@ -33,6 +33,46 @@ Stories mirror the Figma file 1:1:
 
 Each page has a single **Canvas** story — a fullscreen Figma-frame reproduction for screenshot comparison.
 
+## Releases
+
+### Stable (`latest`)
+
+Production releases use semver on `main` and publish to npm’s `latest` tag:
+
+```bash
+npm run release
+```
+
+### Dev / nightly (v2 rebrand)
+
+In-progress v2 work publishes as **`2.0.0-dev.0`**, **`2.0.0-dev.1`**, … under npm’s **`dev`** tag. These do **not** replace `latest`, so existing consumers on `^1.x` are unaffected.
+
+**First v2 dev release** (bumps `1.x` → `2.0.0-dev.0`):
+
+```bash
+npm run release:dev:init
+```
+
+**Subsequent dev releases** (increments the dev counter):
+
+```bash
+npm run release:dev
+```
+
+**Opt in from a consumer** (e.g. shipping-ai):
+
+```bash
+npm install @lateralus-ai/shipping-ui@dev
+```
+
+Or pin an exact pre-release in `package.json`:
+
+```json
+"@lateralus-ai/shipping-ui": "2.0.0-dev.0"
+```
+
+When v2 is ready for production, run `npm run release` to publish stable **`2.0.0`** to `latest`.
+
 ## Using in your project
 
 ```bash

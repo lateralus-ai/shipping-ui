@@ -41,7 +41,9 @@
     "figma:baseline:sidebar:layouts": "node scripts/figma-sidebar-baseline.mjs --target layouts",
     "figma:baseline:sidebar:check": "node scripts/figma-sidebar-baseline.mjs --check",
     "postinstall": "playwright install chromium",
-    "release": "npx release-it"
+    "release": "npx release-it",
+    "release:dev:init": "npx release-it --config .release-it.dev.json major --preRelease=dev",
+    "release:dev": "npx release-it --config .release-it.dev.json --preRelease=dev"
   },
   "repository": {
     "type": "git",

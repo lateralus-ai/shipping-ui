@@ -1,0 +1,10 @@
+{
+  "extends": "./.release-it.json",
+  "git": {
+    "commitMessage": "Release v${version} (dev)",
+    "requireBranch": false
+  },
+  "npm": {
+    "tag": "dev"
+  }
+}
