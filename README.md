@@ -53,11 +53,22 @@ In-progress v2 work publishes as **`2.0.0-dev.0`**, **`2.0.0-dev.1`**, … under
 npm run release:dev:init
 ```
 
+If npm 2FA is enabled, the build step can take long enough for a one-time password to expire. Build first, then publish with a fresh OTP:
+
+```bash
+npm run build
+npm run release:dev:init:publish -- --npm.otp=123456
+```
+
 **Subsequent dev releases** (increments the dev counter):
 
 ```bash
 npm run release:dev
 ```
+
+Same OTP timing applies — use `release:dev:publish` after `npm run build` if needed.
+
+For repeat publishes without OTP timing issues, create a **Granular Access Token** at [npmjs.com → Account menu → Access Tokens](https://www.npmjs.com/settings/kwstoikonomou/tokens) with publish access to `@lateralus-ai/shipping-ui` and **Bypass 2FA for automation** enabled.
 
 **Opt in from a consumer** (e.g. shipping-ai):
 

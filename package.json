@@ -43,7 +43,9 @@
     "postinstall": "playwright install chromium",
     "release": "npx release-it",
     "release:dev:init": "npx release-it --config .release-it.dev.json major --preRelease=dev",
-    "release:dev": "npx release-it --config .release-it.dev.json --preRelease=dev"
+    "release:dev:init:publish": "npx release-it --config .release-it.dev.json --no-hooks.before:init major --preRelease=dev",
+    "release:dev": "npx release-it --config .release-it.dev.json --preRelease=dev",
+    "release:dev:publish": "npx release-it --config .release-it.dev.json --no-hooks.before:init --preRelease=dev"
   },
   "repository": {
     "type": "git",
