@@ -9,7 +9,13 @@ import {
 import { ButtonSnapshot } from "./helpers";
 import { FIGMA_WIDTHS } from "./figma-widths";
 
-const hierarchies = ["primary", "secondary", "tertiary", "quaternary"] as const;
+const hierarchies = [
+  "primary",
+  "secondary",
+  "tertiary",
+  "quaternary",
+  "destructive",
+] as const;
 const columnLabels = ["Primary", "Secondary", "Tertiary", "Quaternary", "Destructive"];
 const rowLabels = ["Idle", "Hover", "Disabled"];
 
@@ -36,17 +42,12 @@ export const ButtonsMatrixCanvas = () => (
                 visualState={rowLabel.toLowerCase() as "idle" | "hover" | "disabled"}
               />
             ))}
-            <ButtonSnapshot
-              hierarchy="primary"
-              outcome="destructive"
-              visualState={rowLabel.toLowerCase() as "idle" | "hover" | "disabled"}
-            />
           </FigmaRow>
         ))}
 
         <FigmaRow label="Idle" gap={24}>
           <div className="w-24" />
-          <Button startIcon={<AddIcon />} className="min-w-[304px]">
+          <Button icon={<AddIcon size="small" />} className="min-w-[304px]">
             New chat
           </Button>
         </FigmaRow>

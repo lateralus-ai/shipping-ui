@@ -1,4 +1,9 @@
-export { Button, type ButtonProps } from "./Button";
+export type {
+  ButtonAppearance,
+  ButtonHierarchy,
+} from "./button-styles";
+export type { ButtonProps, ButtonDropdownOption } from "./Button";
+export { Button } from "./Button";
 export { IconButton, type IconButtonProps } from "./IconButton";
 export { Logo, type LogoProps } from "./Logo";
 export { Avatar, type AvatarProps } from "./Avatar";

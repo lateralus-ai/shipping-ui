@@ -2,11 +2,15 @@ import type { ReactNode } from "react";
 import { colorScales } from "../../tokens/colors";
 import { cn } from "../../utils/cn";
 
-type ButtonHierarchy = "primary" | "secondary" | "tertiary" | "quaternary";
-type ButtonOutcome = "action" | "destructive";
+type ButtonHierarchy =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "quaternary"
+  | "destructive";
 type VisualState = "idle" | "hover" | "disabled";
 
-const actionStyles: Record<ButtonHierarchy, Record<VisualState, string>> = {
+const hierarchyStyles: Record<ButtonHierarchy, Record<VisualState, string>> = {
   primary: {
     idle: "bg-action-primary-idle text-action-primary-on-idle",
     hover: "bg-action-primary-hover text-action-primary-on-hover",
@@ -14,8 +18,9 @@ const actionStyles: Record<ButtonHierarchy, Record<VisualState, string>> = {
   },
   secondary: {
     idle: "border border-divider-primary bg-action-secondary-idle text-action-secondary-on-idle",
-    hover: "border border-divider-primary bg-action-secondary-hover text-action-secondary-on-hover",
-    disabled: "border border-divider-primary bg-action-secondary-disabled text-action-secondary-on-disabled",
+    hover: "border border-divider-secondary bg-action-secondary-hover text-action-secondary-on-hover",
+    disabled:
+      "border border-divider-primary bg-action-secondary-disabled text-action-secondary-on-disabled",
   },
   tertiary: {
     idle: "bg-action-tertiary-idle text-action-tertiary-on-idle",
@@ -25,58 +30,36 @@ const actionStyles: Record<ButtonHierarchy, Record<VisualState, string>> = {
   quaternary: {
     idle: "bg-action-quaternary-idle text-action-quaternary-on-idle",
     hover: "bg-action-quaternary-hover text-action-quaternary-on-hover",
-    disabled: "bg-action-quaternary-disabled text-action-quaternary-on-disabled",
+    disabled:
+      "bg-action-quaternary-disabled text-action-quaternary-on-disabled",
   },
-};
-
-const destructiveStyles: Record<ButtonHierarchy, Record<VisualState, string>> = {
-  primary: {
+  destructive: {
     idle: "bg-action-destructive-idle text-action-destructive-on-idle",
     hover: "bg-action-destructive-hover text-action-destructive-on-hover",
-    disabled: "bg-action-destructive-disabled text-action-destructive-on-disabled",
-  },
-  secondary: {
-    idle: "border border-red-300 bg-grey-50 text-red-500",
-    hover: "border border-red-300 bg-red-50 text-red-700",
-    disabled: "border border-red-300 bg-grey-50 text-red-300",
-  },
-  tertiary: {
-    idle: "bg-white text-red-500",
-    hover: "bg-red-50 text-red-700",
-    disabled: "bg-white text-red-300",
-  },
-  quaternary: {
-    idle: "bg-white text-red-500",
-    hover: "bg-grey-100 text-red-700",
-    disabled: "bg-white text-red-300",
+    disabled:
+      "bg-action-destructive-disabled text-action-destructive-on-disabled",
   },
 };
 
 export const ButtonSnapshot = ({
   hierarchy,
-  outcome = "action",
   visualState = "idle",
   children = "Button",
 }: {
   hierarchy: ButtonHierarchy;
-  outcome?: ButtonOutcome;
   visualState?: VisualState;
   children?: ReactNode;
-}) => {
-  const styles = outcome === "destructive" ? destructiveStyles : actionStyles;
-
-  return (
-    <span
-      className={cn(
-        "inline-flex min-h-10 min-w-[94px] items-center justify-center rounded-control px-2 text-caption-1",
-        visualState === "disabled" && "cursor-not-allowed",
-        styles[hierarchy][visualState],
-      )}
-    >
-      {children}
-    </span>
-  );
-};
+}) => (
+  <span
+    className={cn(
+      "inline-flex min-h-10 min-w-[94px] items-center justify-center rounded-control px-2 text-caption-1 tracking-[0.32px]",
+      visualState === "disabled" && "cursor-not-allowed",
+      hierarchyStyles[hierarchy][visualState],
+    )}
+  >
+    {children}
+  </span>
+);
 
 export const IconButtonSnapshot = ({
   hierarchy = "tertiary",

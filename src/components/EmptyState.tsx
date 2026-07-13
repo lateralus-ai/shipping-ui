@@ -6,7 +6,7 @@ export type EmptyStateProps = {
   illustration?: ReactNode;
   title: string;
   description?: string;
-  action?: Pick<ButtonProps, "children" | "onClick" | "hierarchy" | "startIcon" | "endIcon">;
+  action?: Pick<ButtonProps, "children" | "onClick" | "hierarchy" | "icon" | "startIcon">;
   className?: string;
 };
 
@@ -34,8 +34,8 @@ export const EmptyState = ({
       <Button
         hierarchy={action.hierarchy ?? "primary"}
         onClick={action.onClick}
+        icon={action.icon}
         startIcon={action.startIcon}
-        endIcon={action.endIcon}
       >
         {action.children}
       </Button>

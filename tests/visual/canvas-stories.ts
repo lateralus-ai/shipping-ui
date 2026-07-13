@@ -5,7 +5,12 @@ export const canvasStories = [
   { id: "style-guide-typography--canvas", name: "style-guide-typography", width: 1064 },
   { id: "style-guide-buttons--canvas", name: "style-guide-buttons", width: 808 },
   { id: "style-guide-raise-levels--canvas", name: "style-guide-raise-levels", width: 760 },
-  { id: "components-buttons--canvas", name: "components-buttons", width: 526 },
+  {
+    id: "components-buttons--canvas",
+    name: "components-buttons",
+    width: 526,
+    clipSelector: "[data-figma-buttons-grid]",
+  },
   { id: "components-icons--canvas", name: "components-icons", width: 774 },
   { id: "components-core--canvas", name: "components-core", width: 732 },
   { id: "components-illustrations--canvas", name: "components-illustrations", width: 1152 },
