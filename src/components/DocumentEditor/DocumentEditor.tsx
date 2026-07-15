@@ -671,6 +671,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           margin: 0;
           padding: 0;
           width: 100%;
+          /* Allow injected fields to shrink to their table column instead of overflowing it */
+          min-width: 0;
+          max-width: 100%;
+          box-sizing: border-box;
         }
         .inline-input, .inline-select {
           background: rgba(255, 255, 255, 0.9);
@@ -699,6 +703,10 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           word-wrap: break-word;
           display: inline-block;
           vertical-align: top;
+          /* Fit the field to its column; ignore the control's intrinsic min width */
+          min-width: 0;
+          max-width: 100%;
+          box-sizing: border-box;
         }
         .inline-textarea:focus {
           outline: none;
@@ -717,6 +725,11 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({
           font-family: inherit;
           color: inherit;
           height: 17px;
+          /* Native date inputs have a large intrinsic min width; let it shrink to
+             fit the column so it no longer overflows the next cell */
+          min-width: 0;
+          max-width: 100%;
+          box-sizing: border-box;
         }
         .inline-date-input:focus {
           outline: none;
