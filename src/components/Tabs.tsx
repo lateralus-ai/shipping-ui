@@ -51,7 +51,7 @@ export const TabsList = forwardRef<
       ref={ref}
       className={cn(
         "flex items-center",
-        type === "tabs" && "gap-1 border-b border-divider-primary",
+        type === "tabs" && "gap-6 border-b border-divider-primary",
         type === "pills" && "gap-2",
         className,
       )}
@@ -82,7 +82,7 @@ export const TabsTrigger = forwardRef<
         "inline-flex items-center justify-center transition-colors outline-none",
         "disabled:pointer-events-none disabled:opacity-50",
         type === "tabs" && [
-          "relative px-3 py-2 text-caption-2 text-display-on-light-secondary",
+          "relative h-12 gap-2 px-0 py-0 text-caption-2 text-display-on-light-secondary",
           "hover:text-display-on-light-primary",
           "data-[state=active]:text-caption-2-em data-[state=active]:text-display-on-light-primary",
           "data-[state=active]:after:absolute data-[state=active]:after:inset-x-0 data-[state=active]:after:-bottom-px",
@@ -99,18 +99,26 @@ export const TabsTrigger = forwardRef<
       {...props}
     >
       {children}
-      {typeof count === "number" && (
-        <span
-          className={cn(
-            "inline-flex size-6 shrink-0 items-center justify-center rounded-full text-footnote-em",
-            "bg-accent-bg-light text-display-on-light-secondary",
-            "group-data-[state=active]:text-display-on-light-tertiary",
-          )}
-          aria-label={`Count: ${count}`}
-        >
-          {count > 99 ? "99+" : count}
-        </span>
-      )}
+      {typeof count === "number" &&
+        (type === "pills" ? (
+          <span
+            className={cn(
+              "inline-flex size-6 shrink-0 items-center justify-center rounded-full text-footnote-em",
+              "bg-accent-bg-light text-display-on-light-secondary",
+              "group-data-[state=active]:text-display-on-light-tertiary",
+            )}
+            aria-label={`Count: ${count}`}
+          >
+            {count > 99 ? "99+" : count}
+          </span>
+        ) : (
+          <span
+            className="px-1 text-caption-2 text-display-on-light-secondary"
+            aria-label={`Count: ${count}`}
+          >
+            {count > 99 ? "99+" : count}
+          </span>
+        ))}
     </TabsPrimitive.Trigger>
   );
 });
