@@ -148,10 +148,10 @@ export const theme = {
       },
     },
     accent: {
-      onLight: "var(--accent-on-light)",
-      onDark: "var(--accent-on-dark)",
-      bgLight: "var(--accent-bg-light)",
-      bgLighter: "var(--accent-bg-lighter)",
+      "on-light": "var(--accent-on-light)",
+      "on-dark": "var(--accent-on-dark)",
+      "bg-light": "var(--accent-bg-light)",
+      "bg-lighter": "var(--accent-bg-lighter)",
     },
     divider: {
       primary: "var(--divider-primary)",

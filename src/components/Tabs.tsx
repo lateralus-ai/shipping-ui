@@ -89,7 +89,7 @@ export const TabsTrigger = forwardRef<
           "data-[state=active]:after:h-0.5 data-[state=active]:after:rounded-full data-[state=active]:after:bg-grey-900",
         ],
         type === "pills" && [
-          "min-h-9 gap-2.5 rounded-full px-3 py-1 text-caption-2-em",
+          "group min-h-9 gap-2.5 rounded-full px-3 py-1 text-caption-2-em",
           "bg-grey-100 text-display-on-light-secondary",
           "hover:bg-grey-200",
           "data-[state=active]:bg-accent-bg-light data-[state=active]:text-display-on-light-primary",
@@ -103,7 +103,8 @@ export const TabsTrigger = forwardRef<
         <span
           className={cn(
             "inline-flex size-6 shrink-0 items-center justify-center rounded-full text-footnote-em",
-            "bg-accent-bg-light text-display-on-light-tertiary",
+            "bg-accent-bg-light text-display-on-light-secondary",
+            "group-data-[state=active]:text-display-on-light-tertiary",
           )}
           aria-label={`Count: ${count}`}
         >

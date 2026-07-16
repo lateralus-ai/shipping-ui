@@ -131,7 +131,12 @@ export const SearchModalBody = ({
   children,
   className,
 }: SearchModalBodyProps) => (
-  <ModalBody className={cn("min-w-0 flex-1 p-2", className)}>
+  <ModalBody
+    className={cn(
+      "flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden p-2",
+      className,
+    )}
+  >
     {children}
   </ModalBody>
 );
@@ -162,16 +167,21 @@ export const SearchModalFilters = ({
     type="pills"
     value={value}
     onValueChange={onValueChange}
-    className={cn("gap-0", className)}
+    className={cn("min-h-0 flex-1 gap-0", className)}
   >
-    <TabsList className={cn("w-full p-2", listClassName)}>
+    <TabsList
+      className={cn(
+        "w-full shrink-0 bg-background-primary p-2",
+        listClassName,
+      )}
+    >
       {tabs.map((tab) => (
         <TabsTrigger key={tab.value} value={tab.value} count={tab.count}>
           {tab.label}
         </TabsTrigger>
       ))}
     </TabsList>
-    {children}
+    <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
   </Tabs>
 );
 
@@ -223,12 +233,14 @@ export const SearchModalIdle = ({
   children,
   className,
 }: SearchModalIdleProps) => (
-  <div className={cn("flex flex-col p-1", className)}>
+  <div className={cn("flex min-h-0 flex-1 flex-col p-1", className)}>
     <SectionHeader
       label={label}
-      className="px-3 py-1 text-caption-2 font-normal normal-case tracking-[0.01em] text-display-on-light-secondary"
+      className="shrink-0 px-3 py-1 text-caption-2 font-normal normal-case tracking-[0.01em] text-display-on-light-secondary"
     />
-    <SearchModalResults items={items}>{children}</SearchModalResults>
+    <div className="min-h-0 flex-1 overflow-y-auto">
+      <SearchModalResults items={items}>{children}</SearchModalResults>
+    </div>
   </div>
 );
 
