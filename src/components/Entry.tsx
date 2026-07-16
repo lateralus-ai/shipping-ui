@@ -1,4 +1,7 @@
-import { type ReactNode } from "react";
+import {
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { ChatIcon, IssuesIcon, ReportIcon, StatusIcon } from "../icons";
 import { cn } from "../utils/cn";
 
@@ -37,6 +40,9 @@ const variantIcons: Record<EntryVariant, ReactNode> = {
 /**
  * List entry row — Figma `Entry` (389:10001).
  * Shared by search results and activity lists.
+ *
+ * Renders a `div` (not `<button>`) so trailing controls can be real buttons
+ * without nested-button issues. Whole-row click uses `onClick` + keyboard.
  */
 export const Entry = ({
   variant,
@@ -53,18 +59,30 @@ export const Entry = ({
 }: EntryProps) => {
   const resolvedVariant: EntryVariant = variant ?? type ?? "chat";
   const isInteractive = typeof onClick === "function";
-  const Comp = isInteractive ? "button" : "div";
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!onClick) {
+      return;
+    }
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onClick();
+    }
+  };
 
   return (
-    <Comp
-      {...(isInteractive ? { type: "button" as const } : {})}
+    <div
+      role={isInteractive ? "button" : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
       data-variant={resolvedVariant}
       data-state={state}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       className={cn(
         "group flex w-full items-center gap-4 rounded-control p-2 text-left transition-colors",
         "hover:bg-[rgba(38,36,32,0.04)]",
         state === "active" && "bg-[rgba(38,36,32,0.04)]",
+        isInteractive && "cursor-pointer",
         className,
       )}
     >
@@ -96,14 +114,16 @@ export const Entry = ({
 
         {(subtitle != null && subtitle !== false) || trailing ? (
           <span className="flex min-h-6 w-full items-center gap-4">
-            {subtitle != null && subtitle !== false && (
+            {subtitle != null && subtitle !== false ? (
               <span className="min-w-0 flex-1 truncate text-caption-2 text-display-on-light-secondary">
                 {subtitle}
               </span>
+            ) : (
+              <span className="min-w-0 flex-1" />
             )}
             {trailing != null && (
               <span
-                className="shrink-0"
+                className="inline-flex size-5 shrink-0 items-center justify-center"
                 onClick={(event) => event.stopPropagation()}
                 onKeyDown={(event) => event.stopPropagation()}
               >
@@ -113,6 +133,6 @@ export const Entry = ({
           </span>
         ) : null}
       </span>
-    </Comp>
+    </div>
   );
 };
