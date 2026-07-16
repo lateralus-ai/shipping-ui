@@ -1,3 +1,5 @@
+import "./style.css";
+
 export { theme as tailwindTheme } from "./tailwind-theme";
 
 export * from "./tokens";

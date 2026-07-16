@@ -14,10 +14,18 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, "src/index.ts"),
+      entry: {
+        index: resolve(__dirname, "src/index.ts"),
+        theme: resolve(__dirname, "src/theme-entry.ts"),
+      },
       name: "ShippingUI",
       formats: ["es", "cjs"],
-      fileName: (format) => `index.${format === "es" ? "esm.js" : "cjs"}`,
+      fileName: (format, entryName) => {
+        if (entryName === "theme") {
+          return format === "es" ? "theme.esm.js" : "theme.cjs";
+        }
+        return format === "es" ? "index.esm.js" : "index.cjs";
+      },
     },
     rollupOptions: {
       external: [

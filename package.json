@@ -14,16 +14,21 @@
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
+    "./theme": {
+      "import": "./dist/theme.esm.js",
+      "require": "./dist/theme.cjs",
+      "types": "./dist/theme-entry.d.ts"
+    },
     "./style.css": "./dist/style.css",
     "./css": "./dist/style.css",
     "./dist/style.css": "./dist/style.css",
-    "./tailwind": "./tailwind.config.js"
+    "./tailwind": "./dist/theme.cjs"
   },
   "files": [
     "dist",
     "lib",
     "src",
-    "tailwind.config.js"
+    "tailwind.config.ts"
   ],
   "scripts": {
     "dev": "storybook dev -p 6006",
