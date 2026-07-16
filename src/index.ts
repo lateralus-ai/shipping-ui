@@ -61,6 +61,7 @@ export type {
   EntryProps,
   EntryType,
   EntryState,
+  EntryVariant,
   EmptyStateProps,
   ModalProps,
   ModalOverlayProps,

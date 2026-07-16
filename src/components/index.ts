@@ -17,7 +17,7 @@ export {
   type TabsType,
 } from "./Tabs";
 export { Header, type HeaderProps, type HeaderVariant } from "./Header";
-export { Entry, type EntryProps, type EntryType, type EntryState } from "./Entry";
+export { Entry, type EntryProps, type EntryType, type EntryState, type EntryVariant } from "./Entry";
 export { EmptyState, type EmptyStateProps } from "./EmptyState";
 export {
   Modal,

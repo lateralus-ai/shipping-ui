@@ -82,9 +82,29 @@ export const ContentCanvas = () => (
 
       <FigmaSection label="Entry">
         <div className="max-w-xl space-y-2">
-          <Entry type="chat" title="Hull inspection report" subtitle="2 hours ago" meta="17" />
-          <Entry type="issue" title="Critical valve malfunction" state="selected" meta="High" />
-          <Entry type="chat" title="Port state control checklist" subtitle="Yesterday" className="bg-background-hover" />
+          <Entry
+            variant="chat"
+            title="Hull inspection report"
+            subtitle="We’ve got a persistent oil leak from the fuel pump."
+          />
+          <Entry
+            variant="chat"
+            state="active"
+            title="Ballast Pump Not Starting"
+            subtitle="The fuel pump won’t start consistently."
+            trailing={<span className="text-display-on-light-secondary">···</span>}
+          />
+          <Entry
+            variant="issue"
+            title="Excessive Rust on Fuel Pump"
+            subtitle="Created by Jake Silva on March 28"
+            count={3}
+          />
+          <Entry
+            variant="report"
+            title="Engine Room Oil Leak"
+            subtitle="We’ve spotted a steady oil leak near the fuel pump."
+          />
         </div>
       </FigmaSection>
 
