@@ -1,48 +1,139 @@
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import {
+  createContext,
+  forwardRef,
+  useContext,
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type ReactNode,
+} from "react";
 import { cn } from "../utils/cn";
-import { Tab } from "./Tab";
 
 export type TabsType = "tabs" | "pills";
 
-export type TabsItem = {
-  label: string;
+type TabsContextValue = {
+  type: TabsType;
 };
 
-export type TabsProps = {
+const TabsContext = createContext<TabsContextValue>({ type: "tabs" });
+
+export type TabsProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Root> & {
   type?: TabsType;
-  items: TabsItem[];
-  activeIndex: number;
-  onChange: (index: number) => void;
-  className?: string;
 };
 
 export const Tabs = ({
   type = "tabs",
-  items,
-  activeIndex,
-  onChange,
   className,
+  children,
+  ...props
 }: TabsProps) => (
-  <div
-    role="tablist"
-    className={cn(
-      "flex gap-1",
-      type === "pills" && "rounded-control bg-background-secondary p-1",
-      className,
-    )}
-  >
-    {items.map((item, index) => (
-      <Tab
-        key={item.label}
-        label={item.label}
-        state={index === activeIndex ? "active" : "idle"}
-        onClick={() => onChange(index)}
-        className={cn(
-          type === "pills" && "rounded-control px-3 py-1.5",
-          type === "pills" &&
-            index === activeIndex &&
-            "bg-white shadow-raise1 data-[state=active]:after:hidden",
-        )}
-      />
-    ))}
-  </div>
+  <TabsContext.Provider value={{ type }}>
+    <TabsPrimitive.Root
+      className={cn("flex flex-col", className)}
+      data-type={type}
+      {...props}
+    >
+      {children}
+    </TabsPrimitive.Root>
+  </TabsContext.Provider>
 );
+
+export type TabsListProps = ComponentPropsWithoutRef<typeof TabsPrimitive.List>;
+
+export const TabsList = forwardRef<
+  ElementRef<typeof TabsPrimitive.List>,
+  TabsListProps
+>(({ className, ...props }, ref) => {
+  const { type } = useContext(TabsContext);
+
+  return (
+    <TabsPrimitive.List
+      ref={ref}
+      className={cn(
+        "flex items-center",
+        type === "tabs" && "gap-1 border-b border-divider-primary",
+        type === "pills" && "gap-2",
+        className,
+      )}
+      {...props}
+    />
+  );
+});
+TabsList.displayName = TabsPrimitive.List.displayName;
+
+export type TabsTriggerProps = ComponentPropsWithoutRef<
+  typeof TabsPrimitive.Trigger
+> & {
+  /** Optional count badge (pill variant / search filters). */
+  count?: number;
+  children: ReactNode;
+};
+
+export const TabsTrigger = forwardRef<
+  ElementRef<typeof TabsPrimitive.Trigger>,
+  TabsTriggerProps
+>(({ className, count, children, ...props }, ref) => {
+  const { type } = useContext(TabsContext);
+
+  return (
+    <TabsPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "inline-flex items-center justify-center transition-colors outline-none",
+        "disabled:pointer-events-none disabled:opacity-50",
+        type === "tabs" && [
+          "relative px-3 py-2 text-caption-2 text-display-on-light-secondary",
+          "hover:text-display-on-light-primary",
+          "data-[state=active]:text-caption-2-em data-[state=active]:text-display-on-light-primary",
+          "data-[state=active]:after:absolute data-[state=active]:after:inset-x-0 data-[state=active]:after:-bottom-px",
+          "data-[state=active]:after:h-0.5 data-[state=active]:after:rounded-full data-[state=active]:after:bg-grey-900",
+        ],
+        type === "pills" && [
+          "min-h-9 gap-2.5 rounded-full px-3 py-1 text-caption-2-em",
+          "bg-grey-100 text-display-on-light-secondary",
+          "hover:bg-grey-200",
+          "data-[state=active]:bg-accent-bg-light data-[state=active]:text-display-on-light-primary",
+        ],
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      {typeof count === "number" && (
+        <span
+          className={cn(
+            "inline-flex size-6 shrink-0 items-center justify-center rounded-full text-footnote-em",
+            "bg-accent-bg-light text-display-on-light-tertiary",
+          )}
+          aria-label={`Count: ${count}`}
+        >
+          {count > 99 ? "99+" : count}
+        </span>
+      )}
+    </TabsPrimitive.Trigger>
+  );
+});
+TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
+export type TabsContentProps = ComponentPropsWithoutRef<
+  typeof TabsPrimitive.Content
+>;
+
+export const TabsContent = forwardRef<
+  ElementRef<typeof TabsPrimitive.Content>,
+  TabsContentProps
+>(({ className, ...props }, ref) => (
+  <TabsPrimitive.Content
+    ref={ref}
+    className={cn("outline-none", className)}
+    {...props}
+  />
+));
+TabsContent.displayName = TabsPrimitive.Content.displayName;
+
+/** @deprecated Prefer Tabs + TabsTrigger. Kept for Storybook atom demos. */
+export type TabsItem = {
+  label: string;
+  value?: string;
+  count?: number;
+};

@@ -5,6 +5,9 @@ import {
   Header,
   Tab,
   Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from "../../components";
 import { WorkflowsIllustration } from "../../illustrations";
 import {
@@ -28,18 +31,41 @@ export const ContentCanvas = () => (
       </FigmaSection>
 
       <FigmaSection label="Tabs">
-        <div className="max-w-xl space-y-6">
-          <Tabs
-            items={[{ label: "All" }, { label: "Reports" }, { label: "Issues" }]}
-            activeIndex={0}
-            onChange={() => {}}
-          />
-          <Tabs
-            type="pills"
-            items={[{ label: "Active" }, { label: "Completed" }]}
-            activeIndex={1}
-            onChange={() => {}}
-          />
+        <div className="max-w-xl space-y-8">
+          <FigmaVariant label="Underline">
+            <Tabs defaultValue="all" type="tabs">
+              <TabsList>
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="reports">Reports</TabsTrigger>
+                <TabsTrigger value="issues">Issues</TabsTrigger>
+              </TabsList>
+              <TabsContent value="all" className="pt-3 text-caption-2 text-display-on-light-secondary">
+                All content
+              </TabsContent>
+              <TabsContent value="reports" className="pt-3 text-caption-2 text-display-on-light-secondary">
+                Reports content
+              </TabsContent>
+              <TabsContent value="issues" className="pt-3 text-caption-2 text-display-on-light-secondary">
+                Issues content
+              </TabsContent>
+            </Tabs>
+          </FigmaVariant>
+          <FigmaVariant label="Pills">
+            <Tabs defaultValue="active" type="pills">
+              <TabsList>
+                <TabsTrigger value="active">Active</TabsTrigger>
+                <TabsTrigger value="completed" count={3}>
+                  Completed
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="active" className="pt-3 text-caption-2 text-display-on-light-secondary">
+                Active content
+              </TabsContent>
+              <TabsContent value="completed" className="pt-3 text-caption-2 text-display-on-light-secondary">
+                Completed content
+              </TabsContent>
+            </Tabs>
+          </FigmaVariant>
         </div>
       </FigmaSection>
 

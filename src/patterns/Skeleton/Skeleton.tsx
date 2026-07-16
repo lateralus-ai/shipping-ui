@@ -25,25 +25,24 @@ const ContentSkeleton = () => (
   </div>
 );
 
-const SearchSkeleton = () => (
-  <div className="flex flex-col gap-3 p-4" aria-hidden>
-    <div className="h-10 animate-pulse rounded-control bg-grey-200" />
-    <div className="flex gap-2">
-      <div className="h-7 w-16 animate-pulse rounded-full bg-grey-100" />
-      <div className="h-7 w-20 animate-pulse rounded-full bg-grey-100" />
-      <div className="h-7 w-14 animate-pulse rounded-full bg-grey-100" />
-    </div>
-    {Array.from({ length: 4 }).map((_, index) => (
-      <div key={index} className="flex items-center gap-3 py-1">
-        <div className="size-5 animate-pulse rounded bg-grey-200" />
-        <div className="flex flex-1 flex-col gap-1.5">
-          <div className="h-3.5 w-3/4 animate-pulse rounded bg-grey-200" />
-          <div className="h-3 w-1/2 animate-pulse rounded bg-grey-100" />
+/** Figma Search loading — 8 rows of icon + bar (no input/pills). */
+const SearchSkeleton = () => {
+  const widths = [250, 300, 220, 255, 250, 300, 220, 255];
+
+  return (
+    <div className="flex flex-col gap-1.5 p-4" aria-hidden>
+      {widths.map((width, index) => (
+        <div key={index} className="flex items-start gap-2 py-2">
+          <div className="size-3 shrink-0 animate-pulse rounded-md bg-grey-200" />
+          <div
+            className="h-3 animate-pulse rounded-md bg-grey-200"
+            style={{ width }}
+          />
         </div>
-      </div>
-    ))}
-  </div>
-);
+      ))}
+    </div>
+  );
+};
 
 export const Skeleton = ({ variant = "content", className }: SkeletonProps) => (
   <div
