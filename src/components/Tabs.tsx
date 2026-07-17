@@ -103,7 +103,7 @@ export const TabsTrigger = forwardRef<
         (type === "pills" ? (
           <span
             className={cn(
-              "inline-flex size-6 shrink-0 items-center justify-center rounded-full text-footnote-em",
+              "inline-flex shrink-0 items-center justify-center rounded-full px-1.5 py-0.5 text-footnote-em leading-none",
               "bg-accent-bg-light text-display-on-light-secondary",
               "group-data-[state=active]:text-display-on-light-tertiary",
             )}
