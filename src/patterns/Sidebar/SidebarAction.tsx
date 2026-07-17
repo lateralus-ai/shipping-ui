@@ -6,6 +6,7 @@ import {
   sidebarLinkIdle,
   sidebarRowClass,
   sidebarRowInteractiveHover,
+  sidebarSectionIconClass,
 } from "./sidebar-styles";
 
 export type SidebarActionProps = {
@@ -44,7 +45,7 @@ export const SidebarAction = ({
       data-active={active}
       data-collapsed={collapsed}
     >
-      {icon && <span className="shrink-0 [&>svg]:size-5">{icon}</span>}
+      {icon && <span className={sidebarSectionIconClass}>{icon}</span>}
       {!collapsed && <span className="min-w-0 flex-1 truncate">{label}</span>}
     </button>
   );
