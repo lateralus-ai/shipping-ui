@@ -45,7 +45,6 @@ export const CollapsibleNavGroup = ({
       href={href}
       label={label}
       icon={icon}
-      tall
       onNavigate={onNavigate}
       trailing={
         <IconButton

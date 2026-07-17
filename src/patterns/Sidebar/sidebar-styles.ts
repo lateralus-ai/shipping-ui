@@ -30,7 +30,8 @@ export const sidebarUnreadOverlay =
 export const sidebarUnreadDot =
   "absolute right-0 top-0 size-1.5 rounded-full bg-[#802c20]";
 
-export const sidebarSectionContent = "flex w-full min-w-0 items-center gap-2 pl-1";
+/** Icon + label row inside a section shell — no extra inset (shell already has p-2). */
+export const sidebarSectionContent = "flex w-full min-w-0 items-center gap-2";
 
 export const sidebarSectionIconClass = "shrink-0 [&>svg]:size-4";
 

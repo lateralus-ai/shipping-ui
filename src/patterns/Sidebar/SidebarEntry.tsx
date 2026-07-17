@@ -75,9 +75,7 @@ export const SidebarEntry = ({
       />
 
       <div className="pointer-events-none relative z-10 flex min-w-0 flex-1 items-center gap-2 text-caption-2">
-        {icon && (
-          <span className="shrink-0 px-1 py-0.5 [&>svg]:size-4">{icon}</span>
-        )}
+        {icon && <span className="shrink-0 [&>svg]:size-4">{icon}</span>}
         <span className="truncate">{label}</span>
       </div>
 
