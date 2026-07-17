@@ -93,6 +93,7 @@ export const CollapsibleNavGroup = ({
               ) : undefined
             }
             menuItems={entryMenuItems}
+            onNavigate={onNavigate}
           />
         ))}
       </div>

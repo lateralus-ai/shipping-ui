@@ -3,7 +3,6 @@ import { DropdownMenu, DropdownMenuItem, IconButton } from "../../primitives";
 import { MoreIcon } from "../../icons";
 import { cn } from "../../utils/cn";
 import {
-  sidebarAnchorClass,
   sidebarEntryHover,
   sidebarEntryIdle,
   sidebarEntrySelected,
@@ -66,58 +65,76 @@ export const SidebarEntry = ({
       )}
       data-state={state}
     >
+      {/* Stretch hit target over shell padding (hover was on the shell, link was content-only). */}
       <a
         href={href}
-        className={sidebarAnchorClass("gap-1")}
+        className="absolute inset-0 z-0 rounded-control"
+        aria-label={label}
         aria-current={state === "selected" ? "true" : undefined}
         onClick={onNavigate}
-      >
-        {icon && <span className="shrink-0 px-1 py-0.5 [&>svg]:size-4">{icon}</span>}
+      />
+
+      <div className="pointer-events-none relative z-10 flex min-w-0 flex-1 items-center gap-2 text-caption-2">
+        {icon && (
+          <span className="shrink-0 px-1 py-0.5 [&>svg]:size-4">{icon}</span>
+        )}
         <span className="truncate">{label}</span>
-      </a>
+      </div>
 
       {badge && !(showMenu && menuVisible) && (
         <span
-          className={cn("shrink-0", showMenu && !forceMenuVisible && "group-hover/row:hidden")}
+          className={cn(
+            "pointer-events-none relative z-10 shrink-0",
+            showMenu && !forceMenuVisible && "group-hover/row:hidden",
+          )}
         >
           {badge}
         </span>
       )}
 
       {showMenu && (
-        <DropdownMenu
-          open={menuOpen}
-          onOpenChange={setMenuOpen}
-          align="end"
-          trigger={
-            <IconButton
-              hierarchy="quaternary"
-              size="small"
-              aria-label={`Actions for ${label}`}
-              aria-haspopup="menu"
-              aria-expanded={menuOpen}
-              className={cn(
-                "size-6 min-h-6 shrink-0 p-1",
-                sidebarQuaternaryIconButton,
-                !forceMenuVisible && !menuOpen && "hidden group-hover/row:inline-flex",
-                (forceMenuVisible || menuOpen) && "inline-flex",
-              )}
-            >
-              <MoreIcon size="small" />
-            </IconButton>
-          }
-        >
-          {menuItems?.map((item) => (
-            <DropdownMenuItem
-              key={item.id}
-              className={cn(item.destructive && "text-red-500 hover:bg-red-50 hover:text-red-700")}
-              onSelect={() => item.onSelect()}
-            >
-              {item.icon && <span className="shrink-0 [&>svg]:size-4">{item.icon}</span>}
-              {item.label}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenu>
+        <div className="relative z-10 shrink-0">
+          <DropdownMenu
+            open={menuOpen}
+            onOpenChange={setMenuOpen}
+            align="end"
+            trigger={
+              <IconButton
+                hierarchy="quaternary"
+                size="small"
+                aria-label={`Actions for ${label}`}
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+                className={cn(
+                  "size-6 min-h-6 shrink-0 p-1",
+                  sidebarQuaternaryIconButton,
+                  !forceMenuVisible &&
+                    !menuOpen &&
+                    "hidden group-hover/row:inline-flex",
+                  (forceMenuVisible || menuOpen) && "inline-flex",
+                )}
+              >
+                <MoreIcon size="small" />
+              </IconButton>
+            }
+          >
+            {menuItems?.map((item) => (
+              <DropdownMenuItem
+                key={item.id}
+                className={cn(
+                  item.destructive &&
+                    "text-red-500 hover:bg-red-50 hover:text-red-700",
+                )}
+                onSelect={() => item.onSelect()}
+              >
+                {item.icon && (
+                  <span className="shrink-0 [&>svg]:size-4">{item.icon}</span>
+                )}
+                {item.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenu>
+        </div>
       )}
     </div>
   );

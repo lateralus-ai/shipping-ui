@@ -1,7 +1,12 @@
 import { type ReactNode } from "react";
 import { Tooltip } from "../../primitives";
 import { cn } from "../../utils/cn";
-import { sidebarLinkActive, sidebarLinkIdle, sidebarRowClass, sidebarRowInteractiveHover, sidebarSectionAnchorClass } from "./sidebar-styles";
+import {
+  sidebarLinkActive,
+  sidebarLinkIdle,
+  sidebarRowClass,
+  sidebarRowInteractiveHover,
+} from "./sidebar-styles";
 
 export type SidebarActionProps = {
   label: string;
@@ -23,26 +28,25 @@ export const SidebarAction = ({
   className,
 }: SidebarActionProps) => {
   const row = (
-    <div
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
       className={sidebarRowClass(
         cn(
+          "cursor-pointer text-left",
           active ? sidebarLinkActive : sidebarLinkIdle,
           !active && sidebarRowInteractiveHover,
+          collapsed ? "justify-center" : "gap-2",
           className,
         ),
       )}
       data-active={active}
       data-collapsed={collapsed}
     >
-      <button
-        type="button"
-        className={sidebarSectionAnchorClass(collapsed ? "justify-center" : undefined)}
-        onClick={onClick}
-      >
-        {icon && <span className="shrink-0 [&>svg]:size-5">{icon}</span>}
-        {!collapsed && <span className="truncate">{label}</span>}
-      </button>
-    </div>
+      {icon && <span className="shrink-0 [&>svg]:size-5">{icon}</span>}
+      {!collapsed && <span className="min-w-0 flex-1 truncate">{label}</span>}
+    </button>
   );
 
   if (!collapsed || !tooltip) return row;
