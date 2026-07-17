@@ -1,4 +1,4 @@
-import { Button } from "../../primitives";
+import { Badge, Button } from "../../primitives";
 import {
   EmptyState,
   Entry,
@@ -9,6 +9,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "../../components";
+import { TickIcon } from "../../icons";
 import { WorkflowsIllustration } from "../../illustrations";
 import {
   FigmaContent,
@@ -50,12 +51,13 @@ export const ContentCanvas = () => (
               </TabsContent>
             </Tabs>
           </FigmaVariant>
-          <FigmaVariant label="Pills">
-            <Tabs defaultValue="active" type="pills">
+          <FigmaVariant label="Pills · soft">
+            <Tabs defaultValue="active" type="pills" appearance="soft">
               <TabsList>
                 <TabsTrigger value="active">Active</TabsTrigger>
-                <TabsTrigger value="completed" count={3}>
+                <TabsTrigger value="completed">
                   Completed
+                  <Badge color="blue">3</Badge>
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="active" className="pt-3 text-caption-2 text-display-on-light-secondary">
@@ -64,6 +66,27 @@ export const ContentCanvas = () => (
               <TabsContent value="completed" className="pt-3 text-caption-2 text-display-on-light-secondary">
                 Completed content
               </TabsContent>
+            </Tabs>
+          </FigmaVariant>
+          <FigmaVariant label="Pills · solid">
+            <Tabs defaultValue="chat" type="pills" appearance="solid">
+              <TabsList>
+                <TabsTrigger value="chat">Chat</TabsTrigger>
+                <TabsTrigger value="questions">
+                  Questions
+                  <Badge color="grey">208</Badge>
+                </TabsTrigger>
+                <TabsTrigger value="review">
+                  Review
+                  <Badge color="green" type="icon">
+                    <TickIcon size="xs" />
+                  </Badge>
+                </TabsTrigger>
+                <TabsTrigger value="gaps">
+                  Gaps
+                  <Badge color="grey">47</Badge>
+                </TabsTrigger>
+              </TabsList>
             </Tabs>
           </FigmaVariant>
         </div>

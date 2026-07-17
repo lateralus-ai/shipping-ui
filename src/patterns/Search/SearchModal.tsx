@@ -13,6 +13,7 @@ import {
   type ModalProps,
 } from "../../components/Modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/Tabs";
+import { Badge } from "../../primitives/Badge";
 import { cn } from "../../utils/cn";
 import { ResultRow, type ResultRowProps } from "./ResultRow";
 import { SectionHeader } from "./SectionHeader";
@@ -176,8 +177,13 @@ export const SearchModalFilters = ({
       )}
     >
       {tabs.map((tab) => (
-        <TabsTrigger key={tab.value} value={tab.value} count={tab.count}>
+        <TabsTrigger key={tab.value} value={tab.value}>
           {tab.label}
+          {typeof tab.count === "number" && (
+            <Badge color="blue">
+              {tab.count > 99 ? "99+" : tab.count}
+            </Badge>
+          )}
         </TabsTrigger>
       ))}
     </TabsList>

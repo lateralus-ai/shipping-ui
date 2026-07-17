@@ -11,26 +11,37 @@ import { cn } from "../utils/cn";
 
 export type TabsType = "tabs" | "pills";
 
+/** Soft = search filters (filled idle). Solid = workflow shell (ghost idle, blue active). */
+export type TabsAppearance = "soft" | "solid";
+
 type TabsContextValue = {
   type: TabsType;
+  appearance: TabsAppearance;
 };
 
-const TabsContext = createContext<TabsContextValue>({ type: "tabs" });
+const TabsContext = createContext<TabsContextValue>({
+  type: "tabs",
+  appearance: "soft",
+});
 
 export type TabsProps = ComponentPropsWithoutRef<typeof TabsPrimitive.Root> & {
   type?: TabsType;
+  /** Only applies when `type="pills"`. Defaults to `soft`. */
+  appearance?: TabsAppearance;
 };
 
 export const Tabs = ({
   type = "tabs",
+  appearance = "soft",
   className,
   children,
   ...props
 }: TabsProps) => (
-  <TabsContext.Provider value={{ type }}>
+  <TabsContext.Provider value={{ type, appearance }}>
     <TabsPrimitive.Root
       className={cn("flex flex-col", className)}
       data-type={type}
+      data-appearance={type === "pills" ? appearance : undefined}
       {...props}
     >
       {children}
@@ -64,22 +75,20 @@ TabsList.displayName = TabsPrimitive.List.displayName;
 export type TabsTriggerProps = ComponentPropsWithoutRef<
   typeof TabsPrimitive.Trigger
 > & {
-  /** Optional count badge (pill variant / search filters). */
-  count?: number;
   children: ReactNode;
 };
 
 export const TabsTrigger = forwardRef<
   ElementRef<typeof TabsPrimitive.Trigger>,
   TabsTriggerProps
->(({ className, count, children, ...props }, ref) => {
-  const { type } = useContext(TabsContext);
+>(({ className, children, ...props }, ref) => {
+  const { type, appearance } = useContext(TabsContext);
 
   return (
     <TabsPrimitive.Trigger
       ref={ref}
       className={cn(
-        "inline-flex items-center justify-center transition-colors outline-none",
+        "inline-flex items-center justify-center gap-2.5 transition-colors outline-none",
         "disabled:pointer-events-none disabled:opacity-50",
         type === "tabs" && [
           "relative h-12 gap-2 px-0 py-0 text-caption-2 text-display-on-light-secondary",
@@ -88,37 +97,26 @@ export const TabsTrigger = forwardRef<
           "data-[state=active]:after:absolute data-[state=active]:after:inset-x-0 data-[state=active]:after:-bottom-px",
           "data-[state=active]:after:h-0.5 data-[state=active]:after:rounded-full data-[state=active]:after:bg-grey-900",
         ],
-        type === "pills" && [
-          "group min-h-9 gap-2.5 rounded-full px-3 py-1 text-caption-2-em",
-          "bg-grey-100 text-display-on-light-secondary",
-          "hover:bg-grey-200",
-          "data-[state=active]:bg-accent-bg-light data-[state=active]:text-display-on-light-primary",
-        ],
+        type === "pills" &&
+          appearance === "soft" && [
+            "min-h-9 rounded-full px-3 py-1 text-caption-2-em",
+            "bg-grey-100 text-display-on-light-secondary",
+            "hover:bg-grey-200",
+            "data-[state=active]:bg-accent-bg-light data-[state=active]:text-display-on-light-primary",
+          ],
+        type === "pills" &&
+          appearance === "solid" && [
+            "min-h-9 rounded-full px-3 py-1 text-caption-2-em",
+            "bg-transparent text-display-on-light-primary",
+            "hover:bg-grey-900/[0.04]",
+            "data-[state=active]:bg-blue-600 data-[state=active]:text-white",
+            "data-[state=active]:hover:bg-blue-600",
+          ],
         className,
       )}
       {...props}
     >
       {children}
-      {typeof count === "number" &&
-        (type === "pills" ? (
-          <span
-            className={cn(
-              "inline-flex shrink-0 items-center justify-center rounded-full px-1.5 py-0.5 text-footnote-em leading-none",
-              "bg-accent-bg-light text-display-on-light-secondary",
-              "group-data-[state=active]:text-display-on-light-tertiary",
-            )}
-            aria-label={`Count: ${count}`}
-          >
-            {count > 99 ? "99+" : count}
-          </span>
-        ) : (
-          <span
-            className="px-1 text-caption-2 text-display-on-light-secondary"
-            aria-label={`Count: ${count}`}
-          >
-            {count > 99 ? "99+" : count}
-          </span>
-        ))}
     </TabsPrimitive.Trigger>
   );
 });

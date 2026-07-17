@@ -14,5 +14,5 @@ export { Tooltip, TooltipProvider, type TooltipProps, type TooltipSide } from ".
 export { ThinkingDot, type ThinkingDotProps } from "./ThinkingDot";
 export { Count, type CountProps } from "./Count";
 export { Switch, type SwitchProps } from "./Switch";
-export { Badge, type BadgeProps } from "./Badge";
+export { Badge, type BadgeProps, type BadgeColor, type BadgeType } from "./Badge";
 export { Callout, type CalloutProps } from "./Callout";

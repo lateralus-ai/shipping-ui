@@ -56,6 +56,7 @@ export type {
   TabsContentProps,
   TabsItem,
   TabsType,
+  TabsAppearance,
   HeaderProps,
   HeaderVariant,
   EntryProps,

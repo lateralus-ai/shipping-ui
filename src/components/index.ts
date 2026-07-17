@@ -15,6 +15,7 @@ export {
   type TabsContentProps,
   type TabsItem,
   type TabsType,
+  type TabsAppearance,
 } from "./Tabs";
 export { Header, type HeaderProps, type HeaderVariant } from "./Header";
 export { Entry, type EntryProps, type EntryType, type EntryState, type EntryVariant } from "./Entry";
