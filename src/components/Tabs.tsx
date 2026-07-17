@@ -11,7 +11,7 @@ import { cn } from "../utils/cn";
 
 export type TabsType = "tabs" | "pills";
 
-/** Soft = search filters (filled idle). Solid = workflow shell (ghost idle, blue active). */
+/** Soft = search filters (filled idle, light accent active). Solid = list filters (grey-100 idle, blue-600 active). */
 export type TabsAppearance = "soft" | "solid";
 
 type TabsContextValue = {
@@ -107,8 +107,8 @@ export const TabsTrigger = forwardRef<
         type === "pills" &&
           appearance === "solid" && [
             "min-h-9 rounded-full px-3 py-1 text-caption-2-em",
-            "bg-transparent text-display-on-light-tertiary",
-            "hover:bg-grey-900/[0.04] hover:text-display-on-light-primary",
+            "bg-grey-100 text-display-on-light-tertiary",
+            "hover:bg-grey-200 hover:text-display-on-light-primary",
             "data-[state=active]:bg-blue-600 data-[state=active]:text-white",
             "data-[state=active]:hover:bg-blue-600",
           ],
