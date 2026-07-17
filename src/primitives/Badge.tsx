@@ -13,11 +13,11 @@ export type BadgeProps = {
 };
 
 const colorStyles: Record<BadgeColor, string> = {
-  blue: "bg-meta-blue text-meta-on-blue",
-  green: "bg-meta-green text-meta-on-green",
-  red: "bg-meta-red text-meta-on-red",
-  orange: "bg-meta-orange text-meta-on-orange",
-  purple: "bg-meta-purple text-meta-on-purple",
+  blue: "bg-meta-blue text-meta-onBlue",
+  green: "bg-meta-green text-meta-onGreen",
+  red: "bg-meta-red text-meta-onRed",
+  orange: "bg-meta-orange text-meta-onOrange",
+  purple: "bg-meta-purple text-meta-onPurple",
   grey: "bg-grey-100 text-display-on-light-secondary",
 };
 
