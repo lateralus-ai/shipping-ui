@@ -18,6 +18,13 @@ export {
   type TabsAppearance,
 } from "./Tabs";
 export { Header, type HeaderProps, type HeaderVariant } from "./Header";
+export {
+  PageHeader,
+  type PageHeaderProps,
+  type PageHeaderCrumb,
+  type PageHeaderShellProps,
+  type PageHeaderBodyProps,
+} from "./PageHeader";
 export { Entry, type EntryProps, type EntryType, type EntryState, type EntryVariant } from "./Entry";
 export { EmptyState, type EmptyStateProps } from "./EmptyState";
 export {
