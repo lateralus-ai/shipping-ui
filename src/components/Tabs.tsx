@@ -107,8 +107,8 @@ export const TabsTrigger = forwardRef<
         type === "pills" &&
           appearance === "solid" && [
             "min-h-9 rounded-full px-3 py-1 text-caption-2-em",
-            "bg-transparent text-display-on-light-primary",
-            "hover:bg-grey-900/[0.04]",
+            "bg-transparent text-display-on-light-tertiary",
+            "hover:bg-grey-900/[0.04] hover:text-display-on-light-primary",
             "data-[state=active]:bg-blue-600 data-[state=active]:text-white",
             "data-[state=active]:hover:bg-blue-600",
           ],
