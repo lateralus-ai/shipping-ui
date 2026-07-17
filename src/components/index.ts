@@ -25,6 +25,12 @@ export {
   type PageHeaderShellProps,
   type PageHeaderBodyProps,
 } from "./PageHeader";
+export {
+  ScrollableList,
+  type ScrollableListProps,
+  type ScrollableListHeaderProps,
+  type ScrollableListBodyProps,
+} from "./ScrollableList";
 export { Entry, type EntryProps, type EntryType, type EntryState, type EntryVariant } from "./Entry";
 export { EmptyState, type EmptyStateProps } from "./EmptyState";
 export {

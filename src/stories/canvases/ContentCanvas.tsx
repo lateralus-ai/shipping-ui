@@ -1,16 +1,17 @@
-import { Badge, Button, IconButton } from "../../primitives";
+import { Badge, Button, IconButton, Avatar } from "../../primitives";
 import {
   EmptyState,
   Entry,
   Header,
   PageHeader,
+  ScrollableList,
   Tab,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from "../../components";
-import { MoreIcon, ShipIcon, TickIcon } from "../../icons";
+import { FormsIcon, MoreIcon, ShipIcon, TickIcon } from "../../icons";
 import { WorkflowsIllustration } from "../../illustrations";
 import {
   FigmaContent,
@@ -29,6 +30,116 @@ const demoActions = (
     </IconButton>
   </>
 );
+
+type DemoRow = {
+  title: string;
+  assignee?: string;
+  unassigned?: boolean;
+  signatures?: number[];
+  date: string;
+  vessel: string;
+  initials: string;
+  avatarClassName: string;
+};
+
+const DEMO_ROWS: DemoRow[] = [
+  {
+    title: "Cargo Tank Cleaning for Grade Change",
+    assignee: "Dimitris Konstantinou",
+    signatures: [1, 2, 3],
+    date: "23/04/2026",
+    vessel: "The Coral Explorer",
+    initials: "MS",
+    avatarClassName: "bg-purple-500 text-white",
+  },
+  {
+    title: "Hot Work in Engine Room",
+    assignee: "Dimitris Konstantinou",
+    signatures: [1, 2, 3],
+    date: "23/04/2026",
+    vessel: "Ocean Voyager",
+    initials: "PO",
+    avatarClassName: "bg-blue-700 text-white",
+  },
+  {
+    title: "Enclosed Space Entry in Ballast Tank",
+    assignee: "Yiannis Papadopoulos",
+    signatures: [1],
+    date: "23/04/2026",
+    vessel: "Ocean Voyager",
+    initials: "PO",
+    avatarClassName: "bg-blue-700 text-white",
+  },
+  {
+    title: "Working at Height on Deck Crane",
+    assignee: "Yiannis Papadopoulos",
+    date: "23/04/2026",
+    vessel: "Albatross Wind",
+    initials: "LD",
+    avatarClassName: "bg-grey-700 text-white",
+  },
+  {
+    title: "Electrical Isolation for Switchboard Maintenance",
+    assignee: "Dimitris Konstantinou",
+    signatures: [1, 2, 3],
+    date: "23/04/2026",
+    vessel: "The Coral Explorer",
+    initials: "MS",
+    avatarClassName: "bg-purple-500 text-white",
+  },
+  {
+    title: "Pilot Ladder Rigging in High Swell",
+    unassigned: true,
+    date: "23/04/2026",
+    vessel: "Albatross Wind",
+    initials: "",
+    avatarClassName: "",
+  },
+];
+
+function DemoListRow({ row }: { row: DemoRow }) {
+  return (
+    <div className="flex h-12 w-full shrink-0 items-center gap-2 rounded-lg p-2">
+      <FormsIcon size="large" className="shrink-0 text-display-on-light-primary" />
+      <div className="flex min-w-0 flex-1 items-center gap-8">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <p className="shrink-0 truncate text-body text-display-on-light-primary">
+            {row.title}
+          </p>
+          <div className="flex shrink-0 items-start gap-1">
+            {row.unassigned ? (
+              <Badge color="red">Unassigned</Badge>
+            ) : row.assignee ? (
+              <Badge color="grey">{row.assignee}</Badge>
+            ) : null}
+            {row.signatures?.map((n) => (
+              <Badge key={n} color="orange" type="icon">
+                {n}
+              </Badge>
+            ))}
+          </div>
+        </div>
+        <div className="w-[90px] shrink-0 text-caption-2 text-display-on-light-secondary">
+          {row.date}
+        </div>
+        <div className="w-[150px] shrink-0 truncate text-caption-2 text-display-on-light-secondary">
+          {row.vessel}
+        </div>
+        {row.initials ? (
+          <Avatar
+            chief="initials"
+            size={24}
+            initials={row.initials}
+            className={row.avatarClassName}
+          />
+        ) : (
+          <span className="size-6 shrink-0" aria-hidden />
+        )}
+      </div>
+    </div>
+  );
+}
+
 
 export const ContentCanvas = () => (
   <FigmaPage title="Content" width={FIGMA_WIDTHS.content}>
@@ -152,6 +263,25 @@ export const ContentCanvas = () => (
             </div>
           </FigmaVariant>
         </div>
+      </FigmaSection>
+
+      <FigmaSection label="ScrollableList (Table)">
+        <FigmaVariant label="Column header + scrolling body">
+          <div className="flex h-[420px] w-full max-w-[960px] flex-col">
+            <ScrollableList>
+              <ScrollableList.Header>
+                <span className="min-w-0 flex-1">Title</span>
+                <span className="w-[90px] shrink-0">Date</span>
+                <span className="w-[210px] shrink-0">Vessel</span>
+              </ScrollableList.Header>
+              <ScrollableList.Body>
+                {DEMO_ROWS.map((row) => (
+                  <DemoListRow key={row.title} row={row} />
+                ))}
+              </ScrollableList.Body>
+            </ScrollableList>
+          </div>
+        </FigmaVariant>
       </FigmaSection>
 
       <FigmaSection label="Header (legacy)">

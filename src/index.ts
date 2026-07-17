@@ -36,6 +36,7 @@ export {
   PdfViewer,
   ImageViewer,
   DocumentEditor,
+  ScrollableList,
 } from "./components";
 
 export type {
@@ -64,6 +65,9 @@ export type {
   PageHeaderCrumb,
   PageHeaderShellProps,
   PageHeaderBodyProps,
+  ScrollableListProps,
+  ScrollableListHeaderProps,
+  ScrollableListBodyProps,
   EntryProps,
   EntryType,
   EntryState,
