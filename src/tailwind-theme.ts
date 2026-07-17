@@ -74,6 +74,10 @@ export const theme = {
     md: borderRadius.md,
     sm: borderRadius.sm,
   },
+  /** Extends Tailwind’s max-width scale (7xl = 1280px). */
+  maxWidth: {
+    "8xl": "1640px",
+  },
   colors: {
     grey: colorScales.grey,
     gray: colorScales.grey,
