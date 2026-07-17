@@ -121,6 +121,8 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const resolvedIcon = icon ?? startIcon;
+  const renderedIcon = renderIcon(resolvedIcon);
+  const hasIcon = renderedIcon != null;
   const hasDropdown = Boolean(dropdownOptions?.length);
   const dropdownDisabled = !dropdownOptions?.some((option) => !option.disabled);
   const mainAppearance = getAppearance(disabled, forcedState);
@@ -135,11 +137,18 @@ export const Button = ({
     dropdownAppearance,
     forcedState,
   );
-  const label = (
-    <>
-      {renderIcon(resolvedIcon)}
-      <span className="px-2">{children}</span>
-    </>
+
+  /** Label-only: centered text. With start icon: gap between icon and label. */
+  const content = (
+    <span
+      className={cn(
+        "flex min-h-6 items-center justify-center",
+        hasIcon && "gap-2",
+      )}
+    >
+      {renderedIcon}
+      <span>{children}</span>
+    </span>
   );
 
   if (!hasDropdown) {
@@ -156,9 +165,7 @@ export const Button = ({
         )}
         {...props}
       >
-        <span className="flex min-h-6 items-center [&>*:first-child]:-mr-1 [&>*:last-child]:-mr-1">
-          {label}
-        </span>
+        {content}
       </button>
     );
   }
@@ -175,9 +182,7 @@ export const Button = ({
       )}
       {...props}
     >
-      <span className="flex min-h-6 items-center [&>*:first-child]:-mr-1 [&>*:last-child]:-mr-1">
-        {label}
-      </span>
+      {content}
     </button>
   );
 
