@@ -1,6 +1,7 @@
 import { cn } from "../../utils/cn";
-import { FiltersIcon } from "../../icons/generated";
 import { SearchIcon } from "../../icons/generated";
+import { FilterPill } from "./FilterPill";
+import { FilterPills } from "./FilterPills";
 
 export type FiltersBarTabs = "on" | "off";
 export type FiltersBarFilters = "on" | "off";
@@ -47,30 +48,25 @@ export const FiltersBar = ({
         </div>
       )}
       <div className="flex shrink-0 items-center gap-4">
-        <button
-          type="button"
-          aria-label="Open filters"
-          className="flex size-9 items-center justify-center rounded-full bg-background-secondary text-display-on-light-secondary hover:text-display-on-light-primary"
-        >
-          <FiltersIcon size="small" />
-        </button>
+        <FilterPill
+          activeFilterCount={filters === "on" ? filterChips.length : 0}
+        />
         <div className="flex w-[250px] items-center gap-2 rounded-md border border-divider-primary px-3 py-2">
-          <span className="flex-1 text-body text-display-on-light-secondary">{searchPlaceholder}</span>
+          <span className="flex-1 text-body text-display-on-light-secondary">
+            {searchPlaceholder}
+          </span>
           <SearchIcon size="small" className="text-display-on-light-tertiary" />
         </div>
       </div>
     </div>
     {filters === "on" && (
-      <div className="flex flex-wrap gap-2">
-        {filterChips.map((chip) => (
-          <span
-            key={chip}
-            className="rounded-full bg-background-secondary px-3 py-1.5 text-caption-2-em text-display-on-light-tertiary"
-          >
-            {chip}
-          </span>
-        ))}
-      </div>
+      <FilterPills
+        chips={filterChips.map((chip) => ({
+          key: chip,
+          label: chip,
+          onRemove: () => undefined,
+        }))}
+      />
     )}
   </div>
 );
