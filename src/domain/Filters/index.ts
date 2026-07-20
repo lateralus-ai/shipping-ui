@@ -10,6 +10,7 @@ export {
 } from "./FilteredPill";
 export {
   FilterPill,
+  type FilterPillAppearance,
   type FilterPillProps,
 } from "./FilterPill";
 export {

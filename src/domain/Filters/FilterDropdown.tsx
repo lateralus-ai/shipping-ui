@@ -7,7 +7,7 @@ import {
 import * as Popover from "@radix-ui/react-popover";
 import { cn } from "../../utils/cn";
 import { ChevronIcon } from "../../icons/ChevronIcon";
-import { FilterPill } from "./FilterPill";
+import { FilterPill, type FilterPillAppearance } from "./FilterPill";
 
 /** One selectable row at a leaf list. */
 export type FilterOption = {
@@ -45,7 +45,7 @@ export type FilterNestedItem = {
   content: FilterSubmenuContent;
 };
 
-/** Left column row that opens a (possibly nested) submenu on the right. */
+/** Left-column row that opens a (possibly nested) submenu panel. */
 export type FilterCategorySubmenuRow = {
   kind?: "submenu";
   id: string;
@@ -192,13 +192,17 @@ export type FilterDropdownProps = {
   zIndexClass?: string;
   /** Replace the default FilterPill trigger. */
   trigger?: ReactNode;
+  /** Passed to the default FilterPill when `trigger` is omitted. */
+  triggerAppearance?: FilterPillAppearance;
+  /**
+   * Which side the options panel attaches to the category column.
+   * Carets stay on the right of category rows either way.
+   */
+  submenuSide?: "left" | "right";
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   className?: string;
 };
-
-const submenuPanelClass =
-  "bg-background-primary rounded-lg shadow-raise1 border border-divider-primary border-l-0 rounded-l-none min-w-[200px] max-w-[min(28rem,calc(100vw-2rem))] max-h-[min(28rem,calc(100dvh-8rem))] flex flex-col overflow-hidden";
 
 const scrollClass = "py-2 overflow-y-auto overscroll-y-contain flex-1 min-h-0";
 
@@ -221,6 +225,8 @@ export function FilterDropdown({
   getOptionLabelStyle,
   zIndexClass = "z-50",
   trigger,
+  triggerAppearance = "filled",
+  submenuSide = "right",
   open: openControlled,
   onOpenChange,
   className,
@@ -240,9 +246,184 @@ export function FilterDropdown({
     ? resolveSubmenuView(activeSubmenuRow.content, navPath)
     : null;
 
-  const showRightPanel = Boolean(activeSubmenuRow && view);
+  const showSubmenuPanel = Boolean(activeSubmenuRow && view);
+  const submenuOpensLeft = submenuSide === "left";
 
   const resetNav = () => setNavPath([]);
+
+  const submenuPanelClass = cn(
+    "bg-background-primary max-h-[min(28rem,calc(100dvh-8rem))] min-w-[200px] max-w-[min(28rem,calc(100vw-2rem))] flex flex-col overflow-hidden border border-divider-primary shadow-raise1",
+    submenuOpensLeft
+      ? "rounded-l-lg rounded-r-none border-r-0"
+      : "rounded-r-lg rounded-l-none border-l-0",
+  );
+
+  const categoryPanelClass = cn(
+    "min-w-[180px] border border-divider-primary bg-background-primary shadow-raise1",
+    showSubmenuPanel
+      ? submenuOpensLeft
+        ? "rounded-r-lg rounded-l-none"
+        : "rounded-l-lg rounded-r-none"
+      : "rounded-lg",
+  );
+
+  const categoryPanel = (
+    <div className={categoryPanelClass}>
+      <div className="py-2">
+        {categoryRows.map((row) =>
+          isToggleRow(row) ? (
+            <button
+              key={row.id}
+              type="button"
+              onClick={() => row.onCheckedChange(!row.checked)}
+              className={cn(rowClass, row.checked && "bg-grey-50")}
+            >
+              <span className="text-body text-display-on-light-primary">
+                {row.label}
+              </span>
+              <CheckSlot selected={row.checked} />
+            </button>
+          ) : (
+            <button
+              key={row.id}
+              type="button"
+              onClick={() => {
+                if (activeSubmenuId === row.id) {
+                  setActiveSubmenuId(null);
+                  resetNav();
+                } else {
+                  setActiveSubmenuId(row.id);
+                  resetNav();
+                }
+              }}
+              className={cn(
+                rowClass,
+                activeSubmenuId === row.id && "bg-grey-50",
+              )}
+            >
+              <span className="text-body text-display-on-light-primary">
+                {row.label}
+              </span>
+              <ChevronIcon
+                direction="right"
+                size="small"
+                className={cn(
+                  "text-grey-400 transition-transform",
+                  activeSubmenuId === row.id && "rotate-90",
+                )}
+              />
+            </button>
+          ),
+        )}
+
+        <div className="mt-2 border-t border-divider-primary pt-2">
+          <button
+            type="button"
+            onClick={onResetAll}
+            className={cn(rowClass)}
+          >
+            <span className="text-body text-display-on-light-primary">
+              {resetAllLabel}
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const submenuPanel =
+    showSubmenuPanel && view ? (
+      <div className={cn(submenuPanelClass, "flex flex-col")}>
+        {navPath.length > 0 && (
+          <div className="flex-shrink-0 border-b border-grey-100 px-2 py-1.5">
+            <button
+              type="button"
+              onClick={() => setNavPath((p) => p.slice(0, -1))}
+              className="flex w-full items-center gap-1 rounded-md px-2 py-1 text-left text-caption-2-em text-display-on-light-secondary hover:bg-grey-50"
+            >
+              <ChevronIcon
+                direction="left"
+                size="small"
+                className="shrink-0"
+              />
+              Back
+            </button>
+          </div>
+        )}
+        {view.trail.length > 0 && (
+          <div className="flex-shrink-0 truncate px-4 pb-1 pt-2 text-footnote text-grey-500">
+            {view.trail.join(" › ")}
+          </div>
+        )}
+        <div className={scrollClass}>
+          {view.kind === "folders" ? (
+            view.items.length === 0 ? (
+              <p className="px-4 py-2 text-body text-grey-500">No options</p>
+            ) : (
+              view.items.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setNavPath((p) => [...p, item.id])}
+                  className={rowClass}
+                >
+                  <span className="text-body text-display-on-light-primary">
+                    {item.label}
+                  </span>
+                  <ChevronIcon
+                    direction="right"
+                    size="small"
+                    className="shrink-0 text-grey-400"
+                  />
+                </button>
+              ))
+            )
+          ) : view.kind === "custom" ? (
+            <div className="p-4">{view.render()}</div>
+          ) : view.options.length === 0 ? (
+            <p className="px-4 py-2 text-body text-grey-500">No options</p>
+          ) : (
+            view.options.map((option) => {
+              const selected =
+                selectedValuesBySelectionKey[view.selectionKey]?.includes(
+                  option.value,
+                ) ?? false;
+              const Icon = option.icon;
+              const labelStyle = getOptionLabelStyle?.(
+                view.selectionKey,
+                option.value,
+              );
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() =>
+                    onSelectOption(view.selectionKey, option.value)
+                  }
+                  className={cn(rowClass, selected && "bg-grey-100")}
+                >
+                  <div className="flex min-w-0 items-center gap-2">
+                    {Icon && <Icon className="h-4 w-4 shrink-0" />}
+                    <span
+                      className={cn(
+                        "text-body",
+                        labelStyle
+                          ? undefined
+                          : "text-display-on-light-primary",
+                      )}
+                      style={labelStyle}
+                    >
+                      {option.label}
+                    </span>
+                  </div>
+                  <CheckSlot selected={selected} />
+                </button>
+              );
+            })
+          )}
+        </div>
+      </div>
+    ) : null;
 
   return (
     <Popover.Root
@@ -257,7 +438,11 @@ export function FilterDropdown({
     >
       <Popover.Trigger asChild>
         {trigger ?? (
-          <FilterPill activeFilterCount={activeFilterCount} className={className} />
+          <FilterPill
+            activeFilterCount={activeFilterCount}
+            appearance={triggerAppearance}
+            className={className}
+          />
         )}
       </Popover.Trigger>
       <Popover.Portal>
@@ -270,165 +455,16 @@ export function FilterDropdown({
           )}
         >
           <div className="flex items-start gap-0">
-            <div className="min-w-[180px] rounded-lg border border-divider-primary bg-background-primary shadow-raise1">
-              <div className="py-2">
-                {categoryRows.map((row) =>
-                  isToggleRow(row) ? (
-                    <button
-                      key={row.id}
-                      type="button"
-                      onClick={() => row.onCheckedChange(!row.checked)}
-                      className={cn(rowClass, row.checked && "bg-grey-50")}
-                    >
-                      <span className="text-body text-display-on-light-primary">
-                        {row.label}
-                      </span>
-                      <CheckSlot selected={row.checked} />
-                    </button>
-                  ) : (
-                    <button
-                      key={row.id}
-                      type="button"
-                      onClick={() => {
-                        if (activeSubmenuId === row.id) {
-                          setActiveSubmenuId(null);
-                          resetNav();
-                        } else {
-                          setActiveSubmenuId(row.id);
-                          resetNav();
-                        }
-                      }}
-                      className={cn(
-                        rowClass,
-                        activeSubmenuId === row.id && "bg-grey-50",
-                      )}
-                    >
-                      <span className="text-body text-display-on-light-primary">
-                        {row.label}
-                      </span>
-                      <ChevronIcon
-                        direction="right"
-                        size="small"
-                        className={cn(
-                          "text-grey-400 transition-transform",
-                          activeSubmenuId === row.id && "rotate-90",
-                        )}
-                      />
-                    </button>
-                  ),
-                )}
-
-                <div className="mt-2 border-t border-divider-primary pt-2">
-                  <button
-                    type="button"
-                    onClick={onResetAll}
-                    className={cn(rowClass)}
-                  >
-                    <span className="text-body text-display-on-light-primary">
-                      {resetAllLabel}
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {showRightPanel && view && (
-              <div className={cn(submenuPanelClass, "flex flex-col")}>
-                {navPath.length > 0 && (
-                  <div className="flex-shrink-0 border-b border-grey-100 px-2 py-1.5">
-                    <button
-                      type="button"
-                      onClick={() => setNavPath((p) => p.slice(0, -1))}
-                      className="flex w-full items-center gap-1 rounded-md px-2 py-1 text-left text-caption-2-em text-display-on-light-secondary hover:bg-grey-50"
-                    >
-                      <ChevronIcon
-                        direction="left"
-                        size="small"
-                        className="shrink-0"
-                      />
-                      Back
-                    </button>
-                  </div>
-                )}
-                {view.trail.length > 0 && (
-                  <div className="flex-shrink-0 truncate px-4 pb-1 pt-2 text-footnote text-grey-500">
-                    {view.trail.join(" › ")}
-                  </div>
-                )}
-                <div className={scrollClass}>
-                  {view.kind === "folders" ? (
-                    view.items.length === 0 ? (
-                      <p className="px-4 py-2 text-body text-grey-500">
-                        No options
-                      </p>
-                    ) : (
-                      view.items.map((item) => (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => setNavPath((p) => [...p, item.id])}
-                          className={rowClass}
-                        >
-                          <span className="text-body text-display-on-light-primary">
-                            {item.label}
-                          </span>
-                          <ChevronIcon
-                            direction="right"
-                            size="small"
-                            className="shrink-0 text-grey-400"
-                          />
-                        </button>
-                      ))
-                    )
-                  ) : view.kind === "custom" ? (
-                    <div className="p-4">{view.render()}</div>
-                  ) : view.options.length === 0 ? (
-                    <p className="px-4 py-2 text-body text-grey-500">
-                      No options
-                    </p>
-                  ) : (
-                    view.options.map((option) => {
-                      const selected =
-                        selectedValuesBySelectionKey[
-                          view.selectionKey
-                        ]?.includes(option.value) ?? false;
-                      const Icon = option.icon;
-                      const labelStyle = getOptionLabelStyle?.(
-                        view.selectionKey,
-                        option.value,
-                      );
-                      return (
-                        <button
-                          key={option.value}
-                          type="button"
-                          onClick={() =>
-                            onSelectOption(view.selectionKey, option.value)
-                          }
-                          className={cn(rowClass, selected && "bg-grey-100")}
-                        >
-                          <div className="flex min-w-0 items-center gap-2">
-                            {Icon && (
-                              <Icon className="h-4 w-4 shrink-0" />
-                            )}
-                            <span
-                              className={cn(
-                                "text-body",
-                                labelStyle
-                                  ? undefined
-                                  : "text-display-on-light-primary",
-                              )}
-                              style={labelStyle}
-                            >
-                              {option.label}
-                            </span>
-                          </div>
-                          <CheckSlot selected={selected} />
-                        </button>
-                      );
-                    })
-                  )}
-                </div>
-              </div>
+            {submenuOpensLeft ? (
+              <>
+                {submenuPanel}
+                {categoryPanel}
+              </>
+            ) : (
+              <>
+                {categoryPanel}
+                {submenuPanel}
+              </>
             )}
           </div>
         </Popover.Content>

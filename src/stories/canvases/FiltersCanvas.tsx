@@ -109,6 +109,8 @@ export const FiltersCanvas = () => {
           <FigmaGrid gap={16}>
             <FilterPill />
             <FilterPill activeFilterCount={2} />
+            <FilterPill appearance="ghost" />
+            <FilterPill appearance="ghost" activeFilterCount={2} />
           </FigmaGrid>
         </FigmaSection>
 
@@ -125,6 +127,8 @@ export const FiltersCanvas = () => {
             <div className="flex shrink-0 items-center gap-4">
               <FilterDropdown
                 align="end"
+                submenuSide="left"
+                triggerAppearance="ghost"
                 categoryRows={categoryRows}
                 selectedValuesBySelectionKey={selectedValuesBySelectionKey}
                 activeFilterCount={activeFilterCount}
