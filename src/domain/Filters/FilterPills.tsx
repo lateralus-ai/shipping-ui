@@ -16,26 +16,19 @@ export type FilterPillsProps = {
 
 /**
  * Partner row for FilterDropdown — active filter pills.
- * Lives outside the dropdown DOM so callers can place it anywhere
- * (same row, new row, sticky footer, etc.).
- *
- * Multi-select chip *content* (when to show, label format) is owned by the
- * consumer; use `formatActiveFilterChipLabel` for audit-prep-style labels.
+ * Always renders the row wrapper (even when empty) so sibling filter
+ * triggers can stay pinned with `ml-auto` / flex layouts.
  */
-export const FilterPills = ({ chips, className }: FilterPillsProps) => {
-  if (chips.length === 0) return null;
-
-  return (
-    <div className={cn("flex flex-wrap items-start gap-2", className)}>
-      {chips.map((chip) => (
-        <FilteredPill
-          key={chip.key}
-          label={chip.label}
-          onRemove={chip.onRemove}
-          removeAriaLabel={chip.removeAriaLabel}
-          classNames={chip.classNames}
-        />
-      ))}
-    </div>
-  );
-};
+export const FilterPills = ({ chips, className }: FilterPillsProps) => (
+  <div className={cn("flex min-w-0 flex-wrap items-start gap-2", className)}>
+    {chips.map((chip) => (
+      <FilteredPill
+        key={chip.key}
+        label={chip.label}
+        onRemove={chip.onRemove}
+        removeAriaLabel={chip.removeAriaLabel}
+        classNames={chip.classNames}
+      />
+    ))}
+  </div>
+);
