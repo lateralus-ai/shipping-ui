@@ -34,6 +34,8 @@ export type ButtonProps = Omit<
   disabled?: boolean;
   icon?: ComponentType<IconProps> | ReactNode;
   startIcon?: ComponentType<IconProps> | ReactNode;
+  /** Renders after the label, inside the same button (no split/dropdown segment). */
+  endIcon?: ComponentType<IconProps> | ReactNode;
   dropdownOptions?: ButtonDropdownOption[];
   dropdownOpen?: boolean;
   onDropdownOpenChange?: (open: boolean) => void;
@@ -110,6 +112,7 @@ export const Button = ({
   disabled = false,
   icon,
   startIcon,
+  endIcon,
   dropdownOptions,
   dropdownOpen,
   onDropdownOpenChange,
@@ -122,7 +125,8 @@ export const Button = ({
 }: ButtonProps) => {
   const resolvedIcon = icon ?? startIcon;
   const renderedIcon = renderIcon(resolvedIcon);
-  const hasIcon = renderedIcon != null;
+  const renderedEndIcon = renderIcon(endIcon);
+  const hasIcon = renderedIcon != null || renderedEndIcon != null;
   const hasDropdown = Boolean(dropdownOptions?.length);
   const dropdownDisabled = !dropdownOptions?.some((option) => !option.disabled);
   const mainAppearance = getAppearance(disabled, forcedState);
@@ -148,6 +152,7 @@ export const Button = ({
     >
       {renderedIcon}
       <span>{children}</span>
+      {renderedEndIcon}
     </span>
   );
 
