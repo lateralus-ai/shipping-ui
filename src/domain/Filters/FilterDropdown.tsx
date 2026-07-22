@@ -7,6 +7,7 @@ import {
 import * as Popover from "@radix-ui/react-popover";
 import { cn } from "../../utils/cn";
 import { ChevronIcon } from "../../icons/ChevronIcon";
+import { Switch } from "../../primitives/Switch";
 import { FilterPill, type FilterPillAppearance } from "./FilterPill";
 
 /** One selectable row at a leaf list. */
@@ -53,7 +54,21 @@ export type FilterCategorySubmenuRow = {
   content: FilterSubmenuContent;
 };
 
-/** Left column row: inline check toggle (no right panel). */
+/**
+ * Options rendered inline in the first panel (no chevron / second column).
+ * Mix with submenu rows for hybrid menus (e.g. Status submenu + Sort by flat).
+ */
+export type FilterCategoryInlineOptionsRow = {
+  kind: "inline-options";
+  id: string;
+  /** Small section header above the options (e.g. "Sort by"). */
+  title?: string;
+  selectionKey: string;
+  selectionMode?: FilterSelectionMode;
+  options: FilterOption[];
+};
+
+/** First-panel row: label + Switch (no right panel). */
 export type FilterCategoryToggleRow = {
   kind: "toggle";
   id: string;
@@ -64,14 +79,21 @@ export type FilterCategoryToggleRow = {
 
 export type FilterCategoryRow =
   | FilterCategorySubmenuRow
+  | FilterCategoryInlineOptionsRow
   | FilterCategoryToggleRow;
 
 function isToggleRow(row: FilterCategoryRow): row is FilterCategoryToggleRow {
   return row.kind === "toggle";
 }
 
+function isInlineOptionsRow(
+  row: FilterCategoryRow,
+): row is FilterCategoryInlineOptionsRow {
+  return row.kind === "inline-options";
+}
+
 function isSubmenuRow(row: FilterCategoryRow): row is FilterCategorySubmenuRow {
-  return !isToggleRow(row);
+  return !isToggleRow(row) && !isInlineOptionsRow(row);
 }
 
 type ResolvedSubmenuView =
@@ -174,7 +196,10 @@ function CheckSlot({ selected }: { selected: boolean }) {
 export type FilterDropdownProps = {
   align?: "start" | "center" | "end";
   sideOffset?: number;
-  /** Left column: submenu roots and/or toggles. */
+  /**
+   * First panel rows — mix freely:
+   * submenu (chevron + second panel), inline-options (flat list), toggle (Switch).
+   */
   categoryRows: FilterCategoryRow[];
   selectedValuesBySelectionKey: Record<string, string[] | undefined>;
   /**
@@ -184,6 +209,8 @@ export type FilterDropdownProps = {
   onSelectOption: (selectionKey: string, optionValue: string) => void;
   onResetAll: () => void;
   resetAllLabel?: string;
+  /** When false, hides the Reset all footer. Default true. */
+  showResetAll?: boolean;
   activeFilterCount: number;
   getOptionLabelStyle?: (
     selectionKey: string,
@@ -210,8 +237,8 @@ const rowClass =
   "w-full flex items-center justify-between gap-4 px-4 py-2 text-left transition-colors hover:bg-grey-50";
 
 /**
- * Filters trigger + two-column popover (audit-prep pattern).
- * Supports multi/single option leaves, nested folders, custom panels, and toggles.
+ * Filters trigger + popover. First panel supports hybrid rows: submenus,
+ * inline option lists, and Switch toggles. Submenus open a second column.
  */
 export function FilterDropdown({
   align = "start",
@@ -221,6 +248,7 @@ export function FilterDropdown({
   onSelectOption,
   onResetAll,
   resetAllLabel = "Reset all",
+  showResetAll = true,
   activeFilterCount,
   getOptionLabelStyle,
   zIndexClass = "z-50",
@@ -267,66 +295,140 @@ export function FilterDropdown({
       : "rounded-lg",
   );
 
+  const renderOptionButtons = (
+    selectionKey: string,
+    options: FilterOption[],
+  ) =>
+    options.map((option) => {
+      const selected =
+        selectedValuesBySelectionKey[selectionKey]?.includes(option.value) ??
+        false;
+      const Icon = option.icon;
+      const labelStyle = getOptionLabelStyle?.(selectionKey, option.value);
+      return (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => onSelectOption(selectionKey, option.value)}
+          className={cn(rowClass, selected && "bg-grey-100")}
+        >
+          <div className="flex min-w-0 items-center gap-2">
+            {Icon && <Icon className="h-4 w-4 shrink-0" />}
+            <span
+              className={cn(
+                "text-body",
+                labelStyle ? undefined : "text-display-on-light-primary",
+              )}
+              style={labelStyle}
+            >
+              {option.label}
+            </span>
+          </div>
+          <CheckSlot selected={selected} />
+        </button>
+      );
+    });
+
   const categoryPanel = (
     <div className={categoryPanelClass}>
       <div className="py-2">
-        {categoryRows.map((row) =>
-          isToggleRow(row) ? (
-            <button
-              key={row.id}
-              type="button"
-              onClick={() => row.onCheckedChange(!row.checked)}
-              className={cn(rowClass, row.checked && "bg-grey-50")}
-            >
-              <span className="text-body text-display-on-light-primary">
-                {row.label}
-              </span>
-              <CheckSlot selected={row.checked} />
-            </button>
-          ) : (
-            <button
-              key={row.id}
-              type="button"
-              onClick={() => {
-                if (activeSubmenuId === row.id) {
-                  setActiveSubmenuId(null);
-                  resetNav();
-                } else {
-                  setActiveSubmenuId(row.id);
-                  resetNav();
-                }
-              }}
-              className={cn(
-                rowClass,
-                activeSubmenuId === row.id && "bg-grey-50",
-              )}
-            >
-              <span className="text-body text-display-on-light-primary">
-                {row.label}
-              </span>
-              <ChevronIcon
-                direction="right"
-                size="small"
-                className={cn(
-                  "text-grey-400 transition-transform",
-                  activeSubmenuId === row.id && "rotate-90",
-                )}
-              />
-            </button>
-          ),
-        )}
+        {categoryRows.map((row, index) => {
+          const prev = index > 0 ? categoryRows[index - 1] : null;
+          const showDividerBefore =
+            index > 0 &&
+            (isToggleRow(row) ||
+              (isInlineOptionsRow(row) && prev && isSubmenuRow(prev)) ||
+              (isSubmenuRow(row) && prev && !isSubmenuRow(prev)));
 
-        <div className="mt-2 border-t border-divider-primary pt-2">
-          <button
-            type="button"
-            onClick={onResetAll}
-            className={cn(rowClass)}
-          >
-            <span className="text-body text-display-on-light-primary">
-              {resetAllLabel}
-            </span>
-          </button>
-        </div>
+          if (isToggleRow(row)) {
+            return (
+              <div key={row.id}>
+                {showDividerBefore && (
+                  <div className="my-2 border-t border-divider-primary" />
+                )}
+                <div className={cn(rowClass, "hover:bg-transparent")}>
+                  <span className="text-body text-display-on-light-primary">
+                    {row.label}
+                  </span>
+                  <Switch
+                    checked={row.checked}
+                    onChange={row.onCheckedChange}
+                  />
+                </div>
+              </div>
+            );
+          }
+
+          if (isInlineOptionsRow(row)) {
+            return (
+              <div key={row.id}>
+                {showDividerBefore && (
+                  <div className="my-2 border-t border-divider-primary" />
+                )}
+                {row.title ? (
+                  <div className="px-4 pb-1 pt-1 text-caption-2 text-display-on-light-secondary">
+                    {row.title}
+                  </div>
+                ) : null}
+                {row.options.length === 0 ? (
+                  <p className="px-4 py-2 text-body text-grey-500">No options</p>
+                ) : (
+                  renderOptionButtons(row.selectionKey, row.options)
+                )}
+              </div>
+            );
+          }
+
+          return (
+            <div key={row.id}>
+              {showDividerBefore && (
+                <div className="my-2 border-t border-divider-primary" />
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  if (activeSubmenuId === row.id) {
+                    setActiveSubmenuId(null);
+                    resetNav();
+                  } else {
+                    setActiveSubmenuId(row.id);
+                    resetNav();
+                  }
+                }}
+                className={cn(
+                  rowClass,
+                  activeSubmenuId === row.id && "bg-grey-50",
+                )}
+              >
+                <span className="text-body text-display-on-light-primary">
+                  {row.label}
+                </span>
+                <ChevronIcon
+                  direction="right"
+                  size="small"
+                  className={cn(
+                    "text-grey-400 transition-transform",
+                    activeSubmenuId === row.id && "rotate-90",
+                  )}
+                />
+              </button>
+            </div>
+          );
+        })}
+
+        {showResetAll && (
+          <div className="mt-2 border-t border-divider-primary pt-2">
+            <button
+              type="button"
+              onClick={onResetAll}
+              className={cn(rowClass)}
+            >
+              <span className="text-body text-display-on-light-primary">
+                {resetAllLabel}
+              </span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -383,43 +485,7 @@ export function FilterDropdown({
           ) : view.options.length === 0 ? (
             <p className="px-4 py-2 text-body text-grey-500">No options</p>
           ) : (
-            view.options.map((option) => {
-              const selected =
-                selectedValuesBySelectionKey[view.selectionKey]?.includes(
-                  option.value,
-                ) ?? false;
-              const Icon = option.icon;
-              const labelStyle = getOptionLabelStyle?.(
-                view.selectionKey,
-                option.value,
-              );
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() =>
-                    onSelectOption(view.selectionKey, option.value)
-                  }
-                  className={cn(rowClass, selected && "bg-grey-100")}
-                >
-                  <div className="flex min-w-0 items-center gap-2">
-                    {Icon && <Icon className="h-4 w-4 shrink-0" />}
-                    <span
-                      className={cn(
-                        "text-body",
-                        labelStyle
-                          ? undefined
-                          : "text-display-on-light-primary",
-                      )}
-                      style={labelStyle}
-                    >
-                      {option.label}
-                    </span>
-                  </div>
-                  <CheckSlot selected={selected} />
-                </button>
-              );
-            })
+            renderOptionButtons(view.selectionKey, view.options)
           )}
         </div>
       </div>

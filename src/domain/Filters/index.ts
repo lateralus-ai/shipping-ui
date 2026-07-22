@@ -21,6 +21,7 @@ export {
 export {
   FilterDropdown,
   resolveSubmenuView,
+  type FilterCategoryInlineOptionsRow,
   type FilterCategoryRow,
   type FilterCategorySubmenuRow,
   type FilterCategoryToggleRow,
