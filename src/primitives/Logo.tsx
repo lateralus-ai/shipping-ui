@@ -24,15 +24,16 @@ const TechnicalGlyph = () => (
   </>
 );
 
+// Exact Figma export (Logo → Compliance): filled "A" body + filled crescent.
 const ComplianceGlyph = () => (
   <>
-    <path d={ASK_CHIEF_A} fill="currentColor" />
     <path
-      d="M6.2 4.64355C7.4 3.54355 10.6 3.54355 11.8 4.64355"
-      stroke="currentColor"
-      strokeWidth="1.1"
-      fill="none"
-      strokeLinecap="round"
+      d="M8.30335 5.84666L5.18335 14.2917H6.33835V14.2883C6.34002 14.2883 6.34168 14.29 6.34168 14.29L8.90668 11.7267H9.06668L11.6283 14.2917H12.8233L9.71668 5.84666H8.30502H8.30335ZM9.21502 10.4433H8.75668L7.15168 12.0483L8.89002 7.25166H9.10168L10.825 12.055L9.21668 10.4433H9.21502Z"
+      fill="currentColor"
+    />
+    <path
+      d="M8.98839 4.85833C9.87172 4.85833 10.6817 5.23 11.3117 5.84666H12.7967C11.9251 4.54666 10.5434 3.70667 8.98839 3.70667C7.43339 3.70667 6.05172 4.54666 5.18005 5.84666H6.66505C7.29339 5.23 8.10505 4.85833 8.98839 4.85833Z"
+      fill="currentColor"
     />
   </>
 );
