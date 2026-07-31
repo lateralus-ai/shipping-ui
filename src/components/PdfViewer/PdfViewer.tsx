@@ -17,7 +17,29 @@ import { useRotation } from "./useRotation";
 import { usePageManagement } from "./usePageManagement";
 import { usePanning } from "./usePanning";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// The pdf.js worker is deliberately NOT configured here. `react-pdf` is external
+// to this bundle, so the host app owns the single pdfjs-dist instance and is the
+// only place that can emit the worker as a same-origin asset — a library built in
+// Vite lib mode can only inline it (~1.4 MB), which every consumer would pay for
+// on load whether or not a PDF is ever opened.
+//
+// Host apps MUST set `pdfjs.GlobalWorkerOptions.workerSrc` once at startup, e.g.
+//   import { pdfjs } from "react-pdf";
+//   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+//     "pdfjs-dist/build/pdf.worker.min.mjs",
+//     import.meta.url,
+//   ).toString();
+// Pointing it at a public CDN is not acceptable: crew run on filtered/degraded
+// satellite links where that fetch is the one most likely to fail.
+if (
+  process.env.NODE_ENV !== "production" &&
+  !pdfjs.GlobalWorkerOptions.workerSrc
+) {
+  console.warn(
+    "[shipping-ui] PdfViewer: pdfjs.GlobalWorkerOptions.workerSrc is not set. " +
+      "Configure it once in the host app or PDFs will fail to render.",
+  );
+}
 
 type PdfViewerProps = React.HTMLProps<HTMLDivElement> & {
   onClose: () => void;
