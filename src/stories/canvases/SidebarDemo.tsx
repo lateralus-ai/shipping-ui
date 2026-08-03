@@ -10,23 +10,44 @@ import {
   TasksIcon,
   WorkflowIcon,
 } from "../../icons";
-import { cn } from "../../utils/cn";import { Account } from "./Account";
-import { ActivityNavGroup } from "./ActivityNavGroup";
-import { CollapsibleNavGroup } from "./CollapsibleNavGroup";
-import { DEMO_SIDEBAR_ENTRY_MENU_ITEMS } from "./figma-demo-content";
+import { cn } from "../../utils/cn";
 import {
-  FIGMA_NAV_LABELS,
-  getFigmaSidebarNav,
-  type FigmaNavItemId,
-} from "./figma-sidebar-nav";
-import { NewChat } from "./NewChat";
-import { SidebarLink } from "./SidebarLink";
-import { Switcher, type Chief } from "./Switcher";
-import { SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from "./constants";
-import { sidebarBlockGap, sidebarScrollRegion } from "./sidebar-styles";
-import type { SidebarEntryMenuItem } from "./SidebarEntry";
+  Account,
+  ActivityNavGroup,
+  CollapsibleNavGroup,
+  NewChat,
+  SidebarLink,
+  Switcher,
+  SIDEBAR_COLLAPSED_WIDTH,
+  SIDEBAR_EXPANDED_WIDTH,
+  type Chief,
+  type SidebarEntryMenuItem,
+} from "../../patterns/Sidebar";
+import {
+  sidebarBlockGap,
+  sidebarScrollRegion,
+} from "../../patterns/Sidebar/sidebar-styles";
+import {
+  DEMO_ACCOUNT_NAME,
+  DEMO_ACTIVITY_ENTRIES,
+  DEMO_SHIP_ENTRIES,
+  DEMO_SIDEBAR_ENTRY_MENU_ITEMS,
+} from "./sidebar-demo-content";
+import {
+  DEMO_NAV_LABELS,
+  getDemoSidebarNav,
+  type DemoNavItemId,
+} from "./sidebar-demo-nav";
 
-export type SidebarProps = {
+
+/**
+ * The whole-sidebar Figma mirror. This is story fixture, not a shipped
+ * component: every href is a `#anchor`, the account is a demo name and the row
+ * menus say "Example one". It used to live in `src/patterns/Sidebar` and be
+ * exported as `Patterns.Sidebar`, which is how a placeholder portrait and a
+ * mock fleet ended up in the published bundle.
+ */
+export type SidebarDemoProps = {
   chief?: Chief;
   activity?: boolean;
   /** Figma layouts: initial ships expanded. Interactive: toggles via chevron. */
@@ -38,10 +59,10 @@ export type SidebarProps = {
   className?: string;
 };
 
-const navHref = (id: FigmaNavItemId) =>
+const navHref = (id: DemoNavItemId) =>
   `#${id.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
 
-const navIcons: Record<FigmaNavItemId, ReactNode> = {
+const navIcons: Record<DemoNavItemId, ReactNode> = {
   search: <SearchIcon size="small" className="text-display-on-light-primary" />,
   workflows: <WorkflowIcon size="small" className="text-display-on-light-primary" />,
   analytics: <AnalyticsIcon size="small" className="text-display-on-light-primary" />,
@@ -53,7 +74,7 @@ const navIcons: Record<FigmaNavItemId, ReactNode> = {
   activity: <ActivityIcon size="small" className="text-display-on-light-tertiary" />,
 };
 
-const collapsedNavIcons: Record<FigmaNavItemId, ReactNode> = {
+const collapsedNavIcons: Record<DemoNavItemId, ReactNode> = {
   search: <SearchIcon size="small" />,
   workflows: <WorkflowIcon size="small" />,
   analytics: <AnalyticsIcon size="small" />,
@@ -87,6 +108,7 @@ const renderShipsItem = (
     label={label}
     icon={icon}
     expanded={shipsExpanded}
+    ships={DEMO_SHIP_ENTRIES}
     onNavigate={onNavigate}
     onExpandedChange={presentation ? () => undefined : onShipsExpandedChange}
     entryMenuItems={entryMenuItems}
@@ -106,6 +128,7 @@ const renderActivityItem = (
         href={href}
         chief={chief}
         icon={icon}
+        entries={DEMO_ACTIVITY_ENTRIES}
         onNavigate={onNavigate}
         entryMenuItems={entryMenuItems}
       />
@@ -117,12 +140,12 @@ const renderActivityItem = (
   );
 };
 
-const renderFigmaExpandedItem = (
-  id: FigmaNavItemId,
+const renderDemoExpandedItem = (
+  id: DemoNavItemId,
   options: RenderNavOptions,
   onNavigate: (event: MouseEvent<HTMLAnchorElement>) => void,
 ) => {
-  const label = FIGMA_NAV_LABELS[id];
+  const label = DEMO_NAV_LABELS[id];
 
   if (id === "ships") {
     return (
@@ -199,7 +222,7 @@ const renderDefaultExpandedNav = (
   </>
 );
 
-export const Sidebar = ({
+export const SidebarDemo = ({
   chief = "technical",
   activity = true,
   ships = true,
@@ -207,12 +230,12 @@ export const Sidebar = ({
   showSearch = true,
   presentation = false,
   className,
-}: SidebarProps) => {
+}: SidebarDemoProps) => {
   const [sidebarHovered, setSidebarHovered] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(collapsed);
   const [shipsExpanded, setShipsExpanded] = useState(ships);
   const [activeChief, setActiveChief] = useState(chief);
-  const figmaNav = getFigmaSidebarNav(activeChief);
+  const demoNav = getDemoSidebarNav(activeChief);
 
   const isSidebarCollapsed = presentation ? collapsed : isCollapsed;
   const isShipsExpanded = presentation ? ships : shipsExpanded;
@@ -250,8 +273,8 @@ export const Sidebar = ({
 
   const renderCollapsedNav = () => {
     const items = presentation
-      ? figmaNav.collapsedItems
-      : figmaNav.collapsedItems.filter(({ id }) => {
+      ? demoNav.collapsedItems
+      : demoNav.collapsedItems.filter(({ id }) => {
           if (id === "activity") return activity;
           if (id === "ships") return true;
           return showSearch || id !== "search";
@@ -261,12 +284,12 @@ export const Sidebar = ({
       <SidebarLink
         key={id}
         href={navHref(id)}
-        label={FIGMA_NAV_LABELS[id]}
+        label={DEMO_NAV_LABELS[id]}
         icon={collapsedNavIcons[id]}
         collapsed
         unread={unread}
         presentation={presentation}
-        tooltip={presentation ? undefined : FIGMA_NAV_LABELS[id]}
+        tooltip={presentation ? undefined : DEMO_NAV_LABELS[id]}
         onNavigate={handleNavigate}
       />
     ));
@@ -274,14 +297,14 @@ export const Sidebar = ({
 
   const renderExpandedNav = () => {
     if (presentation) {
-      return figmaNav.expandedItems.map((id) =>
-        renderFigmaExpandedItem(id, navOptions, handleNavigate),
+      return demoNav.expandedItems.map((id) =>
+        renderDemoExpandedItem(id, navOptions, handleNavigate),
       );
     }
 
     if (chief === "compliance") {
-      return figmaNav.expandedItems.map((id) =>
-        renderFigmaExpandedItem(id, navOptions, handleNavigate),
+      return demoNav.expandedItems.map((id) =>
+        renderDemoExpandedItem(id, navOptions, handleNavigate),
       );
     }
 
@@ -349,6 +372,7 @@ export const Sidebar = ({
 
         <div className="shrink-0">
           <Account
+            name={DEMO_ACCOUNT_NAME}
             collapsed={isSidebarCollapsed}
             sidebarHovered={sidebarHovered}
             presentation={presentation}

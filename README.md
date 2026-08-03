@@ -122,7 +122,10 @@ module.exports = {
   ...shippingUIConfig,
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/@lateralus-ai/shipping-ui/**/*.{js,jsx,ts,tsx}",
+    // Scan the built package only. `files` publishes `dist` and nothing else —
+    // `exports` has no wildcard, so no consumer can reach `src` anyway, and
+    // shipping it made the tarball four times bigger than the code in it.
+    "./node_modules/@lateralus-ai/shipping-ui/dist/**/*.{js,cjs,mjs,css}",
   ],
 };
 ```
@@ -140,8 +143,15 @@ import { Button, Icon, Patterns, Domain } from "@lateralus-ai/shipping-ui";
 
 <Button hierarchy="primary">Save</Button>
 <Icon name="heart" size="small" />
-<Patterns.Sidebar chief="technical" collapsed={false} />
+<Patterns.SidebarShell sidebar={<AppSidebar />}>{children}</Patterns.SidebarShell>
 ```
+
+There is no whole-sidebar component. `Patterns.Sidebar` existed as a mirror of the
+Figma frame — hardcoded `#anchor` hrefs, a demo fleet, a placeholder account photo —
+and was removed in 2.0.0-dev.34. Compose the sidebar from `SidebarShell`,
+`Switcher`, `NewChat`, `SidebarLink`, `SidebarEntry`, `CollapsibleNavGroup`,
+`ActivityNavGroup` and `Account`, passing your own data. Every component that used
+to carry sample content now defaults to empty.
 
 ## License
 

@@ -1,6 +1,11 @@
-import type { Chief } from "./Switcher";
+/**
+ * The nav item set the Figma sidebar frames show, per product. Story fixture
+ * only — the hrefs it drives are `#anchor`s. It used to live beside the
+ * published components and be imported by `Sidebar`.
+ */
+import type { Chief } from "../../patterns/Sidebar";
 
-export type FigmaNavItemId =
+export type DemoNavItemId =
   | "search"
   | "workflows"
   | "analytics"
@@ -11,17 +16,17 @@ export type FigmaNavItemId =
   | "knowledge"
   | "activity";
 
-export type FigmaCollapsedNavItem = {
-  id: FigmaNavItemId;
+export type DemoCollapsedNavItem = {
+  id: DemoNavItemId;
   unread?: boolean;
 };
 
-export type FigmaSidebarNavConfig = {
-  expandedItems: FigmaNavItemId[];
-  collapsedItems: FigmaCollapsedNavItem[];
+export type DemoSidebarNavConfig = {
+  expandedItems: DemoNavItemId[];
+  collapsedItems: DemoCollapsedNavItem[];
 };
 
-const technicalExpanded: FigmaNavItemId[] = [
+const technicalExpanded: DemoNavItemId[] = [
   "search",
   "workflows",
   "analytics",
@@ -31,7 +36,7 @@ const technicalExpanded: FigmaNavItemId[] = [
   "activity",
 ];
 
-const complianceExpanded: FigmaNavItemId[] = [
+const complianceExpanded: DemoNavItemId[] = [
   "search",
   "workflows",
   "forms",
@@ -42,7 +47,7 @@ const complianceExpanded: FigmaNavItemId[] = [
   "activity",
 ];
 
-const technicalCollapsed: FigmaCollapsedNavItem[] = [
+const technicalCollapsed: DemoCollapsedNavItem[] = [
   { id: "search" },
   { id: "workflows" },
   { id: "analytics" },
@@ -51,7 +56,7 @@ const technicalCollapsed: FigmaCollapsedNavItem[] = [
   { id: "activity", unread: true },
 ];
 
-const complianceCollapsed: FigmaCollapsedNavItem[] = [
+const complianceCollapsed: DemoCollapsedNavItem[] = [
   { id: "search" },
   { id: "workflows", unread: true },
   { id: "ships" },
@@ -61,7 +66,7 @@ const complianceCollapsed: FigmaCollapsedNavItem[] = [
   { id: "activity", unread: true },
 ];
 
-export const FIGMA_NAV_LABELS: Record<FigmaNavItemId, string> = {
+export const DEMO_NAV_LABELS: Record<DemoNavItemId, string> = {
   search: "Search",
   workflows: "Workflows",
   analytics: "Analytics",
@@ -73,7 +78,7 @@ export const FIGMA_NAV_LABELS: Record<FigmaNavItemId, string> = {
   activity: "Activity",
 };
 
-export const getFigmaSidebarNav = (chief: Chief): FigmaSidebarNavConfig => ({
+export const getDemoSidebarNav = (chief: Chief): DemoSidebarNavConfig => ({
   expandedItems: chief === "compliance" ? complianceExpanded : technicalExpanded,
   collapsedItems: chief === "compliance" ? complianceCollapsed : technicalCollapsed,
 });

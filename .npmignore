@@ -1,6 +1,0 @@
-.claude
-.storybook
-node_modules
-src/stories/*
-src/components/*
-storybook-static

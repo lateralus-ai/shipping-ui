@@ -8,7 +8,7 @@ export { IconButton, type IconButtonProps } from "./IconButton";
 export { Logo, type LogoProps } from "./Logo";
 export { Avatar, type AvatarProps } from "./Avatar";
 export { GroupedAvatars, type GroupedAvatarsProps } from "./GroupedAvatars";
-export { DropdownMenu, DropdownMenuItem, DropdownMenuSeparator, type DropdownMenuProps } from "./DropdownMenu";
+export { DropdownMenu, DropdownMenuItem, type DropdownMenuProps } from "./DropdownMenu";
 export { MenuItem, type MenuItemProps } from "./MenuItem";
 export { Tooltip, TooltipProvider, type TooltipProps, type TooltipSide } from "./Tooltip";
 export { ThinkingDot, type ThinkingDotProps } from "./ThinkingDot";

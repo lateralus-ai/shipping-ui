@@ -54,7 +54,3 @@ export const DropdownMenuItem = ({
     {...props}
   />
 );
-
-export const DropdownMenuSeparator = () => (
-  <DropdownMenuPrimitive.Separator className="my-1 h-px bg-divider-primary" />
-);

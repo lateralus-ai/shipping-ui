@@ -1,4 +1,5 @@
-import { Sidebar, Switcher } from "../../patterns/Sidebar";
+import { Switcher } from "../../patterns/Sidebar";
+import { SidebarDemo } from "./SidebarDemo";
 import { FigmaContent, FigmaPage } from "../_layout";
 import { FIGMA_WIDTHS } from "./figma-widths";
 import {
@@ -13,7 +14,7 @@ const renderSlot = (slot: SidebarLayoutsFrameSlot) => {
   }
 
   return (
-    <Sidebar
+    <SidebarDemo
       chief={slot.chief}
       activity={slot.activity}
       ships={slot.ships}

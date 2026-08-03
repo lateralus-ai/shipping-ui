@@ -34,7 +34,6 @@ export {
   ModalBody,
   ModalPanel,
   PdfViewer,
-  ImageViewer,
   ScrollableList,
 } from "./components";
 

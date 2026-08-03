@@ -1,4 +1,4 @@
-export { createIcon, IconSizeRow } from "./createIcon";
+export { createIcon } from "./createIcon";
 export type { CreateIconOptions, IconPathSet } from "./createIcon";
 
 export { ChevronIcon } from "./ChevronIcon";
@@ -13,8 +13,6 @@ export * from "./generated";
 
 export { Icon, iconRegistry } from "./Icon";
 export type { IconName, IconRegistryProps } from "./Icon";
-
-export { hasIconSize, getFilledSizes, getOutlineSizes } from "./icon-sizes";
 
 export {
   ICON_BOX,
