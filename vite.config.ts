@@ -20,6 +20,16 @@ export default defineConfig({
       },
       name: "ShippingUI",
       formats: ["es", "cjs"],
+      // Pin the emitted stylesheet name. Vite 5 derived it from the entry and
+      // emitted `style.css`; Vite 6 derives it from the package name, which
+      // silently renamed it to `shipping-ui.css` in 2.0.0-dev.32 while
+      // `exports["./style.css"]` still pointed at `./dist/style.css`. The build
+      // stayed green and the published package lost every style. The consumer
+      // imports `@lateralus-ai/shipping-ui/style.css` by that name and dev.31
+      // shipped it, so the filename is the contract — restore it here rather
+      // than repoint the export. `scripts/check-package-exports.mjs` now fails
+      // the build if any export target goes missing from the tarball again.
+      cssFileName: "style",
       fileName: (format, entryName) => {
         if (entryName === "theme") {
           return format === "es" ? "theme.esm.js" : "theme.cjs";
@@ -31,12 +41,7 @@ export default defineConfig({
       external: [
         "react",
         "react-dom",
-        "react-textarea-autosize",
         "react-pdf",
-        "docx-preview",
-        "docxtemplater",
-        "pizzip",
-        "react-hotkeys-hook",
       ],
       output: {
         globals: {

@@ -35,6 +35,15 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # A green build is not a shippable package. 2.0.0-dev.32 was published
+      # with `exports["./style.css"]` pointing at a file the Vite 5 -> 6 bump had
+      # renamed out from under it, so the consuming app would have lost every
+      # style on its next lockfile refresh — and nothing here noticed, because
+      # every check ran against the working tree rather than the tarball. This
+      # step packs the package and asserts each export target, `main`/`module`/
+      # `types`, `sideEffects` entry and `files` entry actually exists inside it.
+      - run: npm run check:package
+
 # The Playwright visual suite is deliberately NOT wired up yet, and it is the
 # most valuable thing missing here. It cannot be made green as things stand:
 #

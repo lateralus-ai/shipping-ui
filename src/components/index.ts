@@ -53,4 +53,3 @@ export {
 } from "./Modal";
 export { ModalPanel } from "./ModalPanel";
 export * from "./PdfViewer/";
-export * from "./DocumentEditor";
