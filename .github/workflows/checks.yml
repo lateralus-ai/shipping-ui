@@ -1,0 +1,65 @@
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: install + build
+    runs-on: ubuntu-latest
+    env:
+      # `postinstall` runs `playwright install chromium`, a ~150MB download this
+      # job never uses.
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # No `engines` field or .nvmrc in this repo; 22 matches the consuming
+          # app (shipping-ai) and the release-it 20 floor.
+          node-version: 22
+          cache: npm
+
+      # `npm ci` is the point of this job as much as the build is. It fails on a
+      # lockfile that no longer resolves — not hypothetical here: the Storybook
+      # 8.2.9 floor made every `npm install` ERESOLVE for months, because
+      # addon-interactions publishes `latest` as 8.6.14 while its `v8` tag is
+      # 8.6.18, so npm pinned @storybook/test@8.6.14 against @storybook/react's
+      # demand for 8.6.18. Nothing caught it, because there was no CI.
+      - run: npm ci
+      - run: npm run build
+
+# The Playwright visual suite is deliberately NOT wired up yet, and it is the
+# most valuable thing missing here. It cannot be made green as things stand:
+#
+#   * The committed snapshots are `-chromium-win32` only, so on any other OS
+#     Playwright finds no baseline, silently writes one, and reports success —
+#     zero comparison signal. That is why a naive run "passes" locally on a Mac.
+#
+#   * On windows-latest, where the baselines do apply, they fail — and not by a
+#     few antialiased pixels. `components-buttons` expects 526x728 and renders
+#     414x312. A size mismatch means the components themselves have moved on
+#     since the baselines were taken; they are stale, not noisy.
+#
+#   * `sidebar-figma` and `sidebar-layouts-figma` separately fail 14 regions
+#     against stale Figma metadata (`figma:baseline:sidebar:check` reports it).
+#
+# So the suite currently only produces signal the way the React 19 verification
+# used it: generate a reference set from a pristine tree, then diff the working
+# tree against that. Useful for a specific comparison, useless as a gate.
+#
+# To finish the job, in this order:
+#   1. Re-run `npm run figma:baseline:icons` / `:sidebar` and review the drift.
+#   2. Regenerate the storybook snapshots from a known-good tree, and commit
+#      `-chromium-linux` alongside (or instead of) win32 — Linux runners bill at
+#      half the rate of Windows.
+#   3. Add a `visual` job running `npx playwright test`, with an
+#      `actions/upload-artifact` step on failure. Check where the reporter
+#      actually writes; `playwright-report/` did not exist on the run that
+#      proved the above.
