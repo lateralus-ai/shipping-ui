@@ -33,7 +33,6 @@ export default defineConfig({
         "react-dom",
         "react-textarea-autosize",
         "react-pdf",
-        "react-router",
         "docx-preview",
         "docxtemplater",
         "pizzip",
