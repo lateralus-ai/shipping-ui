@@ -24,6 +24,16 @@ npm run test:visual          # Playwright visual regression (starts Storybook de
 npm run test:visual:update   # Update screenshot baselines
 ```
 
+The committed Playwright baselines under `tests/visual/storybook.spec.ts-snapshots/` are
+`-chromium-win32` only, so `toHaveScreenshot` on macOS or Linux finds no baseline and writes a
+new one instead of comparing. On those platforms the real gate is the three `*-figma.spec.ts`
+specs, which compare against the committed Figma PNGs and are platform-independent.
+
+`overrides.uuid` in `package.json` exists because `@storybook/addon-essentials@8` pulls
+`uuid@9` transitively through `@storybook/addon-actions`, which carries GHSA advisories with no
+fix on the 8.x line. Drop the override when this repo moves to Storybook 9, which no longer
+ships `addon-essentials` at all.
+
 ## Storybook structure
 
 Stories mirror the Figma file 1:1:
@@ -89,6 +99,17 @@ When v2 is ready for production, run `npm run release` to publish stable **`2.0.
 ```bash
 npm install @lateralus-ai/shipping-ui
 ```
+
+### Peer dependencies
+
+`react` and `react-dom` are peers accepting **`^18.2.0 || ^19.0.0`** — the host app owns the
+single React copy. `react-textarea-autosize` is a peer for the same reason. Everything else the
+bundle needs at runtime (`react-pdf`, `docx-preview`, `docxtemplater`, `pizzip`) is a regular
+dependency and installs automatically.
+
+React 19 support is verified, not assumed: the Playwright canvas suite renders pixel-identically
+under 18.3.1 and 19.2.8. Both are supported, but only 19 is installed in `devDependencies`, so
+that is the version the visual suite actually exercises.
 
 ### Tailwind configuration
 
