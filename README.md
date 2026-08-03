@@ -103,9 +103,11 @@ npm install @lateralus-ai/shipping-ui
 ### Peer dependencies
 
 `react` and `react-dom` are peers accepting **`^18.2.0 || ^19.0.0`** — the host app owns the
-single React copy. `react-textarea-autosize` is a peer for the same reason. Everything else the
-bundle needs at runtime (`react-pdf`, `docx-preview`, `docxtemplater`, `pizzip`) is a regular
-dependency and installs automatically.
+single React copy. Everything else the bundle needs at runtime (`react-pdf` and the five
+`@radix-ui/react-*` primitives) is a regular dependency and installs automatically. Nothing
+else belongs in `dependencies`: a consumer installs every one of them, so an entry no file
+under `src/` imports is pure tax. Check for importers before adding one, and drop it when the
+last importer goes.
 
 React 19 support is verified, not assumed: the Playwright canvas suite renders pixel-identically
 under 18.3.1 and 19.2.8. Both are supported, but only 19 is installed in `devDependencies`, so

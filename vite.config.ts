@@ -31,12 +31,7 @@ export default defineConfig({
       external: [
         "react",
         "react-dom",
-        "react-textarea-autosize",
         "react-pdf",
-        "docx-preview",
-        "docxtemplater",
-        "pizzip",
-        "react-hotkeys-hook",
       ],
       output: {
         globals: {
