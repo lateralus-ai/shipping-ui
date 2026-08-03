@@ -2,7 +2,6 @@ import { type MouseEvent, type ReactNode } from "react";
 import { ChevronIcon, ShipIcon } from "../../icons";
 import { Count, IconButton } from "../../primitives";
 import { cn } from "../../utils/cn";
-import { FIGMA_SHIP_ENTRIES } from "./figma-demo-content";
 import { sidebarGroupGap, sidebarQuaternaryIconButton } from "./sidebar-styles";
 import { SidebarEntry, type SidebarEntryMenuItem } from "./SidebarEntry";
 import { SidebarLink } from "./SidebarLink";
@@ -20,6 +19,7 @@ export type CollapsibleNavGroupProps = {
   icon?: ReactNode;
   expanded: boolean;
   onExpandedChange: (expanded: boolean) => void;
+  /** The host app's fleet. Empty by default — no sample vessels are shipped. */
   ships?: Ship[];
   className?: string;
   onNavigate?: (event: MouseEvent<HTMLAnchorElement>) => void;
@@ -32,7 +32,7 @@ export const CollapsibleNavGroup = ({
   icon = <ShipIcon size="small" className="text-display-on-light-primary" />,
   expanded,
   onExpandedChange,
-  ships = FIGMA_SHIP_ENTRIES,
+  ships = [],
   className,
   onNavigate,
   entryMenuItems,

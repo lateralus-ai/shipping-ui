@@ -61,7 +61,9 @@ Not every icon has every size. Check what's defined:
 
 - `src/icons/icons-data.ts` — committed paths
 - `scripts/figma-icon-nodes.json` — Figma node IDs per icon / variant / size
-- `hasIconSize`, `getOutlineSizes`, `getFilledSizes` in `src/icons/icon-sizes.ts`
+- read `iconsData[name].outline` / `.filled` directly — the `hasIconSize` /
+  `getOutlineSizes` / `getFilledSizes` helpers were removed in 2.0.0-dev.34; nothing
+  called them and two of the three did not type-check
 
 ### Directional icons (separate components)
 

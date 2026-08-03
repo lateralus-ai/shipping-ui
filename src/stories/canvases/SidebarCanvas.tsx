@@ -12,10 +12,13 @@ import {
 import { FigmaContent, FigmaPage } from "../_layout";
 import { FIGMA_WIDTHS } from "./figma-widths";
 import {
-  FIGMA_ENTRY_LABEL,
-  FIGMA_HEADING_LABEL,
-  FIGMA_SECTION_LABEL,
-} from "../../patterns/Sidebar/figma-demo-content";
+  DEMO_ACCOUNT_NAME,
+  DEMO_ACTIVITY_ENTRIES,
+  DEMO_ENTRY_LABEL,
+  DEMO_HEADING_LABEL,
+  DEMO_SECTION_LABEL,
+  DEMO_SHIP_ENTRIES,
+} from "./sidebar-demo-content";
 import {
   FIGMA_SIDEBAR_CONTENT,
   FIGMA_SIDEBAR_FRAMES,
@@ -47,12 +50,12 @@ const renderSlot = (slot: SidebarSubcomponentSlot) => {
     return (
       <SidebarLink
         href="#section"
-        label={FIGMA_SECTION_LABEL}
+        label={DEMO_SECTION_LABEL}
         icon={<SearchIcon size="small" className="text-display-on-light-primary" />}
         state={slot.state}
         collapsed={slot.collapsed}
         presentation
-        tooltip={FIGMA_SECTION_LABEL}
+        tooltip={DEMO_SECTION_LABEL}
       />
     );
   }
@@ -60,7 +63,7 @@ const renderSlot = (slot: SidebarSubcomponentSlot) => {
   if (slot.kind === "sidebarHeading") {
     return (
       <SidebarHeading
-        title={FIGMA_HEADING_LABEL}
+        title={DEMO_HEADING_LABEL}
         state={slot.state}
         collapsed={slot.collapsed}
       />
@@ -71,7 +74,7 @@ const renderSlot = (slot: SidebarSubcomponentSlot) => {
     return (
       <SidebarEntry
         href="#chat-1"
-        label={FIGMA_ENTRY_LABEL}
+        label={DEMO_ENTRY_LABEL}
         state={slot.state}
         forceMenuVisible={slot.showMenu}
         menuItems={slot.showMenu ? demoMenuItems : undefined}
@@ -84,17 +87,32 @@ const renderSlot = (slot: SidebarSubcomponentSlot) => {
       <CollapsibleNavGroup
         href="#ships"
         expanded={slot.expanded ?? false}
+        ships={DEMO_SHIP_ENTRIES}
         onExpandedChange={() => undefined}
       />
     );
   }
 
   if (slot.kind === "activity") {
-    return <ActivityNavGroup href="#activity" chief={slot.chief} empty={slot.empty} />;
+    return (
+      <ActivityNavGroup
+        href="#activity"
+        chief={slot.chief}
+        entries={DEMO_ACTIVITY_ENTRIES}
+        empty={slot.empty}
+      />
+    );
   }
 
   if (slot.kind === "account") {
-    return <Account collapsed={slot.collapsed} state={slot.state} presentation />;
+    return (
+      <Account
+        name={DEMO_ACCOUNT_NAME}
+        collapsed={slot.collapsed}
+        state={slot.state}
+        presentation
+      />
+    );
   }
 
   return null;

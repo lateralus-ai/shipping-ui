@@ -1,9 +1,7 @@
 import { type ReactNode } from "react";
 import { SidebarIcon } from "../../icons";
-import { DropdownMenu, DropdownMenuItem, IconButton, Tooltip } from "../../primitives";
+import { Avatar, DropdownMenu, DropdownMenuItem, IconButton, Tooltip } from "../../primitives";
 import { cn } from "../../utils/cn";
-import { accountAvatar, accountAvatar24 } from "./figma-assets";
-import { FIGMA_ACCOUNT_NAME } from "./figma-demo-content";
 import {
   sidebarSectionContent,
   sidebarSectionIconClass,
@@ -24,7 +22,9 @@ export type AccountMenuItem = {
 };
 
 export type AccountProps = {
-  name?: string;
+  /** Required: the signed-in user's name. There is no placeholder identity. */
+  name: string;
+  /** Photo URL supplied by the host app. Without one the initials avatar shows. */
   avatarSrc?: string;
   collapsed?: boolean;
   /** Storybook / subcomponent grid forced state. */
@@ -42,9 +42,35 @@ const defaultMenuItems: AccountMenuItem[] = [
   { id: "logout", label: "Log out", destructive: true, onSelect: () => undefined },
 ];
 
-const AccountAvatar = ({ src, className }: { src: string; className?: string }) => (
-  <img src={src} alt="" className={cn("size-full object-cover", className)} />
-);
+const initialsFor = (name: string) =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join("");
+
+/**
+ * The photo is the host app's to supply. This component used to fall back to a
+ * 284 KB demo portrait bundled twice into the package — 55% of the shipped
+ * JavaScript — so the fallback is now an initials avatar that costs nothing.
+ */
+const AccountAvatar = ({
+  name,
+  src,
+  size,
+  className,
+}: {
+  name: string;
+  src?: string;
+  size: 16 | 24;
+  className?: string;
+}) =>
+  src ? (
+    <img src={src} alt="" className={cn("size-full object-cover", className)} />
+  ) : (
+    <Avatar chief="initials" size={size} initials={initialsFor(name)} className={className} />
+  );
 
 const AccountRow = ({
   name,
@@ -98,7 +124,7 @@ const AccountRow = ({
         data-state={state}
       >
         <span className="size-6 shrink-0 overflow-hidden rounded-2xl">
-          <AccountAvatar src={avatarSrc ?? accountAvatar24} />
+          <AccountAvatar name={name} src={avatarSrc} size={24} />
         </span>
       </div>
     );
@@ -120,7 +146,7 @@ const AccountRow = ({
       >
         <div className={sidebarSectionContent}>
           <span className={cn(sidebarSectionIconClass, "size-4 overflow-hidden rounded-full")}>
-            <AccountAvatar src={avatarSrc ?? accountAvatar} />
+            <AccountAvatar name={name} src={avatarSrc} size={16} />
           </span>
           <span className={sidebarSectionLabelClass}>{name}</span>
         </div>
@@ -139,7 +165,7 @@ const AccountRow = ({
 };
 
 export const Account = ({
-  name = FIGMA_ACCOUNT_NAME,
+  name,
   avatarSrc,
   collapsed = false,
   state = "idle",

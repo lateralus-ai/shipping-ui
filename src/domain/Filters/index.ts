@@ -32,6 +32,3 @@ export {
   type FilterSubmenuContent,
 } from "./FilterDropdown";
 export { formatActiveFilterChipLabel } from "./formatActiveFilterChipLabel";
-
-/** @deprecated Use `activeFilterCount` on FilterPill instead. */
-export type FilterPillIndicator = "on" | "off";

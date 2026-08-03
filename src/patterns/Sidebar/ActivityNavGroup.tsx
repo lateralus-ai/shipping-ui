@@ -2,15 +2,29 @@ import { type MouseEvent, type ReactNode } from "react";
 import { ActivityIcon, ChatIcon, ChatProIcon, StatusIcon } from "../../icons";
 import { Count } from "../../primitives";
 import { cn } from "../../utils/cn";
-import { FIGMA_ACTIVITY_ENTRIES, type FigmaActivityIcon } from "./figma-demo-content";
 import { sidebarGroupGap } from "./sidebar-styles";
 import { SidebarEntry, type SidebarEntryMenuItem } from "./SidebarEntry";
 import { SidebarLink } from "./SidebarLink";
 import type { Chief } from "./Switcher";
 
+export type ActivityEntryIcon = "status" | "statusClosed" | "chat" | "chatPro";
+
+export type ActivityEntry = {
+  id: string;
+  label: string;
+  href: string;
+  count?: number;
+  icon: ActivityEntryIcon;
+};
+
 export type ActivityNavGroupProps = {
   href: string;
   chief: Chief;
+  /**
+   * Rows under the Activity link. The host app owns this list — the component
+   * ships no sample threads.
+   */
+  entries?: ActivityEntry[];
   empty?: boolean;
   label?: string;
   icon?: ReactNode;
@@ -19,7 +33,7 @@ export type ActivityNavGroupProps = {
   entryMenuItems?: SidebarEntryMenuItem[];
 };
 
-const activityEntryIcon = (icon: FigmaActivityIcon) => {
+const activityEntryIcon = (icon: ActivityEntryIcon) => {
   if (icon === "status") return <StatusIcon size="small" />;
   if (icon === "statusClosed") return <StatusIcon size="small" variant="closed" />;
   if (icon === "chatPro") return <ChatProIcon size="small" />;
@@ -29,6 +43,7 @@ const activityEntryIcon = (icon: FigmaActivityIcon) => {
 export const ActivityNavGroup = ({
   href,
   chief,
+  entries = [],
   empty = false,
   label = "Activity",
   icon = <ActivityIcon size="small" className="text-display-on-light-tertiary" />,
@@ -44,7 +59,7 @@ export const ActivityNavGroup = ({
     <SidebarLink href={href} label={label} icon={icon} onNavigate={onNavigate} />
 
     {!empty &&
-      FIGMA_ACTIVITY_ENTRIES.map((entry) => (
+      entries.map((entry) => (
         <SidebarEntry
           key={entry.id}
           href={entry.href}

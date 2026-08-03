@@ -1,4 +1,5 @@
-import { Sidebar, SidebarShell, type Chief } from "../../patterns/Sidebar";
+import { SidebarShell, type Chief } from "../../patterns/Sidebar";
+import { SidebarDemo } from "./SidebarDemo";
 
 export type SidebarPlaygroundProps = {
   chief?: Chief;
@@ -15,7 +16,7 @@ export const SidebarPlayground = ({
 }: SidebarPlaygroundProps) => (
   <SidebarShell
     sidebar={
-      <Sidebar
+      <SidebarDemo
         key={`${chief}-${activity}-${ships}-${collapsed}`}
         chief={chief}
         activity={activity}

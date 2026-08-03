@@ -113,16 +113,3 @@ export const createIcon = ({ name, outline, filled, variants }: CreateIconOption
   return Icon;
 };
 
-/** Renders multiple size variants side-by-side for canvas stories */
-export const IconSizeRow = ({
-  Icon,
-  filled,
-}: {
-  Icon: React.ComponentType<IconProps>;
-  filled?: boolean;
-}) => (
-  <>
-    <Icon size="large" filled={filled} />
-    <Icon size="small" filled={filled} />
-  </>
-);

@@ -13,6 +13,18 @@ export default defineConfig({
     }),
   ],
   build: {
+    // Vite's default is 4096 bytes, but it base64-inlines *any* asset an entry
+    // reaches transitively — and a placeholder avatar imported by a published
+    // Sidebar component reached the entry twice. That put 740 KB of base64
+    // JPEG (33% larger than the binary) into `dist/index.esm.js`: 55% of the
+    // bundle, 544 KB gzipped in the consuming app's eager vendor chunk, on
+    // ships with satellite links.
+    //
+    // 2048 is deliberately below the default. Nothing this package ships needs
+    // to be welded into the JS; an emitted asset is a separate file the CDN and
+    // the browser can cache on its own. Raising this is a decision to make a
+    // consumer download the bytes whether or not the component renders.
+    assetsInlineLimit: 2048,
     lib: {
       entry: {
         index: resolve(__dirname, "src/index.ts"),
