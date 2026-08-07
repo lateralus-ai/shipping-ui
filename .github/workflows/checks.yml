@@ -21,9 +21,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          # No `engines` field or .nvmrc in this repo; 22 matches the consuming
-          # app (shipping-ai) and the release-it 20 floor.
-          node-version: 22
+          # No `engines` field or .nvmrc in this repo; 24 matches the consuming
+          # app (frontend/client is `engines.node >=24.18.1`, .nvmrc 24) and
+          # clears the release-it 20 floor.
+          node-version: 24
           cache: npm
 
       # `npm ci` is the point of this job as much as the build is. It fails on a
