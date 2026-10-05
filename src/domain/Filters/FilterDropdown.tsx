@@ -318,11 +318,36 @@ export function FilterDropdown({
   const renderOptionButtons = (
     selectionKey: string,
     options: FilterOption[],
-  ) =>
-    options.map((option, index) => {
-      const selected =
-        selectedValuesBySelectionKey[selectionKey]?.includes(option.value) ??
-        false;
+    selectionMode: FilterSelectionMode = "multi",
+  ) => {
+    const selectedValues = selectedValuesBySelectionKey[selectionKey] ?? [];
+    /*
+     * A group heading selects its whole group.
+     *
+     * It fires `onSelectOption` once per member, which is what makes it mean
+     * exactly "the user clicked these one by one" — no second callback for
+     * consumers to implement, and no way for the group to end up in a state
+     * an individual click could not have produced. Consumers toggle from the
+     * previous value (`prev => …`), so the burst batches correctly; one that
+     * computes from a captured value instead would keep only the last click.
+     *
+     * Empty when every member is already selected, in which case the burst
+     * covers all of them and the group toggles back off — the heading behaves
+     * like the checkbox its tick implies.
+     */
+    const toggleGroup = (group: string) => {
+      const members = options.filter((option) => option.group === group);
+      const unselected = members.filter(
+        (member) => !selectedValues.includes(member.value),
+      );
+      const targets = unselected.length > 0 ? unselected : members;
+      for (const target of targets) {
+        onSelectOption(selectionKey, target.value);
+      }
+    };
+
+    return options.map((option, index) => {
+      const selected = selectedValues.includes(option.value);
       const Icon = option.icon;
       const labelStyle = getOptionLabelStyle?.(selectionKey, option.value);
       // A heading whenever the group changes, so a run of options sits under
@@ -337,7 +362,14 @@ export function FilterDropdown({
           key={option.value}
           type="button"
           onClick={() => onSelectOption(selectionKey, option.value)}
-          className={cn(rowClass, selected && "bg-grey-100")}
+          className={cn(
+            rowClass,
+            // Indented under its heading. Padding rather than margin so the
+            // hover and selected background still span the full row — a
+            // margin would inset the highlight too and leave it floating.
+            option.group && "pl-9",
+            selected && "bg-grey-100",
+          )}
         >
           <div className="flex min-w-0 items-center gap-2">
             {Icon && <Icon className="h-4 w-4 shrink-0" />}
@@ -357,31 +389,54 @@ export function FilterDropdown({
       if (!groupHeading) {
         return button;
       }
+      const members = options.filter(
+        (member) => member.group === groupHeading,
+      );
+      const wholeGroupSelected = members.every((member) =>
+        selectedValues.includes(member.value),
+      );
+      /*
+       * `single` mode has no group to select — picking every member at once
+       * is the one thing an exclusive list cannot mean — so there the
+       * heading stays a caption.
+       */
+      const headingSelectable = selectionMode === "multi";
+      const headingText = "text-caption-2 font-semibold text-display-on-light-primary";
+      // The gap belongs BETWEEN sections, so the first heading does not get
+      // one — it would only pad the top of the panel.
+      const headingGap = index === 0 ? undefined : "mt-3";
       return (
         // Keyed on the option, not the group name: a group may head more than
         // one run, and React needs the key unique across the whole list.
         <div key={`group-${option.value}`}>
-          <div
-            // `presentation`, because this is a caption over the options and
-            // not a row: a screen reader meeting it as a list item would
-            // announce a choice that cannot be chosen.
-            role="presentation"
-            /*
-             * Deliberately not the `inline-options` row `title` style above,
-             * which is a quiet grey caption. That one labels a whole list
-             * from outside it ("Sort by"); this one divides a list from
-             * within, and has to be heavier than the options it separates or
-             * it reads as just another one of them. `pt-3` on a heading that
-             * follows options is the gap between sections.
-             */
-            className="px-4 pb-1 pt-3 text-caption-2 font-semibold text-display-on-light-primary first:pt-1"
-          >
-            {groupHeading}
-          </div>
+          {headingSelectable ? (
+            // The row shape, so its tick lines up with the members' ticks and
+            // it highlights on hover like anything else you can click. Only
+            // the vertical padding is tightened, to keep a heading closer to
+            // the options it heads than to the section above.
+            <button
+              type="button"
+              onClick={() => toggleGroup(groupHeading)}
+              className={cn(rowClass, "py-1", headingText, headingGap)}
+            >
+              <span className="truncate">{groupHeading}</span>
+              <CheckSlot selected={wholeGroupSelected} />
+            </button>
+          ) : (
+            <div
+              // `presentation`, because a caption that cannot be chosen would
+              // otherwise be announced as a choice.
+              role="presentation"
+              className={cn("px-4 pb-1 pt-1", headingText, headingGap)}
+            >
+              {groupHeading}
+            </div>
+          )}
           {button}
         </div>
       );
     });
+  };
 
   const categoryPanel = (
     <div className={categoryPanelClass}>
@@ -429,7 +484,11 @@ export function FilterDropdown({
                     No options
                   </p>
                 ) : (
-                  renderOptionButtons(row.selectionKey, row.options)
+                  renderOptionButtons(
+                    row.selectionKey,
+                    row.options,
+                    row.selectionMode,
+                  )
                 )}
               </div>
             );
@@ -533,7 +592,11 @@ export function FilterDropdown({
           ) : view.options.length === 0 ? (
             <p className="px-4 py-2 text-body text-grey-500">No options</p>
           ) : (
-            renderOptionButtons(view.selectionKey, view.options)
+            renderOptionButtons(
+              view.selectionKey,
+              view.options,
+              view.selectionMode,
+            )
           )}
         </div>
       </div>
