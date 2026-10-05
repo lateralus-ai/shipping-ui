@@ -628,10 +628,22 @@ export function FilterDropdown({
           sideOffset={sideOffset}
           className={cn(
             zIndexClass,
-            "w-auto border-0 bg-transparent p-0 shadow-none outline-none",
+            // `group` so the panels below can see which way this flipped.
+            "group w-auto border-0 bg-transparent p-0 shadow-none outline-none",
           )}
         >
-          <div className="flex items-start gap-0">
+          {/*
+            The two panels align to whichever edge is against the trigger.
+
+            They are different heights — the category column is three rows,
+            the options panel can be a dozen — and Radix flips the whole box
+            above the trigger when there is no room below. Top-aligned, that
+            put the short category column at the TOP of a tall box: metres
+            from the button that opened it, reading as a detached menu
+            belonging to nothing. `data-side` is Radix's own answer for which
+            way it went, so the flip and the alignment cannot disagree.
+          */}
+          <div className="flex items-start gap-0 group-data-[side=top]:items-end">
             {submenuOpensLeft ? (
               <>
                 {submenuPanel}
