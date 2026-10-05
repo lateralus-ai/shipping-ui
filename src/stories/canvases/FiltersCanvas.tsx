@@ -8,12 +8,7 @@ import {
   formatActiveFilterChipLabel,
   type FilterCategoryRow,
 } from "../../domain/Filters";
-import {
-  FigmaContent,
-  FigmaGrid,
-  FigmaPage,
-  FigmaSection,
-} from "../_layout";
+import { FigmaContent, FigmaGrid, FigmaPage, FigmaSection } from "../_layout";
 import { FIGMA_WIDTHS } from "./figma-widths";
 
 const demoOptions = {
@@ -26,16 +21,40 @@ const demoOptions = {
     { value: "aurora", label: "Aurora" },
     { value: "north", label: "North Star" },
   ],
+  /*
+   * Grouped options: a heading starts wherever `group` changes, so the order
+   * here is the sectioning. Note "Chat" appearing under both products — the
+   * case the headings exist for, since the label alone does not say which.
+   */
+  feature: [
+    { value: "technical-chat", label: "Chat", group: "AskChief Technical" },
+    {
+      value: "defect-reports",
+      label: "Defect Reports",
+      group: "AskChief Technical",
+    },
+    {
+      value: "compliance-chat",
+      label: "Chat",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "sms-management",
+      label: "SMS Management",
+      group: "AskChief Compliance",
+    },
+  ],
 };
 
 export const FiltersCanvas = () => {
   const [status, setStatus] = useState<string[]>([]);
   const [vessel, setVessel] = useState<string[]>([]);
+  const [feature, setFeature] = useState<string[]>([]);
   const [groupByVessel, setGroupByVessel] = useState(false);
 
   const selectedValuesBySelectionKey = useMemo(
-    () => ({ status, vessel }),
-    [status, vessel],
+    () => ({ status, vessel, feature }),
+    [status, vessel, feature],
   );
 
   const categoryRows: FilterCategoryRow[] = useMemo(
@@ -58,6 +77,16 @@ export const FiltersCanvas = () => {
           selectionKey: "vessel",
           selectionMode: "multi",
           options: demoOptions.vessel,
+        },
+      },
+      {
+        id: "feature",
+        label: "Feature",
+        content: {
+          type: "options",
+          selectionKey: "feature",
+          selectionMode: "multi",
+          options: demoOptions.feature,
         },
       },
       {
@@ -147,10 +176,18 @@ export const FiltersCanvas = () => {
                         : [...prev, value],
                     );
                   }
+                  if (key === "feature") {
+                    setFeature((prev) =>
+                      prev.includes(value)
+                        ? prev.filter((v) => v !== value)
+                        : [...prev, value],
+                    );
+                  }
                 }}
                 onResetAll={() => {
                   setStatus([]);
                   setVessel([]);
+                  setFeature([]);
                   setGroupByVessel(false);
                 }}
               />

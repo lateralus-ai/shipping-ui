@@ -15,6 +15,26 @@ export type FilterOption = {
   value: string;
   label: string;
   icon?: ComponentType<{ className?: string }>;
+  /**
+   * Heading this option sits under, for a list that reads in sections.
+   *
+   * A list of product features is the case it was added for: the same word
+   * means different things per product — "Chat" under Technical is not "Chat"
+   * under Compliance — so the options need their product above them to be
+   * legible at all. Prefixing every label instead ("Technical Chat",
+   * "Compliance Chat") widened the panel and repeated the product on every
+   * line.
+   *
+   * Consecutive options sharing a group render under one heading, so the
+   * CALLER'S ORDER decides the sections — nothing is sorted or regrouped
+   * here. Two separate runs of the same group therefore make two headings,
+   * which is the honest rendering of a list handed over in that order.
+   *
+   * Headings are labels, not rows: not selectable, not focusable, no check
+   * slot. Omit `group` and nothing changes — a list where no option has one
+   * renders exactly as it always did.
+   */
+  group?: string;
 };
 
 export type FilterSelectionMode = "multi" | "single";
@@ -299,13 +319,20 @@ export function FilterDropdown({
     selectionKey: string,
     options: FilterOption[],
   ) =>
-    options.map((option) => {
+    options.map((option, index) => {
       const selected =
         selectedValuesBySelectionKey[selectionKey]?.includes(option.value) ??
         false;
       const Icon = option.icon;
       const labelStyle = getOptionLabelStyle?.(selectionKey, option.value);
-      return (
+      // A heading whenever the group changes, so a run of options sits under
+      // one. Compared against the PREVIOUS option rather than a set of groups
+      // already seen: the caller's order is the sectioning (see `group`).
+      const groupHeading =
+        option.group && option.group !== options[index - 1]?.group
+          ? option.group
+          : null;
+      const button = (
         <button
           key={option.value}
           type="button"
@@ -326,6 +353,33 @@ export function FilterDropdown({
           </div>
           <CheckSlot selected={selected} />
         </button>
+      );
+      if (!groupHeading) {
+        return button;
+      }
+      return (
+        // Keyed on the option, not the group name: a group may head more than
+        // one run, and React needs the key unique across the whole list.
+        <div key={`group-${option.value}`}>
+          <div
+            // `presentation`, because this is a caption over the options and
+            // not a row: a screen reader meeting it as a list item would
+            // announce a choice that cannot be chosen.
+            role="presentation"
+            /*
+             * Deliberately not the `inline-options` row `title` style above,
+             * which is a quiet grey caption. That one labels a whole list
+             * from outside it ("Sort by"); this one divides a list from
+             * within, and has to be heavier than the options it separates or
+             * it reads as just another one of them. `pt-3` on a heading that
+             * follows options is the gap between sections.
+             */
+            className="px-4 pb-1 pt-3 text-caption-2 font-semibold text-display-on-light-primary first:pt-1"
+          >
+            {groupHeading}
+          </div>
+          {button}
+        </div>
       );
     });
 
@@ -371,7 +425,9 @@ export function FilterDropdown({
                   </div>
                 ) : null}
                 {row.options.length === 0 ? (
-                  <p className="px-4 py-2 text-body text-grey-500">No options</p>
+                  <p className="px-4 py-2 text-body text-grey-500">
+                    No options
+                  </p>
                 ) : (
                   renderOptionButtons(row.selectionKey, row.options)
                 )}
@@ -418,11 +474,7 @@ export function FilterDropdown({
 
         {showResetAll && (
           <div className="mt-2 border-t border-divider-primary pt-2">
-            <button
-              type="button"
-              onClick={onResetAll}
-              className={cn(rowClass)}
-            >
+            <button type="button" onClick={onResetAll} className={cn(rowClass)}>
               <span className="text-body text-display-on-light-primary">
                 {resetAllLabel}
               </span>
@@ -443,11 +495,7 @@ export function FilterDropdown({
               onClick={() => setNavPath((p) => p.slice(0, -1))}
               className="flex w-full items-center gap-1 rounded-md px-2 py-1 text-left text-caption-2-em text-display-on-light-secondary hover:bg-grey-50"
             >
-              <ChevronIcon
-                direction="left"
-                size="small"
-                className="shrink-0"
-              />
+              <ChevronIcon direction="left" size="small" className="shrink-0" />
               Back
             </button>
           </div>
