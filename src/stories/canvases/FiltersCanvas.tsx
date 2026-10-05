@@ -8,12 +8,7 @@ import {
   formatActiveFilterChipLabel,
   type FilterCategoryRow,
 } from "../../domain/Filters";
-import {
-  FigmaContent,
-  FigmaGrid,
-  FigmaPage,
-  FigmaSection,
-} from "../_layout";
+import { FigmaContent, FigmaGrid, FigmaPage, FigmaSection } from "../_layout";
 import { FIGMA_WIDTHS } from "./figma-widths";
 
 const demoOptions = {
@@ -26,16 +21,71 @@ const demoOptions = {
     { value: "aurora", label: "Aurora" },
     { value: "north", label: "North Star" },
   ],
+  /*
+   * Grouped options: a heading starts wherever `group` changes, so the order
+   * here is the sectioning.
+   *
+   * The real list from the app, not a trimmed sample. Two things only show
+   * at full length: "Chat" appears under BOTH products — the case the
+   * headings exist for, since the label alone cannot say which — and the
+   * panel grows taller than the category column beside it, which is what
+   * makes the bottom-alignment on a flipped popover visible at all.
+   */
+  feature: [
+    { value: "technical-chat", label: "Chat", group: "AskChief Technical" },
+    {
+      value: "defect-reports",
+      label: "Defect Reports",
+      group: "AskChief Technical",
+    },
+    {
+      value: "monthly-technical-forms",
+      label: "Monthly Technical Forms",
+      group: "AskChief Technical",
+    },
+    { value: "compliance-chat", label: "Chat", group: "AskChief Compliance" },
+    {
+      value: "sms-management",
+      label: "SMS Management",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "audit-preparation",
+      label: "Audit Preparation",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "audit-response",
+      label: "Audit Response",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "risk-assessment",
+      label: "Risk Assessment",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "incident-investigation",
+      label: "Incident Investigation",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "root-cause-analysis",
+      label: "Root Cause Analysis",
+      group: "AskChief Compliance",
+    },
+  ],
 };
 
 export const FiltersCanvas = () => {
   const [status, setStatus] = useState<string[]>([]);
   const [vessel, setVessel] = useState<string[]>([]);
+  const [feature, setFeature] = useState<string[]>([]);
   const [groupByVessel, setGroupByVessel] = useState(false);
 
   const selectedValuesBySelectionKey = useMemo(
-    () => ({ status, vessel }),
-    [status, vessel],
+    () => ({ status, vessel, feature }),
+    [status, vessel, feature],
   );
 
   const categoryRows: FilterCategoryRow[] = useMemo(
@@ -58,6 +108,16 @@ export const FiltersCanvas = () => {
           selectionKey: "vessel",
           selectionMode: "multi",
           options: demoOptions.vessel,
+        },
+      },
+      {
+        id: "feature",
+        label: "Feature",
+        content: {
+          type: "options",
+          selectionKey: "feature",
+          selectionMode: "multi",
+          options: demoOptions.feature,
         },
       },
       {
@@ -147,10 +207,18 @@ export const FiltersCanvas = () => {
                         : [...prev, value],
                     );
                   }
+                  if (key === "feature") {
+                    setFeature((prev) =>
+                      prev.includes(value)
+                        ? prev.filter((v) => v !== value)
+                        : [...prev, value],
+                    );
+                  }
                 }}
                 onResetAll={() => {
                   setStatus([]);
                   setVessel([]);
+                  setFeature([]);
                   setGroupByVessel(false);
                 }}
               />

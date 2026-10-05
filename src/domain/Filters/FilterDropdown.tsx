@@ -15,6 +15,26 @@ export type FilterOption = {
   value: string;
   label: string;
   icon?: ComponentType<{ className?: string }>;
+  /**
+   * Heading this option sits under, for a list that reads in sections.
+   *
+   * A list of product features is the case it was added for: the same word
+   * means different things per product — "Chat" under Technical is not "Chat"
+   * under Compliance — so the options need their product above them to be
+   * legible at all. Prefixing every label instead ("Technical Chat",
+   * "Compliance Chat") widened the panel and repeated the product on every
+   * line.
+   *
+   * Consecutive options sharing a group render under one heading, so the
+   * CALLER'S ORDER decides the sections — nothing is sorted or regrouped
+   * here. Two separate runs of the same group therefore make two headings,
+   * which is the honest rendering of a list handed over in that order.
+   *
+   * Headings are labels, not rows: not selectable, not focusable, no check
+   * slot. Omit `group` and nothing changes — a list where no option has one
+   * renders exactly as it always did.
+   */
+  group?: string;
 };
 
 export type FilterSelectionMode = "multi" | "single";
@@ -298,19 +318,58 @@ export function FilterDropdown({
   const renderOptionButtons = (
     selectionKey: string,
     options: FilterOption[],
-  ) =>
-    options.map((option) => {
-      const selected =
-        selectedValuesBySelectionKey[selectionKey]?.includes(option.value) ??
-        false;
+    selectionMode: FilterSelectionMode = "multi",
+  ) => {
+    const selectedValues = selectedValuesBySelectionKey[selectionKey] ?? [];
+    /*
+     * A group heading selects its whole group.
+     *
+     * It fires `onSelectOption` once per member, which is what makes it mean
+     * exactly "the user clicked these one by one" — no second callback for
+     * consumers to implement, and no way for the group to end up in a state
+     * an individual click could not have produced. Consumers toggle from the
+     * previous value (`prev => …`), so the burst batches correctly; one that
+     * computes from a captured value instead would keep only the last click.
+     *
+     * Empty when every member is already selected, in which case the burst
+     * covers all of them and the group toggles back off — the heading behaves
+     * like the checkbox its tick implies.
+     */
+    const toggleGroup = (group: string) => {
+      const members = options.filter((option) => option.group === group);
+      const unselected = members.filter(
+        (member) => !selectedValues.includes(member.value),
+      );
+      const targets = unselected.length > 0 ? unselected : members;
+      for (const target of targets) {
+        onSelectOption(selectionKey, target.value);
+      }
+    };
+
+    return options.map((option, index) => {
+      const selected = selectedValues.includes(option.value);
       const Icon = option.icon;
       const labelStyle = getOptionLabelStyle?.(selectionKey, option.value);
-      return (
+      // A heading whenever the group changes, so a run of options sits under
+      // one. Compared against the PREVIOUS option rather than a set of groups
+      // already seen: the caller's order is the sectioning (see `group`).
+      const groupHeading =
+        option.group && option.group !== options[index - 1]?.group
+          ? option.group
+          : null;
+      const button = (
         <button
           key={option.value}
           type="button"
           onClick={() => onSelectOption(selectionKey, option.value)}
-          className={cn(rowClass, selected && "bg-grey-100")}
+          className={cn(
+            rowClass,
+            // Indented under its heading. Padding rather than margin so the
+            // hover and selected background still span the full row — a
+            // margin would inset the highlight too and leave it floating.
+            option.group && "pl-9",
+            selected && "bg-grey-100",
+          )}
         >
           <div className="flex min-w-0 items-center gap-2">
             {Icon && <Icon className="h-4 w-4 shrink-0" />}
@@ -327,7 +386,57 @@ export function FilterDropdown({
           <CheckSlot selected={selected} />
         </button>
       );
+      if (!groupHeading) {
+        return button;
+      }
+      const members = options.filter(
+        (member) => member.group === groupHeading,
+      );
+      const wholeGroupSelected = members.every((member) =>
+        selectedValues.includes(member.value),
+      );
+      /*
+       * `single` mode has no group to select — picking every member at once
+       * is the one thing an exclusive list cannot mean — so there the
+       * heading stays a caption.
+       */
+      const headingSelectable = selectionMode === "multi";
+      const headingText = "text-caption-2 font-semibold text-display-on-light-primary";
+      // The gap belongs BETWEEN sections, so the first heading does not get
+      // one — it would only pad the top of the panel.
+      const headingGap = index === 0 ? undefined : "mt-3";
+      return (
+        // Keyed on the option, not the group name: a group may head more than
+        // one run, and React needs the key unique across the whole list.
+        <div key={`group-${option.value}`}>
+          {headingSelectable ? (
+            // The row shape, so its tick lines up with the members' ticks and
+            // it highlights on hover like anything else you can click. Only
+            // the vertical padding is tightened, to keep a heading closer to
+            // the options it heads than to the section above.
+            <button
+              type="button"
+              onClick={() => toggleGroup(groupHeading)}
+              className={cn(rowClass, "py-1", headingText, headingGap)}
+            >
+              <span className="truncate">{groupHeading}</span>
+              <CheckSlot selected={wholeGroupSelected} />
+            </button>
+          ) : (
+            <div
+              // `presentation`, because a caption that cannot be chosen would
+              // otherwise be announced as a choice.
+              role="presentation"
+              className={cn("px-4 pb-1 pt-1", headingText, headingGap)}
+            >
+              {groupHeading}
+            </div>
+          )}
+          {button}
+        </div>
+      );
     });
+  };
 
   const categoryPanel = (
     <div className={categoryPanelClass}>
@@ -371,9 +480,15 @@ export function FilterDropdown({
                   </div>
                 ) : null}
                 {row.options.length === 0 ? (
-                  <p className="px-4 py-2 text-body text-grey-500">No options</p>
+                  <p className="px-4 py-2 text-body text-grey-500">
+                    No options
+                  </p>
                 ) : (
-                  renderOptionButtons(row.selectionKey, row.options)
+                  renderOptionButtons(
+                    row.selectionKey,
+                    row.options,
+                    row.selectionMode,
+                  )
                 )}
               </div>
             );
@@ -418,11 +533,7 @@ export function FilterDropdown({
 
         {showResetAll && (
           <div className="mt-2 border-t border-divider-primary pt-2">
-            <button
-              type="button"
-              onClick={onResetAll}
-              className={cn(rowClass)}
-            >
+            <button type="button" onClick={onResetAll} className={cn(rowClass)}>
               <span className="text-body text-display-on-light-primary">
                 {resetAllLabel}
               </span>
@@ -443,11 +554,7 @@ export function FilterDropdown({
               onClick={() => setNavPath((p) => p.slice(0, -1))}
               className="flex w-full items-center gap-1 rounded-md px-2 py-1 text-left text-caption-2-em text-display-on-light-secondary hover:bg-grey-50"
             >
-              <ChevronIcon
-                direction="left"
-                size="small"
-                className="shrink-0"
-              />
+              <ChevronIcon direction="left" size="small" className="shrink-0" />
               Back
             </button>
           </div>
@@ -485,7 +592,11 @@ export function FilterDropdown({
           ) : view.options.length === 0 ? (
             <p className="px-4 py-2 text-body text-grey-500">No options</p>
           ) : (
-            renderOptionButtons(view.selectionKey, view.options)
+            renderOptionButtons(
+              view.selectionKey,
+              view.options,
+              view.selectionMode,
+            )
           )}
         </div>
       </div>
@@ -517,10 +628,22 @@ export function FilterDropdown({
           sideOffset={sideOffset}
           className={cn(
             zIndexClass,
-            "w-auto border-0 bg-transparent p-0 shadow-none outline-none",
+            // `group` so the panels below can see which way this flipped.
+            "group w-auto border-0 bg-transparent p-0 shadow-none outline-none",
           )}
         >
-          <div className="flex items-start gap-0">
+          {/*
+            The two panels align to whichever edge is against the trigger.
+
+            They are different heights — the category column is three rows,
+            the options panel can be a dozen — and Radix flips the whole box
+            above the trigger when there is no room below. Top-aligned, that
+            put the short category column at the TOP of a tall box: metres
+            from the button that opened it, reading as a detached menu
+            belonging to nothing. `data-side` is Radix's own answer for which
+            way it went, so the flip and the alignment cannot disagree.
+          */}
+          <div className="flex items-start gap-0 group-data-[side=top]:items-end">
             {submenuOpensLeft ? (
               <>
                 {submenuPanel}
