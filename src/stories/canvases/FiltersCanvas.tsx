@@ -23,8 +23,13 @@ const demoOptions = {
   ],
   /*
    * Grouped options: a heading starts wherever `group` changes, so the order
-   * here is the sectioning. Note "Chat" appearing under both products — the
-   * case the headings exist for, since the label alone does not say which.
+   * here is the sectioning.
+   *
+   * The real list from the app, not a trimmed sample. Two things only show
+   * at full length: "Chat" appears under BOTH products — the case the
+   * headings exist for, since the label alone cannot say which — and the
+   * panel grows taller than the category column beside it, which is what
+   * makes the bottom-alignment on a flipped popover visible at all.
    */
   feature: [
     { value: "technical-chat", label: "Chat", group: "AskChief Technical" },
@@ -34,13 +39,39 @@ const demoOptions = {
       group: "AskChief Technical",
     },
     {
-      value: "compliance-chat",
-      label: "Chat",
-      group: "AskChief Compliance",
+      value: "monthly-technical-forms",
+      label: "Monthly Technical Forms",
+      group: "AskChief Technical",
     },
+    { value: "compliance-chat", label: "Chat", group: "AskChief Compliance" },
     {
       value: "sms-management",
       label: "SMS Management",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "audit-preparation",
+      label: "Audit Preparation",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "audit-response",
+      label: "Audit Response",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "risk-assessment",
+      label: "Risk Assessment",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "incident-investigation",
+      label: "Incident Investigation",
+      group: "AskChief Compliance",
+    },
+    {
+      value: "root-cause-analysis",
+      label: "Root Cause Analysis",
       group: "AskChief Compliance",
     },
   ],
