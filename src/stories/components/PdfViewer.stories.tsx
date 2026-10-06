@@ -74,3 +74,4 @@ export default meta;
 
 type Story = StoryObj<typeof PdfViewer>;
 export const Default: Story = {};
+export const InitialPage: Story = { args: { initialPage: 2 } };

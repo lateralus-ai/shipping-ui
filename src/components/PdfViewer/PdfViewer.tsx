@@ -45,6 +45,8 @@ type PdfViewerProps = React.HTMLProps<HTMLDivElement> & {
   onClose: () => void;
   src: string;
   title?: string;
+  /** 1-based page to open on; applied again whenever `src` or `initialPage` changes. */
+  initialPage?: number;
   onOpen?: (event: ReactMouseEvent<HTMLButtonElement>) => void;
 };
 
@@ -83,11 +85,12 @@ export const PdfViewer = ({
   src,
   title = "PDF Viewer",
   className,
+  initialPage = 1,
   onOpen,
 }: PdfViewerProps) => {
   const [zoom, zoomActions] = useZoom();
   const [rotation, rotationActions] = useRotation();
-  const [{ currentPage, totalPages }, pageActions] = usePageManagement();
+  const [{ currentPage, totalPages }, pageActions] = usePageManagement(0, Math.max(1, initialPage));
   const viewportRef = useRef<HTMLDivElement>(null);
   const [{ canPan, isDragging }, panActions] = usePanning(viewportRef);
   const [pageSize, setPageSize] = useState<PageSize>(DEFAULT_PAGE_SIZE);
@@ -107,6 +110,10 @@ export const PdfViewer = ({
     observer.observe(viewport);
     return () => observer.disconnect();
   }, [zoom, rotation, pageSize]);
+
+  useEffect(() => {
+    pageActions.resetPage();
+  }, [src, initialPage]);
 
   useEffect(() => {
     panActions.resetScroll();
