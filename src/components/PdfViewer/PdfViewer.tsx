@@ -45,7 +45,36 @@ type PdfViewerProps = React.HTMLProps<HTMLDivElement> & {
   onClose: () => void;
   src: string;
   title?: string;
+  /** 1-based page to open on; applied again whenever `src` or `initialPage` changes. */
+  initialPage?: number;
   onOpen?: (event: ReactMouseEvent<HTMLButtonElement>) => void;
+};
+
+// Fallback until react-pdf reports the real page size (US Letter, in PDF points).
+const DEFAULT_PAGE_SIZE = { width: 612, height: 792 };
+// At 100% a page is never drawn wider than this, so it doesn't balloon in a wide modal.
+const MAX_FIT_WIDTH = 650;
+
+type PageSize = typeof DEFAULT_PAGE_SIZE;
+
+const getPadding = (element: HTMLElement) => {
+  const style = getComputedStyle(element);
+  return {
+    x: parseFloat(style.paddingLeft) + parseFloat(style.paddingRight),
+    y: parseFloat(style.paddingTop) + parseFloat(style.paddingBottom),
+  };
+};
+
+// The scale at which the whole page (as rotated) fits the viewport. Measures the
+// border box, which doesn't change when scrollbars appear, so zooming can't oscillate.
+const getFitScale = (viewport: HTMLElement, pageSize: PageSize, rotation: number) => {
+  const padding = getPadding(viewport);
+  const availableWidth = Math.min(viewport.offsetWidth - padding.x, MAX_FIT_WIDTH);
+  const availableHeight = viewport.offsetHeight - padding.y;
+  const isSideways = rotation % 180 !== 0;
+  const pageWidth = isSideways ? pageSize.height : pageSize.width;
+  const pageHeight = isSideways ? pageSize.width : pageSize.height;
+  return Math.min(availableWidth / pageWidth, availableHeight / pageHeight);
 };
 
 const toolbarButtonClass =
@@ -56,27 +85,39 @@ export const PdfViewer = ({
   src,
   title = "PDF Viewer",
   className,
+  initialPage = 1,
   onOpen,
 }: PdfViewerProps) => {
   const [zoom, zoomActions] = useZoom();
   const [rotation, rotationActions] = useRotation();
-  const [{ currentPage, totalPages }, pageActions] = usePageManagement();
-  const [{ pan, isDragging }, panActions] = usePanning();
+  const [{ currentPage, totalPages }, pageActions] = usePageManagement(0, Math.max(1, initialPage));
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [{ canPan, isDragging }, panActions] = usePanning(viewportRef);
+  const [pageSize, setPageSize] = useState<PageSize>(DEFAULT_PAGE_SIZE);
   const [scale, setScale] = useState(1);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
     const calculateScale = () => {
-      if (!containerRef.current) return;
-      const containerWidth = containerRef.current.offsetWidth;
-      const baseScale = containerWidth / 612;
-      setScale(baseScale * (zoom / 100));
+      const fitScale = getFitScale(viewport, pageSize, rotation);
+      if (fitScale > 0) setScale(fitScale * (zoom / 100));
     };
 
     calculateScale();
-    window.addEventListener("resize", calculateScale);
-    return () => window.removeEventListener("resize", calculateScale);
-  }, [zoom]);
+    const observer = new ResizeObserver(calculateScale);
+    observer.observe(viewport);
+    return () => observer.disconnect();
+  }, [zoom, rotation, pageSize]);
+
+  useEffect(() => {
+    pageActions.resetPage();
+  }, [src, initialPage]);
+
+  useEffect(() => {
+    panActions.resetScroll();
+  }, [currentPage, src]);
 
   const handleOpen = (event: ReactMouseEvent<HTMLButtonElement>) => {
     onOpen?.(event);
@@ -94,45 +135,47 @@ export const PdfViewer = ({
   );
 
   return (
-    <div className={cn("flex h-full flex-col rounded-t-lg shadow-raise2", className)} ref={containerRef}>
+    <div className={cn("flex h-full flex-col rounded-t-lg shadow-raise2", className)}>
       <ModalPanel.Header onClose={onClose} right={rightButtons}>
         {title}
       </ModalPanel.Header>
 
-      <div className="grid h-full grow overflow-hidden shadow">
+      <div className="flex min-h-0 grow flex-col overflow-hidden shadow">
+        {/* `m-auto` (not justify/items-center) centers the page while keeping its
+            top-left edge reachable by scrolling once it overflows. */}
         <div
+          ref={viewportRef}
           className={cn(
-            "col-start-1 row-start-1 mt-8 flex h-full items-center justify-center overflow-hidden bg-background-tertiary p-8 select-none",
-            isDragging ? "cursor-grabbing" : "cursor-grab",
+            "flex min-h-0 grow overflow-auto overscroll-contain bg-background-tertiary p-8",
+            canPan && (isDragging ? "cursor-grabbing select-none" : "cursor-grab"),
           )}
           onMouseDown={panActions.handleMouseDown}
-          onMouseMove={panActions.handleMouseMove}
-          onMouseUp={panActions.handleMouseUp}
-          onMouseLeave={panActions.handleMouseUp}
-          style={{ userSelect: "none" }}
+          onClickCapture={panActions.handleClickCapture}
         >
-          <div
-            style={{
-              transform: `translate(${pan.x}px, ${pan.y}px)`,
-              transition: isDragging ? "none" : "transform 0.1s",
-              pointerEvents: "none",
-              maxWidth: "650px",
-            }}
-          >
+          <div className="m-auto shrink-0">
             <Document
               externalLinkRel="noopener noreferrer"
               externalLinkTarget="_blank"
               file={src}
               onLoadSuccess={({ numPages }) => pageActions.setTotalPages(numPages)}
+              onItemClick={({ pageNumber }) => pageActions.goToPage(pageNumber)}
               scale={scale}
               rotate={rotation}
             >
-              <Page pageNumber={currentPage} renderTextLayer renderAnnotationLayer />
+              <Page
+                pageNumber={currentPage}
+                renderTextLayer
+                renderAnnotationLayer
+                onLoadSuccess={(page) => {
+                  const { width, height } = page.getViewport({ scale: 1, rotation: 0 });
+                  setPageSize((prev) => (prev.width === width && prev.height === height ? prev : { width, height }));
+                }}
+              />
             </Document>
           </div>
         </div>
 
-        <div className="z-10 col-start-1 row-start-1 flex w-full flex-wrap items-center justify-between gap-3 self-start bg-background-secondary p-2 shadow">
+        <div className="z-10 order-first flex w-full shrink-0 flex-wrap items-center justify-between gap-3 bg-background-secondary p-2 shadow">
           <div className="flex items-center gap-1">
             <button
               type="button"
@@ -176,7 +219,7 @@ export const PdfViewer = ({
                 className="h-8 w-14 rounded-control border border-divider-primary bg-white text-center text-caption-2 text-display-on-light-primary hover:bg-background-secondary"
                 onClick={() => {
                   zoomActions.reset();
-                  panActions.reset();
+                  panActions.resetScroll();
                 }}
               >
                 {zoom}%

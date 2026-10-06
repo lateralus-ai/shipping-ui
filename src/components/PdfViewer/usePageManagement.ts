@@ -26,6 +26,9 @@ export const usePageManagement = (
       setTotalPages(pages)
       setCurrentPage((prev) => Math.min(prev, pages))
     }, []),
+    resetPage: useCallback(() => {
+      setCurrentPage(initialPage)
+    }, [initialPage]),
   }
 
   return [{ currentPage, totalPages }, actions] as const
